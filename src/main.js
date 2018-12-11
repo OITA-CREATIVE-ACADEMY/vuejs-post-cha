@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import firebase from 'firebase'
 
 // Bootsrap
 import 'bootstrap/dist/css/bootstrap.css'
@@ -11,6 +12,17 @@ import BootstrapVue from 'bootstrap-vue'
 
 Vue.use(BootstrapVue)
 Vue.config.productionTip = false
+
+// Initialize Firebase
+var config = {
+  apiKey: "AIzaSyAASntGfp-FPAUHu-5II9y3s8pI0XppIZI",
+  authDomain: "post-cha.firebaseapp.com",
+  databaseURL: "https://post-cha.firebaseio.com",
+  projectId: "post-cha",
+  storageBucket: "post-cha.appspot.com",
+  messagingSenderId: "656801433168"
+};
+firebase.initializeApp(config);
 
 /* eslint-disable no-new */
 new Vue({
