@@ -11,8 +11,12 @@
       <b-nav-item href="#">
         <router-link to="/post">Post</router-link>
       </b-nav-item>
+      <b-nav-item href="#">
+        <router-link to="/mypage">Mypage</router-link>
+      </b-nav-item>
       <b-nav-item href="#" disabled>Disabled</b-nav-item>
     </b-navbar-nav>
+
 
     <!-- Right aligned nav items -->
     <b-navbar-nav class="ml-auto">
