@@ -12,6 +12,9 @@
         <router-link to="/post">Post</router-link>
       </b-nav-item>
       <b-nav-item href="#">
+        <router-link to="/like">Like</router-link>
+      </b-nav-item>
+      <b-nav-item href="#">
         <router-link to="/mypage">Mypage</router-link>
       </b-nav-item>
       <b-nav-item href="#" disabled>Disabled</b-nav-item>
