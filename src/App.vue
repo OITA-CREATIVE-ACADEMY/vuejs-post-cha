@@ -6,18 +6,6 @@
       <router-link to="/">Home</router-link>
     </b-navbar-brand>
 
-<<<<<<< HEAD
-    <b-collapse is-nav id="nav_collapse">
-      <b-navbar-nav>
-        <b-nav-item href="#">
-          <router-link to="/post">Post</router-link>
-        </b-nav-item>
-        <b-nav-item href="#">
-          <router-link to="/mypage">Mypage</router-link>
-        </b-nav-item>
-        <b-nav-item href="#" disabled>Disabled</b-nav-item>
-      </b-navbar-nav>
-=======
   <b-collapse is-nav id="nav_collapse">
     <b-navbar-nav>
       <b-nav-item href="#">
@@ -31,7 +19,6 @@
       </b-nav-item>
       <b-nav-item href="#" disabled>Disabled</b-nav-item>
     </b-navbar-nav>
->>>>>>> c23b2fb2e1eae94bf184c92b46b5d23e1aefdd35
 
 
       <!-- Right aligned nav items -->
