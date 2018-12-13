@@ -9,7 +9,7 @@ export default {
   name: 'Post',
   data () {
     return {
-      msg: 'ここはPOSTページです'
+      msg: 'ここはPOSTページです！！！'
     }
   }
 }

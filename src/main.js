@@ -9,6 +9,10 @@ import firebase from 'firebase'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import BootstrapVue from 'bootstrap-vue'
+// nicoをインポート
+import "bootstrap-nico/dist/js/bootstrap.bundle.js"
+import "bootstrap-nico/dist/js/bootstrap.js"
+import "bootstrap-nico/dist/css/bootstrap.css"
 
 Vue.use(BootstrapVue)
 Vue.config.productionTip = false
