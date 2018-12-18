@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'mypage',
+  name: 'Mypage',
   data () {
     return {
       msg: 'ここはMYPAGEページです'
