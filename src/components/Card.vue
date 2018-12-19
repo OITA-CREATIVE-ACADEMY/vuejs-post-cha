@@ -1,98 +1,122 @@
 <template>
-     <div class="card">
-        <b-card-group deck class="flexbox">
+        <b-card-group deck class="flexbox01">
             <b-card
                     header="Username"
                     header-tag="header"
-                    footer="Post time"
-                    footer-tag="footer"
                     class="post">
-                <p class="card-text">ここに投稿内容を表示</p>
-
-                <i class="far fa-times-circle"></i>                      
+                <button type="button" class="close">
+                     <i class="far fa-times-circle"></i>  
+                </button>
+                <div class="flexbox02">
+                    <div class="accountImg"></div>
+                    <p class="card-text">ここに投稿内容を表示</p>
+                </div>
                 <i class="far fa-kiss-wink-heart heartIcon"></i>
                 <i class="fas fa-pencil-alt"></i>
-
             </b-card>
-             <b-card
+            <b-card
                     header="Username"
                     header-tag="header"
-                    footer="Post time"
-                    footer-tag="footer">
-                <p class="card-text">投稿内容を表示</p>
-                <b-button href="#"
-                        variant="primary">Go somewhere</b-button>
+                    class="post">
+                <button type="button" class="close">
+                     <i class="far fa-times-circle"></i>  
+                </button>
+                <div class="flexbox02">
+                    <div class="accountImg"></div>
+                    <p class="card-text">ここに投稿内容を表示</p>
+                </div>
+                <i class="far fa-kiss-wink-heart heartIcon"></i>
+                <i class="fas fa-pencil-alt"></i>
             </b-card>
-             <b-card
+            <b-card
                     header="Username"
                     header-tag="header"
-                    footer="Post time"
-                    footer-tag="footer">
-                <p class="card-text">投稿内容を表示</p>
-                <b-button href="#"
-                        variant="primary">Go somewhere</b-button>
+                    class="post">
+                <button type="button" class="close">
+                     <i class="far fa-times-circle"></i>  
+                </button>
+                <div class="flexbox02">
+                    <div class="accountImg"></div>
+                    <p class="card-text">ここに投稿内容を表示</p>
+                </div>
+                <i class="far fa-kiss-wink-heart heartIcon"></i>
+                <i class="fas fa-pencil-alt"></i>
             </b-card>
-
-
          </b-card-group>
-    </div>
-    
-    
-    <!-- <b-card-group>
-    <b-card  
-        header="Username"
-        bg-variant="default" 
-        text-variant="black" 
-        title="Card Title">
-        <p class="card-text">
-            With supporting text below as a natural lead-in to additional content.
-        </p>
-        <b-button href="#" variant="primary">Go somewhere</b-button>
-    </b-card>
-    </b-card-group> -->
-
-
 
 </template>
-
 
 <script>
 
 
-    // Vue.component('b-modal', bModal);
-    // Vue.directive('b-modal', bModalDirective);
 
 </script>
-
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
     .card {
-        padding: 20px;
+        margin: 10px 50px;
     }
 
-    .flexbox {
+    .flexbox01 {
         display: flex;
         flex-direction: column;
     }
 
-    p, header {
+     .flexbox02 {
+        display: flex;
+        flex-direction: row;
+    }
+
+
+    header {
         text-align: left;
     }
 
-    footer, b-button {
+    p {
+        margin-left: 20px;
+    }
+
+    .accountImg {
+        background-color: black;
+        width: 100px;
+        height: 100px;
+        border-radius: 5%;
+    }
+
+    b-button {
         text-align: right;
     }
 
-    /* アイコン */
-    .far, .fas {
+    .close {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 10px;
         font-size: 30px;
-        color: tomato;
+        color: black;
     }
 
-    i {
-        float: right;
-        margin: 0 5px;
+    /* アイコン */
+
+    .heartIcon {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        padding: 10px;
+        font-size: 30px;
+        color: #ff50ac;
+        cursor: pointer;
     }
+
+    .fa-pencil-alt {
+        position: absolute;
+        bottom: 0;
+        right: 45px;
+        padding: 10px;
+        font-size: 30px;
+        color: #ff50ac;
+    }
+
 
 
 </style>
