@@ -7,6 +7,7 @@ import Post from '@/components/Post'
 import Like from '@/components/Like'
 import Mypage from '@/components/Mypage'
 import firebase from 'firebase'
+import Card from '@/components/Card'
 
 Vue.use(Router)
 
@@ -47,7 +48,12 @@ let router = new Router({
       path: '/signin',
       name: 'Signin',
       component: Signin
-    }
+    },
+    {
+      path: '/card',
+      name: 'Card',
+      component: Card
+    },
   ]
 })
 

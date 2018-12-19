@@ -17,6 +17,9 @@
       <b-nav-item href="#">
         <router-link to="/mypage">Mypage</router-link>
       </b-nav-item>
+      <b-nav-item href="#">
+        <router-link to="/card">Card</router-link>
+      </b-nav-item>
       <b-nav-item href="#" disabled>Disabled</b-nav-item>
     </b-navbar-nav>
 
@@ -49,12 +52,15 @@
 
   <div id="app">
     <router-view/>
+    <!-- <div id="card">
+    </div> -->
   </div>
 </div>
 </template>
 
 <script>
-import firebase from 'firebase'
+import firebase from 'firebase';
+
 
 export default {
   name: 'App',
@@ -77,4 +83,5 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+
 </style>
