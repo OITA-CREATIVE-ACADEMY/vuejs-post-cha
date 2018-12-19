@@ -22,6 +22,8 @@
       </b-nav-item>
       <b-nav-item href="#" disabled>Disabled</b-nav-item>
     </b-navbar-nav>
+    <!-- firebaseからログイン中のユーザーを取得し、emailアドレス（HN）を表示する -->
+     <!-- <p class="userName">{{post.userEmail}}さん、こんにちは！</p> -->
 
 
       <!-- Right aligned nav items -->
@@ -70,8 +72,8 @@ export default {
   margin-top: 60px;
 }
 
-b-nav-item {
-  text-decoration: none;
+a {
+  color: #6c757d;
 }
 
 </style>
