@@ -1,0 +1,73 @@
+/* 汎用的なCSSを記述します */
+
+/* postカードのスタイル */
+.card {
+    margin: 10px 50px;
+}
+
+.flexbox01 {
+    display: flex;
+    flex-direction: column;
+}
+
+ .flexbox02 {
+    display: flex;
+    flex-direction: row;
+}
+
+header {
+    text-align: left;
+}
+
+p {
+    margin-left: 20px;
+}
+
+.accountImg {
+    background-color: black;
+    width: 100px;
+    height: 100px;
+    border-radius: 5%;
+}
+
+b-button {
+    text-align: right;
+}
+
+.close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 10px;
+    font-size: 30px;
+    color: black;
+}
+
+/* アイコン */
+.heartIcon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 10px;
+    font-size: 30px;
+    color: #ff50ac;
+    cursor: pointer;
+}
+
+.fa-pencil-alt {
+    position: absolute;
+    bottom: 0;
+    right: 45px;
+    padding: 10px;
+    font-size: 30px;
+    color: #ff50ac;
+    cursor: pointer;
+}
+
+/* responsive(sp) */
+@media (max-width: 765px) {
+    .card {
+        margin: 5px;
+    }
+}
+
