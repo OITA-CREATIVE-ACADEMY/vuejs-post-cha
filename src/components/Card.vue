@@ -115,8 +115,15 @@
         padding: 10px;
         font-size: 30px;
         color: #ff50ac;
+        cursor: pointer;
     }
 
+/* responsive(sp) */
+@media (max-width: 765px) {
+    .card {
+        margin: 5px;
+    }
+}
 
 
 </style>
