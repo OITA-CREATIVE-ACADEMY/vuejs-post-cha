@@ -6,8 +6,8 @@ import Home from '@/components/Home'
 import Post from '@/components/Post'
 import Like from '@/components/Like'
 import Mypage from '@/components/Mypage'
-import firebase from 'firebase'
 import Card from '@/components/Card'
+import firebase from 'firebase'
 
 Vue.use(Router)
 
