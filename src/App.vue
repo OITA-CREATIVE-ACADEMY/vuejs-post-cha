@@ -14,6 +14,11 @@
       <b-nav-item href="#">
         <router-link to="/like">Like</router-link>
       </b-nav-item>
+      <!-- テスト用リンク(あとで消す！) -->
+      <b-nav-item href="#">
+        <router-link to="/profile">Profile</router-link>
+      </b-nav-item>
+      <!-- テスト用リンク(あとで消す！) -->
       <b-nav-item href="#">
         <router-link to="/mypage">Mypage</router-link>
       </b-nav-item>
@@ -67,8 +72,9 @@ export default {
   }
 }
 </script>
-
+s
 <style>
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

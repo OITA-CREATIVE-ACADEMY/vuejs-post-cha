@@ -7,6 +7,8 @@ import Post from '@/components/Post'
 import Like from '@/components/Like'
 import Mypage from '@/components/Mypage'
 import firebase from 'firebase'
+import Profile from '@/components/Profile'
+import Upload from '@/components/Upload'
 
 Vue.use(Router)
 
@@ -47,7 +49,18 @@ let router = new Router({
       path: '/signin',
       name: 'Signin',
       component: Signin
-    }
+    },
+    {
+      path: '/profile',
+      name: 'Profile',
+      component: Profile
+    },
+    {
+      path: '/upload',
+      name: 'Upload',
+      component: Upload
+    },
+
   ]
 })
 
