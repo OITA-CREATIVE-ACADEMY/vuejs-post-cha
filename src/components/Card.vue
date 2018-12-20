@@ -2,7 +2,7 @@
     <b-card-group deck class="flexbox01">
         <div v-for="(post, key) in allPosts" class="card">
             <div class="card-header">{{ post.userEmail }}
-                <button type="button" class="close">
+                <button type="button" class="close" v-on:click="deletePost(key)">
                     <i class="far fa-times-circle"></i>  
                 </button>
             </div>
@@ -80,9 +80,9 @@ export default {
     //   updates['/todos/' + key] = todo;
     //   this.database.ref().update(updates);
     // },
-    // deletePost: function (key) {
-    //   this.database.ref('posts').child(key).remove();
-    // },
+    deletePost: function (key) {
+      this.database.ref('posts').child(key).remove();
+    },
   },
 }
 
@@ -118,7 +118,7 @@ export default {
     .icon img {
         width: 100px;
         height: 100px;
-        margin: 5px;
+        margin: 20px;
         border-radius: 5%;
     }
 
