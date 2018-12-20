@@ -4,24 +4,24 @@
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
     <b-navbar-brand>
       <router-link to="/">
+        <img src="./assets/images/logo.gif" alt="ロゴ">
       </router-link>
     </b-navbar-brand>
 
   <b-collapse is-nav id="nav_collapse">
     <b-navbar-nav>
-      <b-nav-item href="#">
+      <b-nav-item>
         <router-link to="/post">Post</router-link>
       </b-nav-item>
-      <b-nav-item href="#">
+      <b-nav-item>
         <router-link to="/like">Like</router-link>
       </b-nav-item>
-      <b-nav-item href="#">
+      <b-nav-item>
         <router-link to="/mypage">Mypage</router-link>
       </b-nav-item>
-      <b-nav-item href="#">
+      <b-nav-item>
         <router-link to="/card">Card</router-link>
       </b-nav-item>
-      <b-nav-item href="#" disabled>Disabled</b-nav-item>
     </b-navbar-nav>
     <!-- firebaseからログイン中のユーザーを取得し、emailアドレス（HN）を表示する -->
      <!-- <p class="userName">{{post.userEmail}}さん、こんにちは！</p> -->
@@ -78,14 +78,6 @@ export default {
 
 a {
   color: #6c757d;
-}
-
-/* ヘッダーにブランドロゴを追加 */
-.navbar-brand {
-  background: url("lib/post-logo-02.gif") no-repeat;
-  background-size: contain;
-  height: 40px;
-  width: 120px;
 }
 
 </style>
