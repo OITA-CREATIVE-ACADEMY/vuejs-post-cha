@@ -15,18 +15,19 @@
     flex-direction: row;
 }
 
+
 header {
     text-align: left;
 }
 
 p {
-    margin-left: 20px;
+    margin: 10px 20px;
 }
 
-.accountImg {
-    background-color: black;
+.icon img {
     width: 100px;
     height: 100px;
+    margin: 5px;
     border-radius: 5%;
 }
 
@@ -44,6 +45,7 @@ b-button {
 }
 
 /* アイコン */
+
 .heartIcon {
     position: absolute;
     bottom: 0;
@@ -66,8 +68,8 @@ b-button {
 
 /* responsive(sp) */
 @media (max-width: 765px) {
-    .card {
-        margin: 5px;
-    }
+.card {
+    margin: 5px;
+}
 }
 
