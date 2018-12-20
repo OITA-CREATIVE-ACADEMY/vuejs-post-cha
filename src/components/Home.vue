@@ -36,8 +36,8 @@
             <p class="card-text">{{ post.body }}</p>
             <i class="far fa-kiss-wink-heart heartIcon"></i>
             <div class="btnWrapper">
-              <a href="#" class="btn btn-primary">EDIT</a>
-              <a href="#" class="btn btn-primary">DELETE</a>
+              <!-- <a href="#" class="btn btn-primary">EDIT</a> -->
+              <button type="submit" v-on:click="deletePost(key)" class="btn btn-danger">削除</button>
             </div>
           </div>
        </div>
@@ -97,6 +97,7 @@ export default {
         imageUrl: imageUrl,
         userUid: this.user.uid,
         userEmail: this.user.email,
+        createdAt: Math.round(+new Date()/1000),
       })
       this.newPostBody = "";
       // Post成功時にメッセージを表示する
@@ -108,9 +109,9 @@ export default {
     //   updates['/todos/' + key] = todo;
     //   this.database.ref().update(updates);
     // },
-    // deletePost: function (key) {
-    //   this.database.ref('posts').child(key).remove();
-    // },
+    deletePost: function (key) {
+      this.database.ref('posts').child(key).remove();
+    },
   },
 }
 </script>
