@@ -3,7 +3,8 @@
   <b-navbar toggleable="md" type="dark" variant="info" class="navbar navbar-expand-lg navbar-light bg-light">
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
     <b-navbar-brand>
-      <router-link to="/">Home</router-link>
+      <router-link to="/">
+      </router-link>
     </b-navbar-brand>
 
   <b-collapse is-nav id="nav_collapse">
@@ -31,7 +32,10 @@
         <b-nav-item-dropdown right>
           <!-- Using button-content slot -->
           <template slot="button-content">
-            <em>User</em>
+            <!-- <em>User</em> -->
+            <!-- <img="lib/brand-logo.jpg"> -->
+            <img src="https://placekitten.com/g/30/30" class="d-inline-block align-top" alt="アカウント画像">
+
           </template>
           <b-dropdown-item href="#">Profile</b-dropdown-item>
           <b-dropdown-item @click="signOut">Signout</b-dropdown-item>
@@ -74,6 +78,14 @@ export default {
 
 a {
   color: #6c757d;
+}
+
+/* ヘッダーにブランドロゴを追加 */
+.navbar-brand {
+  background: url("lib/post-logo-02.gif") no-repeat;
+  background-size: contain;
+  height: 40px;
+  width: 120px;
 }
 
 </style>
