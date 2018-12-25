@@ -3,7 +3,8 @@
     <div>
       <b-card title="Profile">
         <user-profile></user-profile>
-        <image-upload class="image-upload"></image-upload>
+        <!-- 画像アップロード：現在は非表示 -->
+        <!-- <image-upload class="image-upload"></image-upload> -->
       </b-card>
     </div>
     <div class="profilePosts_all">
