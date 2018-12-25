@@ -3,13 +3,13 @@
     <div class="wrapper">
       <!-- 新規投稿用カード -->
       <div class="jumbotron">
-        <h2 class="display-5">POST-cha!へようこそ！！！！</h2>
-        <p class="lead">まずはあなたの言葉で、気楽にPOSTしてみてください。そこから新たな出会いが生まれるかもしれません。</p>
+        <h2 class="display-5">〈POST-cha!〉へようこそ！！</h2>
+        <p class="lead">まずはあなたの言葉で、気楽にPOSTしてみてください。</p>
+        <p class="lead">そこから新たな出会いが生まれるかもしれません。</p>
         <hr class="my-4">
         <div v-if="signedIn">
-          <p class="attention">入力文字200文字以内</p>
           <div class="input-group mb-3">
-            <textarea v-model="newPostBody" name="postdata"></textarea><br>
+            <textarea v-model="newPostBody" name="postdata" placeholder="200字まで入力できます"></textarea><br>
               <div class="input-group-append">
               </div>
             </div>
@@ -36,8 +36,8 @@
             <p class="card-text">{{ post.body }}</p>
             <i class="far fa-kiss-wink-heart heartIcon"></i>
             <div class="btnWrapper">
-              <a href="#" class="btn btn-primary">EDIT</a>
-              <a href="#" class="btn btn-primary">DELETE</a>
+              <!-- <a href="#" class="btn btn-primary">EDIT</a> -->
+              <button type="submit" v-on:click="deletePost(key)" class="btn btn-danger">削除</button>
             </div>
           </div>
        </div>
@@ -97,6 +97,7 @@ export default {
         imageUrl: imageUrl,
         userUid: this.user.uid,
         userEmail: this.user.email,
+        createdAt: Math.round(+new Date()/1000),
       })
       this.newPostBody = "";
       // Post成功時にメッセージを表示する
@@ -108,9 +109,9 @@ export default {
     //   updates['/todos/' + key] = todo;
     //   this.database.ref().update(updates);
     // },
-    // deletePost: function (key) {
-    //   this.database.ref('posts').child(key).remove();
-    // },
+    deletePost: function (key) {
+      this.database.ref('posts').child(key).remove();
+    },
   },
 }
 </script>
@@ -157,13 +158,10 @@ p.title {
     font-size: 30px;
 }
 
-.attention{
-    padding-bottom: 1px;
-}
-
 textarea {
     resize: none;
     width:100%;
     height:100px;
+    padding: 10px;
 }
 </style>
