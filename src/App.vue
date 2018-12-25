@@ -65,7 +65,6 @@ export default {
   }
 }
 </script>
-s
 <style>
 
 #app {
