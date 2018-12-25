@@ -6,6 +6,7 @@ import Home from '@/components/Home'
 import Post from '@/components/Post'
 import Like from '@/components/Like'
 import Mypage from '@/components/Mypage'
+import Card from '@/components/Card'
 import firebase from 'firebase'
 import Profile from '@/components/Profile'
 import Upload from '@/components/Upload'
@@ -60,7 +61,11 @@ let router = new Router({
       name: 'Upload',
       component: Upload
     },
-
+    {
+      path: '/card',
+      name: 'Card',
+      component: Card
+    },
   ]
 })
 
