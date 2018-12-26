@@ -27,7 +27,7 @@
 
       <!-- /新規投稿用カード -->
       <!-- 投稿一覧 -->
-      <div v-for="(post, key) in allPosts" class="card">
+      <!-- <div v-for="(post, key) in allPosts" class="card">
           <h5 class="card-header">{{ post.userEmail }}</h5>
           <div class="card-body">
             <div class="icon">
@@ -36,18 +36,24 @@
             <p class="card-text">{{ post.body }}</p>
             <i class="far fa-kiss-wink-heart heartIcon"></i>
             <div class="btnWrapper">
-              <!-- <a href="#" class="btn btn-primary">EDIT</a> -->
+              <a href="#" class="btn btn-primary">EDIT</a>
               <button type="submit" v-on:click="deletePost(key)" class="btn btn-danger">削除</button>
             </div>
           </div>
-       </div>
+       </div> -->
+
+      <!-- Cardコンポーネントを読み込んでループ表示 -->
+       <card-lists></card-lists>
+
+
       <!-- /投稿一覧 -->
     </div>
   </div>
 </template>
 
 <script>
-import firebase from 'firebase'
+import firebase from 'firebase';
+import Card from '@/components/Card';
 
 export default {
   name: 'Home',
@@ -113,6 +119,9 @@ export default {
       this.database.ref('posts').child(key).remove();
     },
   },
+  components: {
+    'card-lists': Card
+  }
 }
 </script>
 
