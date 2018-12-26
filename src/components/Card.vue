@@ -17,7 +17,6 @@
         </div>
     </b-card-group>
 </template>
-
 <script>
 import firebase from 'firebase'
 
@@ -92,10 +91,6 @@ export default {
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-    .card {
-        margin: 10px 50px;
-    }
-
     .flexbox01 {
         display: flex;
         flex-direction: column;
@@ -106,13 +101,16 @@ export default {
         flex-direction: row;
     }
 
-
     header {
         text-align: left;
     }
 
     p {
-        margin: 10px 20px;
+        margin: 20px;
+    }
+
+    .card-text {
+        text-align: left;
     }
 
     .icon img {
@@ -157,12 +155,25 @@ export default {
         cursor: pointer;
     }
 
-/* responsive(sp) */
-@media (max-width: 765px) {
+/* responsive（カードサイズ） */
+/* カードサイズを画面サイズに応じて変更 */
+/* 画面が1020px以上の時 */
+@media (min-width: 1050px) {
     .card {
-        margin: 5px;
+        width: 1000px;
+        margin: 10px 0;
+    }
+
+    .flexbox01 {
+        /* カードを左右中央揃え */
+        align-items: center;
+    }    
+}
+/* 画面が1019px以下のとき */
+@media (max-width: 1049px) {
+    .card {
+        margin: 10px 50px;
     }
 }
-
 
 </style>
