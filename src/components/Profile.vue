@@ -7,7 +7,7 @@
         </div>
         <div class="profileData" id="profileData">
           <div class="profile_userData profile_userName">
-            <h3>{{ user.displayName }} {{ noNickName }}</h3>
+            <h3>{{ user.displayName || "ニックネーム未設定" }}</h3>
             <b-btn v-b-tooltip.hover.right title="編集" class="profile_userName_edit editButton">
               <i class="fas fa-pencil-alt"></i>
             </b-btn>
@@ -42,13 +42,6 @@ export default {
       this.user = user ? user : {}
       console.log(user);
 
-      var nickName;
-      // ニックネーム未設定の場合"ニックネーム未設定"が表示される
-      if (user.displayName == "null") {
-        noNickName = "ニックネーム未設定";
-        return;
-      }
-
     })
 
     
@@ -59,18 +52,6 @@ export default {
     }
   }
 }
-
-// window.onload = function(){
-//   var uploadIcon = new Vue({
-//   el: 'uploadIcon',
-//   data: {
-//     // hoge
-//   },
-//   methods: {
-//     // hoge
-//   }
-// })
-// }
 
 </script>
 
