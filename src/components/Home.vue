@@ -4,8 +4,8 @@
       <!-- 新規投稿用カード -->
       <div class="jumbotron">
         <h2 class="display-5">〈POST-cha!〉へようこそ！！</h2>
-        <p class="lead">まずはあなたの言葉で、気楽にPOSTしてみてください。</p>
-        <p class="lead">そこから新たな出会いが生まれるかもしれません。</p>
+        <p class="lead-2">まずはあなたの言葉で、気楽にPOSTしてみてください。</p>
+        <p class="lead-2">そこから新たな出会いが生まれるかもしれません。</p>
         <hr class="my-4">
         <div v-if="signedIn">
           <div class="input-group mb-3">
@@ -131,8 +131,18 @@ p{
 p.title {
     color: white;
     font-size: 15px;
-
 }
+
+.display-5 {
+  text-align-last: center;
+  /* font-size: 1rem; */
+  margin-bottom: 20px;
+}
+
+.lead-2 {
+  text-align-last: center;
+  font-size: 1rem;
+} 
 
 .wrapper {
     padding: 20px;
@@ -163,5 +173,17 @@ textarea {
     width:100%;
     height:100px;
     padding: 10px;
+}
+
+/* タイトルとサブタイトルのサイズを少し修正 */
+@media (max-width: 540px) {
+.lead-2 {
+  text-align-last: left;
+} 
+.display-5 {
+  width: 100%;
+  text-align-last: center;
+  font-size: 1.7rem;
+}
 }
 </style>
