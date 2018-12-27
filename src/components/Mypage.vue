@@ -12,6 +12,7 @@
         <b-tabs card>
           <b-tab title="My Posts" active class="myPosts">
             My Post一覧
+            <card-list></card-list>
           </b-tab>
           <b-tab title="Likes♡" class="myLike">
             Like 一覧 <i class="far fa-kiss-wink-heart"></i>
@@ -24,9 +25,12 @@
 </template>
 
 <script>
+import Vue from 'vue';
 import Profile from '@/components/Profile';
 import Upload from '@/components/Upload';
 import Like from '@/components/Like';
+import Card from '@/components/Card';
+
 export default {
   name: 'Mypage',
   data () {
@@ -37,9 +41,11 @@ export default {
   components: {
     'user-profile': Profile,
     'image-upload': Upload,
+    'card-list': Card,
     'like-lists': Like
 }
 }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

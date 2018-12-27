@@ -7,16 +7,15 @@
         </div>
         <div class="profileData" id="profileData">
           <div class="profile_userData profile_userName">
-            <h3>{{ user.displayName || "ニックネーム未設定" }}</h3>
+            <h3>
+              {{ user.displayName || "ニックネーム未設定" }}
+            </h3>
             <b-btn v-b-tooltip.hover.right title="編集" class="profile_userName_edit editButton">
               <i class="fas fa-pencil-alt"></i>
             </b-btn>
           </div>
           <div class="profile_userData profile_userMail">
             <h4>{{ user.email }}</h4>
-            <b-btn v-b-tooltip.hover.right title="編集" class="profile_userName_edit editButton">
-              <i class="fas fa-pencil-alt"></i>
-            </b-btn>
           </div>
         </div>
       </div>
@@ -26,6 +25,8 @@
 
 <script>
 import firebase from 'firebase'
+import Vue from 'vue'
+
 console.log("hoge");
 
 export default {
@@ -33,7 +34,6 @@ export default {
   data () {
     return {
       user: {},
-      noNickName: null,
     }
   },
   created: function() {
@@ -41,10 +41,7 @@ export default {
     firebase.auth().onAuthStateChanged(user => {
       this.user = user ? user : {}
       console.log(user);
-
     })
-
-    
   },
   methods: {
     userData_return: function () {
