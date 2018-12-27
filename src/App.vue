@@ -2,7 +2,7 @@
 <div>
   <b-navbar toggleable="md" type="dark" variant="info" class="navbar navbar-expand-lg navbar-light bg-light">
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-    <b-navbar-brand>
+    <b-navbar-brand class="toggle">
       <router-link to="/">
         <img src="./assets/images/logo.gif" alt="ロゴ">
       </router-link>
@@ -37,7 +37,9 @@
             <img src="https://placekitten.com/g/30/30" class="d-inline-block align-top" alt="アカウント画像">
 
           </template>
-          <b-dropdown-item href="#">Profile</b-dropdown-item>
+          <b-dropdown-item>
+            <router-link to="/mypage">Profile</router-link>
+          </b-dropdown-item>
           <b-dropdown-item @click="signOut">Signout</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
@@ -80,4 +82,10 @@ a {
   color: #6c757d;
 }
 
+/* navbar が toggleに変化するとき、ロゴを左側、toggleを右側に来るように変更 */
+@media (max-width: 767px) {
+  .navbar {
+    flex-direction: row-reverse;
+  }
+}
 </style>
