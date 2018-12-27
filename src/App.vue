@@ -19,9 +19,9 @@
       <b-nav-item>
         <router-link to="/mypage">Mypage</router-link>
       </b-nav-item>
-      <b-nav-item>
+      <!-- <b-nav-item>
         <router-link to="/card">Card</router-link>
-      </b-nav-item>
+      </b-nav-item> -->
     </b-navbar-nav>
     <!-- firebaseからログイン中のユーザーを取得し、emailアドレス（HN）を表示する -->
      <!-- <p class="userName">{{post.userEmail}}さん、こんにちは！</p> -->
