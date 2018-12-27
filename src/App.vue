@@ -37,7 +37,9 @@
             <img src="https://placekitten.com/g/30/30" class="d-inline-block align-top" alt="アカウント画像">
 
           </template>
-          <b-dropdown-item href="#">Profile</b-dropdown-item>
+          <b-dropdown-item>
+            <router-link to="/mypage">Profile</router-link>
+          </b-dropdown-item>
           <b-dropdown-item @click="signOut">Signout</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
