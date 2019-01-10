@@ -93,7 +93,7 @@ export default {
 <style scoped>
     .flexbox01 {
         display: flex;
-        flex-direction: column;
+        flex-direction: column-reverse;
     }
 
      .flexbox02 {
