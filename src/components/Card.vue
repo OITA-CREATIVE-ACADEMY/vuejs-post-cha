@@ -1,19 +1,21 @@
 <template>
     <b-card-group deck class="flexbox01">
-        <div v-for="(post, key) in allPosts" class="card">
+        <div v-for="(post, key) in allPosts" v-bind:key="post.id" class="card">
             <div class="card-header">{{ post.userEmail }}
                 <button type="button" class="close" v-on:click="deletePost(key)">
-                    <i class="far fa-times-circle"></i>  
+                    <i class="far fa-times-circle"></i>
                 </button>
             </div>
-                <div class="flexbox02">
-                    <div class="icon">
-                        <img v-bind:src="post.imageUrl" alt="">
-                    </div>
-                    <p class="card-text">{{ post.body }}</p>
+            <div class="flexbox02">
+                <div class="icon">
+                    <img v-bind:src="post.imageUrl" alt="">
                 </div>
-                <i class="far fa-kiss-wink-heart heartIcon"></i>
-                <i class="fas fa-pencil-alt"></i>            
+                <p class="card-text">{{ post.body }}</p>
+
+            </div>
+            <!-- <i class="far fa-kiss-wink-heart heartIcon"></i> -->
+            <i class="fas fa-pencil-alt"></i>
+            <button type="submit" v-on:click="likePost()" class="btn btn-primary btn-lg">いいね</button>
         </div>
     </b-card-group>
 </template>
@@ -30,7 +32,8 @@ export default {
       signedIn: false,
       postMsg: false,
       user: {},
-      posts: []
+      posts: [],
+      postId: null,
     }
   },
   created: function() {
@@ -82,6 +85,39 @@ export default {
     deletePost: function (key) {
       this.database.ref('posts').child(key).remove();
     },
+    //いいねしたときの処理
+    likePost: function(key)  {
+        alert("いいねしました！");
+        console.log(this);
+        console.log(post.id);
+
+        
+        // クリックしたカードのidを取得
+
+
+        //現在ログインしているユーザーの情報を取得
+        firebase.auth().onAuthStateChanged(user => {
+            this.user = user ? user : {}
+            if (user) {
+                this.signedIn = true
+                // debug
+                console.log(this.user)  //データ
+                console.log(this.user.uid)  //uid
+            } else {
+                this.signedIn = false
+            }
+        })
+
+        //現在ログインしているユーザーのusersテーブルに　箱："like" を作成し、押下したカードのidを入れる
+        
+    
+
+
+
+
+
+    },
+
   },
 }
 
