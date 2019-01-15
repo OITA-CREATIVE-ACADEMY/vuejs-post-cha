@@ -1,34 +1,91 @@
 <template>
   <div class="post">
-    <h1>{{ msg }}</h1>
     <div class="wrapper">
      <!-- 新規投稿用カード -->
-     <div class="jumbotron">
-       <h2 class="display-5">POST-cha!へようこそ！！！！</h2>
-       <p class="lead">まずはあなたの言葉で、気楽にPOSTしてみてください。<br>そこから新たな出会いが生まれるかもしれません。</p>
-       <hr class="my-4">
-       <p class="attention">入力文字200文字以内</p>
-       <div class="input-group mb-3">
-      　　<textarea name="postdata"></textarea><br>
-        　<div class="input-group-append">
-        　</div>
-      　</div>
-      　<p class="lead">
-        　<a class="btn btn-primary btn-lg" href="#" role="button">POST</a>
-        </p>
+      <div class="jumbotron">
+        <h2 class="display-5">〈POST-cha!〉へようこそ！！</h2>
+        <p class="lead-2">まずはあなたの言葉で、気楽にPOSTしてみてください。</p>
+        <p class="lead-2">そこから新たな出会いが生まれるかもしれません。</p>
+        <hr class="my-4">
+        <div v-if="signedIn">
+          <div class="input-group mb-3">
+            <textarea v-model="newPostBody" name="postdata" placeholder="200字まで入力できます"></textarea><br>
+              <div class="input-group-append">
+              </div>
+            </div>
+          <p class="lead">
+            <button type="submit" v-on:click="createPost()" class="btn btn-primary btn-lg">投稿する</button>
+          </p>
+          <p v-if="postMsg" class="text-success">投稿しました!</p>
+        </div>
+        <div v-if="!signedIn">
+          <p class="lead">
+            <router-link to="/signin" class="btn btn-success btn-lg">始める!</router-link>
+          </p>
+        </div>
       </div>
     </div>
 　</div>
 </template>
 
 <script>
+import firebase from 'firebase';
+
 export default {
   name: 'Post',
-  // data () {
-  //   return {
-  //     msg: 'ここはPOSTページです！！！'
-  //   }
-  // }
+  data () {
+    return {
+      database: null,
+      postsRef: null,
+      newPostBody: '',
+      signedIn: false,
+      postMsg: false,
+      user: {},
+      posts: []
+    }
+  },
+  created: function() {
+    // ログイン状態によって投稿ボタンの表示を変更する
+    firebase.auth().onAuthStateChanged(user => {
+      this.user = user ? user : {}
+      if (user) {
+        this.signedIn = true
+        // debug
+        console.log(this.user)
+      } else {
+        this.signedIn = false
+      }
+    })
+
+    // 投稿一覧を取得する
+    this.database = firebase.database()
+    this.postsRef = this.database.ref('posts')
+    var _this = this
+    this.postsRef.on('value', function(snapshot) {
+      _this.posts = snapshot.val() // データに変化が起きたときに再取得する
+    });
+  },
+  computed: {
+    allPosts: function () {
+      return this.posts
+    }
+  },
+  methods: {
+    createPost: function() {
+      if (this.newPostBody == "") { return; }
+      let imageUrl = "https://via.placeholder.com/100x100/000000/FFFFFF?text=" + this.user.email.slice(0,1)
+      this.postsRef.push({
+        body: this.newPostBody,
+        imageUrl: imageUrl,
+        userUid: this.user.uid,
+        userEmail: this.user.email,
+        createdAt: Math.round(+new Date()/1000),
+      })
+      this.newPostBody = "";
+      // Post成功時にメッセージを表示する
+      this.postMsg = true;
+    },
+  },
 }
 </script>
 
@@ -61,8 +118,18 @@ p{
 p.title {
     color: white;
     font-size: 15px;
-
 }
+
+.display-5 {
+  text-align-last: center;
+  /* font-size: 1rem; */
+  margin-bottom: 20px;
+}
+
+.lead-2 {
+  text-align-last: center;
+  font-size: 1rem;
+} 
 
 .wrapper {
     padding: 20px;
@@ -79,22 +146,28 @@ p.title {
     float: left;
 }
 
-.card {
-    margin: 20px;
-}
-
 .heartIcon {
     color: tomato;
     font-size: 30px;
-}
-
-.attention{
-    padding-bottom: 1px;
 }
 
 textarea {
     resize: none;
     width:100%;
     height:100px;
+    padding: 10px;
 }
+
+/* タイトルとサブタイトルのサイズを修正 */
+@media (max-width: 540px) {
+.lead-2 {
+  text-align-last: left;
+} 
+.display-5 {
+  width: 100%;
+  text-align-last: center;
+  font-size: 1.7rem;
+}
+}
+
 </style>
