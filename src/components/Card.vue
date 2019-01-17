@@ -10,12 +10,21 @@
                 <div class="icon">
                     <img v-bind:src="post.imageUrl" alt="">
                 </div>
-                <p class="card-text">{{ post.body }}</p>
-
+                <div class="bodyText">
+                    <p class="card-text">{{ post.body }}</p>
+                </div>
+                <!-- <i class="fas fa-pencil-alt"></i> -->
+                <div class="likeBtn flexbox03"> 
+                    <button type="submit" v-on:click="likePost(key)" class="btn btn-outline-primary btn-lg">
+                        <div class="likeCount">
+                        111
+                        </div>
+                        <i class="far fa-kiss-wink-heart heartIcon"></i>
+                    </button>
+                </div>
             </div>
             <!-- <i class="far fa-kiss-wink-heart heartIcon"></i> -->
-            <i class="fas fa-pencil-alt"></i>
-            <button type="submit" v-on:click="likePost()" class="btn btn-primary btn-lg">いいね</button>
+
         </div>
     </b-card-group>
 </template>
@@ -37,7 +46,7 @@ export default {
     }
   },
   created: function() {
-    // // ログイン状態によって投稿ボタンの表示を変更する
+    // ログイン状態によって投稿ボタンの表示を変更する
     firebase.auth().onAuthStateChanged(user => {
       this.user = user ? user : {}
       if (user) {
@@ -86,28 +95,13 @@ export default {
       this.database.ref('posts').child(key).remove();
     },
     //いいねしたときの処理
-    likePost: function(key)  {
+    likePost: function(key) {
         alert("いいねしました！");
-        console.log(this);
-        console.log(post.id);
-
-        
-        // クリックしたカードのidを取得
-
-
-        //現在ログインしているユーザーの情報を取得
-        firebase.auth().onAuthStateChanged(user => {
-            this.user = user ? user : {}
-            if (user) {
-                this.signedIn = true
-                // debug
-                console.log(this.user)  //データ
-                console.log(this.user.uid)  //uid
-            } else {
-                this.signedIn = false
-            }
-        })
-
+        console.log(key); //いいねしたpostのuid
+        var user = firebase.auth().currentUser; //現在ログインしているユーザーの情報を取得
+        console.log(user);
+        var userUid = user.uid
+        console.log(userUid);
         //現在ログインしているユーザーのusersテーブルに　箱："like" を作成し、押下したカードのidを入れる
         
     
@@ -135,6 +129,15 @@ export default {
      .flexbox02 {
         display: flex;
         flex-direction: row;
+        /* 両端揃え */
+        justify-content: space-between;
+        /* 上下中央揃え */
+        align-items: center;
+    }
+
+    .flexbox03 {
+        display: flex;
+        flex-direction: column;
     }
 
     header {
@@ -160,6 +163,10 @@ export default {
         text-align: right;
     }
 
+    .likeBtn {
+        margin-right: 10px;
+    }
+
     .close {
         position: absolute;
         top: 0;
@@ -172,20 +179,20 @@ export default {
     /* アイコン */
 
     .heartIcon {
-        position: absolute;
+        /* position: absolute;
         bottom: 0;
         right: 0;
-        padding: 10px;
+        padding: 10px; */
         font-size: 30px;
         color: #ff50ac;
         cursor: pointer;
     }
 
     .fa-pencil-alt {
-        position: absolute;
+        /* position: absolute;
         bottom: 0;
         right: 45px;
-        padding: 10px;
+        padding: 10px; */
         font-size: 30px;
         color: #ff50ac;
         cursor: pointer;
