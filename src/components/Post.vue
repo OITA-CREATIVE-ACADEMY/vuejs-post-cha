@@ -80,6 +80,7 @@ export default {
         userUid: this.user.uid,
         userEmail: this.user.email,
         createdAt: Math.round(+new Date()/1000),
+        likedCount: 0
       })
       this.newPostBody = "";
       // Post成功時にメッセージを表示する
