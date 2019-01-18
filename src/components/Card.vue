@@ -10,8 +10,7 @@
                      v-on:mouseover="activeItem=key"
                      v-on:mouseout="activeItem=''" 
                      v-on:click="selectItem(key)"
-                     v-bind:class="{selected:activeItem===key}"
-
+                     v-bind:class="{selected:activeItem===key, selected02:activeItem===key}"
                      >
                     <div class="icon">
                         <img v-bind:src="post.imageUrl" alt="">
@@ -124,6 +123,15 @@ export default {
     .selected {
         background-color: #ff50ac;
         opacity: 0.5;
+    }
+
+
+    /* 「編集」文字をカード上に表示 */
+    .selected02:before {
+        content: "編集";
+        /* z-index: 1; */
+        display: block;
+        text-align: center;
     }
 
     .flexbox01 {
