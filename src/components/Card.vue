@@ -6,14 +6,28 @@
                     <i class="far fa-times-circle"></i>  
                 </button>
             </div>
-                <div class="flexbox02">
+                <div class="flexbox02" 
+                     v-on:mouseover="activeItem=key"
+                     v-on:mouseout="activeItem=''" 
+                     v-on:click="selectItem(key)"
+                     v-bind:class="{selected:activeItem===key}"
+
+                     >
                     <div class="icon">
                         <img v-bind:src="post.imageUrl" alt="">
                     </div>
                     <p class="card-text">{{ post.body }}</p>
+
+                    <!-- <div v-if="this.selectedItem">
+                        編集
+                    </div> -->
+                    <!-- <p class="card-text">編集</p>
+                    <i class="fas fa-pencil-alt"></i>        -->
+
+
                 </div>
                 <i class="far fa-kiss-wink-heart heartIcon"></i>
-                <i class="fas fa-pencil-alt"></i>            
+                <!-- <i class="fas fa-pencil-alt"></i>             -->
         </div>
     </b-card-group>
 </template>
@@ -30,7 +44,10 @@ export default {
       signedIn: false,
       postMsg: false,
       user: {},
-      posts: []
+      posts: [],
+      activeItem: '',
+      selectedItem: ''
+
     }
   },
   created: function() {
@@ -82,6 +99,18 @@ export default {
     deletePost: function (key) {
       this.database.ref('posts').child(key).remove();
     },
+    // 編集モーダルを出して編集
+    selectItem: function (key) {
+        alert("編集中！");
+    },
+    // bgChange: function (activeItem, key) {
+    //     activeItem = key;
+    //     alert("bgchange！");
+    //     this.addClass(activeItem, key);
+
+    // }
+
+
   },
 }
 
@@ -91,6 +120,12 @@ export default {
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+    /* マウスオーバー時にCardの背景色を変更 */
+    .selected {
+        background-color: #ff50ac;
+        opacity: 0.5;
+    }
+
     .flexbox01 {
         display: flex;
         flex-direction: column-reverse;
