@@ -6,14 +6,23 @@
                     <i class="far fa-times-circle"></i>
                 </button>
             </div>
-            <div class="flexbox02">
+            <div class="flexbox02"
+                        v-on:mouseover="activeItem=key"
+                        v-on:mouseout="activeItem=''" 
+                        v-on:click="updatePost(key)"
+                        v-bind:class="{selected:activeItem===key}">
                 <div class="icon">
                     <img v-bind:src="post.imageUrl" alt="">
                 </div>
                 <div class="bodyText">
-                    <p class="card-text">{{ post.body }}</p>
+                        <p class="card-text">{{ post.body }}</p>
+                        <!-- activeItem = key　がfalseのとき、inActive はtrue -->
+                        <div class="editText" v-bind:class="{inActive:activeItem!==key}">
+                            <p>編集
+                                <i class="fas fa-pencil-alt"></i>
+                            </p>
+                        </div>
                 </div>
-                <!-- <i class="fas fa-pencil-alt"></i> -->
                 <div class="likeBtn flexbox03"> 
                     <button type="submit" v-on:click="likePost(key)" class="btn btn-outline-primary btn-lg">
                         <div class="likeCount">
@@ -23,8 +32,6 @@
                     </button>
                 </div>
             </div>
-            <!-- <i class="far fa-kiss-wink-heart heartIcon"></i> -->
-
         </div>
     </b-card-group>
 </template>
@@ -46,6 +53,10 @@ export default {
       user: {},
       posts: [],
       postId: null,
+      activeItem: '',
+      selectedItem: '',
+      isActive: true,
+
     }
   },
   created: function() {
@@ -155,7 +166,10 @@ export default {
         
 
     },
-
+    // 編集モーダルを出して編集
+    updatePost: function (key) {
+        alert("編集中！");
+    },
   },
 }
 
@@ -165,6 +179,36 @@ export default {
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+    /* マウスオーバー時にCardの背景色を変更 */
+    .selected {
+        background-color: #ff50ac;
+        opacity: 0.5;
+        cursor: pointer;
+    }
+
+
+    /* 「編集」文字をカード上に表示 */
+    /* .selected:after {
+        content: "編集";
+        z-index: 1;
+        display: block;
+        text-align: center;
+        font-size: 30px;
+    } */
+
+    .inActive {
+        display: none;
+    }
+
+    .editText {
+        font-size: 30px;
+        color: black;
+        position: absolute;
+        right: 40%;
+        top: 40%;
+        letter-spacing: 15px;
+    }
+
     .flexbox01 {
         display: flex;
         flex-direction: column-reverse;
@@ -233,12 +277,8 @@ export default {
     }
 
     .fa-pencil-alt {
-        /* position: absolute;
-        bottom: 0;
-        right: 45px;
-        padding: 10px; */
         font-size: 30px;
-        color: #ff50ac;
+        color: black;
         cursor: pointer;
     }
 
