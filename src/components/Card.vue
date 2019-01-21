@@ -6,22 +6,24 @@
                     <i class="far fa-times-circle"></i>
                 </button>
             </div>
-            <div class="flexbox02"
-                        v-on:mouseover="activeItem=key"
-                        v-on:mouseout="activeItem=''" 
-                        v-on:click="updatePost(key)"
-                        v-bind:class="{selected:activeItem===key}">
+            <!-- <div class="flexbox02"
+            v-on:mouseover="activeItem=key"
+            v-on:mouseout="activeItem=''" 
+            v-on:click="updatePost(key)"
+            v-bind:class="{selected:activeItem===key}"> -->
+            <div class="flexbox02">
                 <div class="icon">
                     <img v-bind:src="post.imageUrl" alt="">
                 </div>
                 <div class="bodyText">
                         <p class="card-text">{{ post.body }}</p>
+                        
                         <!-- activeItem = key　がfalseのとき、inActive はtrue -->
-                        <div class="editText" v-bind:class="{inActive:activeItem!==key}">
+                        <!-- <div class="editText" v-bind:class="{inActive:activeItem!==key}">
                             <p>編集
                                 <i class="fas fa-pencil-alt"></i>
                             </p>
-                        </div>
+                        </div> -->
                 </div>
                 <div class="likeBtn flexbox03"> 
                     <button type="submit" v-on:click="likePost(key)" class="btn btn-outline-primary btn-lg">
@@ -136,7 +138,7 @@ export default {
         console.log(userUid);
         console.log(key);
 
-        this.database.ref('users/' + userUid).set({
+        this.database.ref('users/'.userUid).set({
             likedPost : key
         })
 
@@ -167,9 +169,9 @@ export default {
 
     },
     // 編集モーダルを出して編集
-    updatePost: function (key) {
-        alert("編集中！");
-    },
+    // updatePost: function (key) {
+    //     alert("編集中！");
+    // },
   },
 }
 
