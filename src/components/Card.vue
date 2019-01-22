@@ -1,6 +1,6 @@
 <template>
     <b-card-group deck class="flexbox01">
-        <div v-for="(post, key) in allPosts" class="card">
+        <div v-for="(post, key) in allPosts" v-bind:key="post.id" class="card">
             <div class="card-header">{{ post.userEmail }}
                 <button type="button" class="close" v-on:click="deletePost(key)">
                     <i class="far fa-times-circle"></i>  
@@ -18,10 +18,10 @@
     </b-card-group>
 </template>
 <script>
-import firebase from 'firebase'
 
 export default {
   name: 'Card',
+  props: ['posts'],
   data () {
     return {
       database: null,
@@ -29,30 +29,8 @@ export default {
       newPostBody: '',
       signedIn: false,
       postMsg: false,
-      user: {},
-      posts: []
+      user: {}
     }
-  },
-  created: function() {
-    // // ログイン状態によって投稿ボタンの表示を変更する
-    firebase.auth().onAuthStateChanged(user => {
-      this.user = user ? user : {}
-      if (user) {
-        this.signedIn = true
-        // debug
-        console.log(this.user)
-      } else {
-        this.signedIn = false
-      }
-    })
-
-    // 投稿一覧を取得する
-    this.database = firebase.database()
-    this.postsRef = this.database.ref('posts')
-    var _this = this
-    this.postsRef.on('value', function(snapshot) {
-      _this.posts = snapshot.val() // データに変化が起きたときに再取得する
-    });
   },
   computed: {
     allPosts: function () {

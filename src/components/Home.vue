@@ -43,7 +43,7 @@
        </div> -->
 
       <!-- Cardコンポーネントを読み込んでループ表示 -->
-       <card-lists></card-lists>
+      <cardList :posts="posts"></cardList>
 
 
       <!-- /投稿一覧 -->
@@ -57,6 +57,9 @@ import Card from '@/components/Card';
 
 export default {
   name: 'Home',
+  components: {
+    'cardList': Card
+  },
   data () {
     return {
       database: null,
@@ -119,9 +122,6 @@ export default {
       this.database.ref('posts').child(key).remove();
     },
   },
-  components: {
-    'card-lists': Card
-  }
 }
 </script>
 
