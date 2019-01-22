@@ -2,9 +2,15 @@
     <b-card-group deck class="flexbox01">
         <div v-for="(post, key) in allPosts" v-bind:key="post.id" class="card">
             <div class="card-header">{{ post.userEmail }}
-                <button type="button" class="close" v-on:click="deletePost(key)">
-                    <i class="far fa-times-circle"></i>
-                </button>
+                <!-- <button type="button" class="close" v-on:click="deletePost(key)"> -->
+                    <div>
+                    <b-dropdown id="ddown-sm ddown-left" right size="sm" class="close">
+                        <b-dropdown-item-button v-on:click="updatePost(key)">編集</b-dropdown-item-button>
+                        <b-dropdown-divider></b-dropdown-divider>
+                        <b-dropdown-item-button v-on:click="deletePost(key)">削除</b-dropdown-item-button>
+                    </b-dropdown>
+                    </div>
+                <!-- </button> -->
             </div>
             <!-- <div class="flexbox02"
             v-on:mouseover="activeItem=key"
@@ -57,8 +63,7 @@ export default {
       postId: null,
       activeItem: '',
       selectedItem: '',
-      isActive: true,
-
+    //   isActive: true,
     }
   },
   created: function() {
@@ -107,6 +112,42 @@ export default {
     //   updates['/todos/' + key] = todo;
     //   this.database.ref().update(updates);
     // },
+    // 編集モーダルを出して編集
+    updatePost: function (key) {
+        alert("編集中！");
+        console.log(key);
+        // カードのテキスト表示部分をtextareaに切り替え、その中に現在の投稿内容を反映する
+            // 該当POSTの投稿内容を取得        
+
+
+        this.database = firebase.database();
+        this.editPostRef = this.database.ref('posts/' + key + '/body/');
+        this.editPostRef.on('value', snapshot => {
+            console.log('snapshot.val()', snapshot.val())
+        });
+        
+        var BeforeEditText = this.editPostRef;
+        console.log(BeforeEditText);
+        
+
+
+
+        // var nowBody = this.database.ref('posts/key/body');
+        // console.log(nowBody);
+            
+            // カードをtextareaに変更
+
+
+        // 編集したテキストをfirebaseに上書き（update）する
+        // this.database.ref('posts').child(key).update({
+        //     body: EditedBody
+        // });
+
+        // カードを元の状態に戻す
+        
+
+
+    },
     deletePost: function (key) {
       this.database.ref('posts').child(key).remove();
     },
@@ -115,8 +156,6 @@ export default {
         alert("いいねしました！");
         // いいねした投稿の　likedCount　に+1する
         // likedCountを画面に反映
-
-
 
 
         console.log(key); //いいねしたpostのuid
@@ -138,9 +177,9 @@ export default {
         console.log(userUid);
         console.log(key);
 
-        this.database.ref('users/'.userUid).set({
-            likedPost : key
-        })
+        // this.database.ref('users/'.userUid).set({
+        //     likedPost : key
+        // })
 
 
 
@@ -168,10 +207,6 @@ export default {
         
 
     },
-    // 編集モーダルを出して編集
-    // updatePost: function (key) {
-    //     alert("編集中！");
-    // },
   },
 }
 
