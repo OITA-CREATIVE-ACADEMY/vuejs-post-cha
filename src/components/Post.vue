@@ -25,13 +25,15 @@
             <img
               v-if="uploadEnd"
               :src="downloadURL"
-              width="100%" />
+              width="45%"/>
             <div v-if="uploadEnd">
-              <button class="m-5" @click="deleteImage()">
+              <button class="m-3" @click="deleteImage()">
                 Delete
               </button>
             </div>
         </div>
+
+
 
         <!-- 投稿ボタン -->
       　<p class="lead">
@@ -70,6 +72,7 @@ export default {
         this.upload(fileList[x])
       })
     },
+
     upload (file) {
       this.fileName = file.name
       this.uploading = true
@@ -105,6 +108,7 @@ export default {
     }
   }
 }
+
 
 </script>
 
@@ -174,8 +178,9 @@ textarea {
     height:100px;
 }
 
-.progress-bar {
+/* .progress-bar {
   margin: 10px,10px;
-}
+} */
+
 
 </style>
