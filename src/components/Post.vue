@@ -27,15 +27,9 @@
               :src="downloadURL"
               width="100%" />
             <div v-if="uploadEnd">
-              <v-btn
-                class="ma-0"
-                dark
-                small
-                color="error"
-                @click="deleteImage()"
-                >
+              <button class="m-5" @click="deleteImage()">
                 Delete
-              </v-btn>
+              </button>
             </div>
         </div>
 
@@ -49,6 +43,7 @@
 </template>
 
 <script>
+import firebase from 'firebase'
 
 export default {
   name: 'Post',
@@ -64,21 +59,7 @@ export default {
     }
   },
 
-  import firebase from 'firebase'
 
-  export default {
-    name: 'Home',
-    data () {
-      return {
-        database: null,
-        postsRef: null,
-        newPostBody: '',
-        signedIn: false,
-        postMsg: false,
-        user: {},
-        posts: []
-      }
-    },
   methods: {
     selectFile () {
       this.$refs.uploadInput.click()
@@ -92,10 +73,10 @@ export default {
     upload (file) {
       this.fileName = file.name
       this.uploading = true
-      this.uploadTask = firestorage.ref('images/' + file.name).put(file)
+      this.uploadTask = firebase.storage().ref('images/' + file.name).put(file)
     },
     deleteImage () {
-      firestorage
+        firebase.storage()
         .ref('images/' + this.fileName)
         .delete()
         .then(() => {
@@ -194,7 +175,7 @@ textarea {
 }
 
 .progress-bar {
-  margin: 10px 0;
+  margin: 10px,10px;
 }
 
 </style>
