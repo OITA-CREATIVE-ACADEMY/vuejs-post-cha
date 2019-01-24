@@ -19,11 +19,24 @@
           <p v-if="postMsg" class="text-success">投稿しました!</p>
         </div>
         <div v-if="!signedIn">
-          <p class="lead">
-            <router-link to="/signin" class="btn btn-success btn-lg">始める!</router-link>
-          </p>
+        <!-- <button type="button" id="startButton" class="btn btn-primary btn-lg">始める!</button> -->
+        <b-btn v-b-modal.modalPrevent>始める</b-btn>
         </div>
       </div>
+      <card-lists></card-lists>
+    <b-modal id="modalPrevent"
+        ref="modal"
+        title="Submit your name"
+        @ok="handleOk"
+        @shown="clearName">
+    <form @submit.stop.prevent="handleSubmit">
+    <b-form-input type="text"
+                  placeholder="Enter your name"
+                  v-model="name"></b-form-input>
+    </form>
+    </b-modal>
+
+    </div>
 
       <!-- /新規投稿用カード -->
       <!-- 投稿一覧 -->
@@ -43,11 +56,12 @@
        </div> -->
 
       <!-- Cardコンポーネントを読み込んでループ表示 -->
-       <card-lists></card-lists>
 
 
       <!-- /投稿一覧 -->
-    </div>
+
+
+  <!-- signin modal -->
   </div>
 </template>
 
@@ -65,7 +79,9 @@ export default {
       signedIn: false,
       postMsg: false,
       user: {},
-      posts: []
+      posts: [],
+      name: '',
+      names: []
     }
   },
   created: function() {
@@ -118,6 +134,25 @@ export default {
     deletePost: function (key) {
       this.database.ref('posts').child(key).remove();
     },
+
+    // モーダル
+    clearName () {
+    this.name = ''
+    },
+    handleOk (evt) {
+      // Prevent modal from closing
+      evt.preventDefault()
+      if (!this.name) {
+        alert('Please enter your name')
+      } else {
+        this.handleSubmit()
+      }
+    },
+    handleSubmit () {
+      this.names.push(this.name)
+      this.clearName()
+      this.$refs.modal.hide()
+    }
   },
   components: {
     'card-lists': Card
