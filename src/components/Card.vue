@@ -91,7 +91,7 @@ export default {
       //   names: [],
       modalPost: {},
       modalPostKey: {},
-      likedCount: 0
+      likedCount: []
     };
   },
   created: function() {
