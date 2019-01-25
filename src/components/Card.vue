@@ -6,7 +6,7 @@
                 <!-- <button type="button" class="close" v-on:click="deletePost(key)"> -->
                     <div>
                     <b-dropdown id="ddown-sm ddown-left" right size="sm" class="close">
-                        <b-dropdown-item-button v-b-modal.modalPrevent @click="showModal(post)">編集</b-dropdown-item-button>
+                        <b-dropdown-item-button v-b-modal.modalPrevent @click="showModal(key, post)">編集</b-dropdown-item-button>
                         <b-dropdown-divider></b-dropdown-divider>
                         <b-dropdown-item-button v-on:click="deletePost(key)">削除</b-dropdown-item-button>
                     </b-dropdown>
@@ -89,8 +89,8 @@ export default {
     //   isActive: true,
     //   name: '',
     //   names: [],
-      BeforeEditText: '',
       modalPost: {},
+      modalPostKey: {}
     }
   },
   created: function() {
@@ -133,63 +133,30 @@ export default {
       // Post成功時にメッセージを表示する
       this.postMsg = true;
     },
-    // updatePost: function (todo, key) {
-    //   todo.isComplete = !todo.isComplete
-    //   var updates = {};
-    //   updates['/todos/' + key] = todo;
-    //   this.database.ref().update(updates);
-    // },
+
     // 編集モーダルを出して編集
     updatePost: function () {
-        console.log(this.modalPost.key);
+        console.log(this.modalPostKey);
         // textareaの値を取得
         console.log(this.modalPost.body);
-        
-
-
-        // this.database = firebase.database();
-        // this.editPostRef = this.database.ref('posts/' + key + '/body/');
-        // this.editPostRef.on('value', snapshot => {
-        //     console.log('snapshot.val()', snapshot.val())
-        // });
-                            
-        // 編集したテキストをfirebaseに上書き（update）する
-        this.database.ref('posts' + this.modalPost.key).update({
-            body: this.modalPost.body
-        });
-
+        this.database.ref('posts/' + this.modalPostKey + '/body').set(this.modalPost.body);
+        // 編集後、モーダルを閉じる
         this.hideModal()
-
     },
 
     // Modal --------------------------
-    // clearName () {
-    //   this.name = ''
-    // },
-    // handleOk (evt, key) {
-    //   // Prevent modal from closing
-    //   evt.preventDefault()
-    //   if (!this.name) {
-    //     alert('Please enter your name')
-    //   } else {
-    //     this.handleSubmit()
-    //   }
-    // },
-    // handleSubmit () {
-    //   this.names.push(this.name)
-    //   this.clearName()
-    //   this.$refs.modal.hide()
-    // },
-
+    
     // 「編集」押下でモーダルを開く
-    showModal (post) {
+    showModal (key, post) {
         this.modalPost = post
+        this.modalPostKey = key
+        console.log(this.modalPostKey);
+        console.log(this.modalPost);
         this.$refs.myModalRef.show()
     },
     hideModal () {
         this.$refs.myModalRef.hide()
     },
-
     // Modal/ --------------------------
 
 
