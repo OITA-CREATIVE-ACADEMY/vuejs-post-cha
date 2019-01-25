@@ -1,11 +1,12 @@
 <template>
+<div>
     <b-card-group deck class="flexbox01">
         <div v-for="(post, key) in allPosts" v-bind:key="post.id" class="card">
             <div class="card-header">{{ post.userEmail }}
                 <!-- <button type="button" class="close" v-on:click="deletePost(key)"> -->
                     <div>
                     <b-dropdown id="ddown-sm ddown-left" right size="sm" class="close">
-                        <b-dropdown-item-button v-on:click="updatePost(key)">編集</b-dropdown-item-button>
+                        <b-dropdown-item-button v-b-modal.modalPrevent @click="showModal(post)">編集</b-dropdown-item-button>
                         <b-dropdown-divider></b-dropdown-divider>
                         <b-dropdown-item-button v-on:click="deletePost(key)">削除</b-dropdown-item-button>
                     </b-dropdown>
@@ -42,6 +43,28 @@
             </div>
         </div>
     </b-card-group>
+    <!-- <b-modal id="modalPrevent"
+        ref="modal"
+        title="Submit your message"
+        @ok="handleOk"
+        @shown="clearName">
+    <form @submit.stop.prevent="handleSubmit">
+        <b-form-input type="text"
+                    placeholder="Enter your name"
+                    v-model="name"></b-form-input>
+    </form>
+    </b-modal> -->
+    <div>
+        <b-modal ref="myModalRef" hide-footer title="編集画面">
+            <div class="d-block text-center">
+                <textarea v-model="modalPost.body" name="" id="" cols="50" lows="30"></textarea>
+            </div>
+            <b-btn class="mt-3" variant="outline-danger" block @click="updatePost()">Update</b-btn>
+            <b-btn class="mt-3" variant="outline-danger" block @click="hideModal">Cancel</b-btn>
+        </b-modal>
+    </div>
+</div>
+    
 </template>
 <script>
 import firebase from 'firebase'
@@ -64,6 +87,10 @@ export default {
       activeItem: '',
       selectedItem: '',
     //   isActive: true,
+    //   name: '',
+    //   names: [],
+      BeforeEditText: '',
+      modalPost: {},
     }
   },
   created: function() {
@@ -113,41 +140,60 @@ export default {
     //   this.database.ref().update(updates);
     // },
     // 編集モーダルを出して編集
-    updatePost: function (key) {
-        alert("編集中！");
-        console.log(key);
-        // カードのテキスト表示部分をtextareaに切り替え、その中に現在の投稿内容を反映する
-            // 該当POSTの投稿内容を取得        
-
-
-        this.database = firebase.database();
-        this.editPostRef = this.database.ref('posts/' + key + '/body/');
-        this.editPostRef.on('value', snapshot => {
-            console.log('snapshot.val()', snapshot.val())
-        });
-        
-        var BeforeEditText = this.editPostRef;
-        console.log(BeforeEditText);
+    updatePost: function () {
+        console.log(this.modalPost.key);
+        // textareaの値を取得
+        console.log(this.modalPost.body);
         
 
 
-
-        // var nowBody = this.database.ref('posts/key/body');
-        // console.log(nowBody);
-            
-            // カードをtextareaに変更
-
-
-        // 編集したテキストをfirebaseに上書き（update）する
-        // this.database.ref('posts').child(key).update({
-        //     body: EditedBody
+        // this.database = firebase.database();
+        // this.editPostRef = this.database.ref('posts/' + key + '/body/');
+        // this.editPostRef.on('value', snapshot => {
+        //     console.log('snapshot.val()', snapshot.val())
         // });
+                            
+        // 編集したテキストをfirebaseに上書き（update）する
+        this.database.ref('posts' + this.modalPost.key).update({
+            body: this.modalPost.body
+        });
 
-        // カードを元の状態に戻す
-        
-
+        this.hideModal()
 
     },
+
+    // Modal --------------------------
+    // clearName () {
+    //   this.name = ''
+    // },
+    // handleOk (evt, key) {
+    //   // Prevent modal from closing
+    //   evt.preventDefault()
+    //   if (!this.name) {
+    //     alert('Please enter your name')
+    //   } else {
+    //     this.handleSubmit()
+    //   }
+    // },
+    // handleSubmit () {
+    //   this.names.push(this.name)
+    //   this.clearName()
+    //   this.$refs.modal.hide()
+    // },
+
+    // 「編集」押下でモーダルを開く
+    showModal (post) {
+        this.modalPost = post
+        this.$refs.myModalRef.show()
+    },
+    hideModal () {
+        this.$refs.myModalRef.hide()
+    },
+
+    // Modal/ --------------------------
+
+
+
     deletePost: function (key) {
       this.database.ref('posts').child(key).remove();
     },
