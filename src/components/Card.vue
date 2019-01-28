@@ -40,7 +40,7 @@
               v-on:click="likePost(key, post)"
               class="btn btn-outline-primary btn-lg"
             >
-              <div class="likeCount">{{ likedCount }}</div>
+              <div class="likeCount">{{ post.likedCount }}</div>
               <i class="far fa-kiss-wink-heart heartIcon"></i>
             </button>
           </div>
@@ -91,7 +91,9 @@ export default {
       //   names: [],
       modalPost: {},
       modalPostKey: {},
-      likedCount: []
+      likedCount: [],
+      likedPostIndex: "",
+
     };
   },
   created: function() {
@@ -143,21 +145,26 @@ export default {
     count: function(key, post) {
       alert("カウント数表示");
       console.log(key); //postのuid
+      
 
       // いいね数を取得して表示
-      // this.likedPostsRef = this.database.ref('likedPosts/')
-      // this.likedPostsRef.count(key)
+      this.likedCountRef = this.database.ref('posts/' + key)
+      this.likedCountRef.child('likedCount').on('value', snapshot => {
+        console.log(snapshot.val());
+      })
+      
 
-      this.database = firebase.database();
-      let likedPostRef = firebase.database().ref(`/likedPosts`);
-      let likedPost = likedPostRef
-        .orderByChild("postId")
-        .equalTo(key)
-        .on("value", function(snapshot) {
-          // ここでデータ数を取得したい。。 added by tanaka
-          //   console.log(snapshot.length);
-          //   console.log(snapshot.size);
-        });
+
+      // this.database = firebase.database();
+      // let likedPostRef = firebase.database().ref(`users/`);
+      // let likedPost = likedPostRef
+      //   .orderByChild("postId")
+      //   .equalTo(key)
+      //   .on("value", function(snapshot) {
+      //     // ここでデータ数を取得したい。。 added by tanaka
+      //     //   console.log(snapshot.length);
+      //     //   console.log(snapshot.size);
+      //   });
 
       // this.database.ref.("childadded", function(snapshot, key) {
       //     console.log(snapshot.val());
@@ -222,12 +229,33 @@ export default {
       var userUid = user.uid;
       console.log(userUid);
 
-      // likedPostsテーブルにデータを追加
+      // users/userUid/likedPostsにデータを追加（独自idが生成される）
       this.database = firebase.database();
-      this.database.ref("likedPosts").push({
-        postId: key,
-        userUid: userUid
-      });
+      let usersRef = this.database.ref("users/" + userUid);
+      usersRef.child("likedPostId").push(key);
+        
+      // 1ユーザーのlikedPost一覧を取得できるか？
+      usersRef.child('likedPostId').on('value', snapshot => {
+        console.log(snapshot.val());
+      })
+
+      // いいねされたpostのlikedCountを +1 する
+      console.log(post.likedCount);
+      post.likedCount += 1
+      console.log(post.likedCount);
+      this.database.ref('posts/' + key + '/likedCount').set(post.likedCount);
+
+
+      // お気に入り投稿がない場合は0を設定
+      // if (!this.likedPostIndex) {
+      //   this.likedPostIndex = 0;
+      // }
+      // let likedPostIndex = 0;
+
+      // users.likedPostIdにデータを登録する
+      // usersRef.child("likedPostId").set({
+      //   0: key
+      // });
 
       // // いいねした投稿の　likedCount　に+1する
       // console.log(post.likedCount);
