@@ -84,16 +84,9 @@ export default {
       user: {},
       posts: [],
       postId: null,
-      activeItem: "",
-      selectedItem: "",
-      //   isActive: true,
-      //   name: '',
-      //   names: [],
       modalPost: {},
       modalPostKey: {},
       likedCount: [],
-      likedPostIndex: "",
-
     };
   },
   created: function() {
