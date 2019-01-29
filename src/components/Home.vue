@@ -19,25 +19,24 @@
           <p v-if="postMsg" class="text-success">投稿しました!</p>
         </div>
         <div v-if="!signedIn">
-        <!-- <button type="button" id="startButton" class="btn btn-primary btn-lg">始める!</button> -->
-        <b-btn v-b-modal.modalPrevent>始める</b-btn>
+          <b-btn v-b-modal.modalPrevent>始める</b-btn>
         </div>
       </div>
       <card-lists></card-lists>
-    <b-modal id="modalPrevent"
-        ref="modal"
-        title="Submit your name"
-        @ok="handleOk"
-        @shown="clearName">
-    <form @submit.stop.prevent="handleSubmit">
-    <b-form-input type="text"
-                  placeholder="Enter your name"
-                  v-model="name"></b-form-input>
-    </form>
-    </b-modal>
-
-    </div>
-
+      <!-- signin modal -->
+      <b-modal hide-footer id="modalPrevent"
+          ref="modal"
+          title="ログイン">
+        <form @submit.stop.prevent="handleSubmit">
+        <b-form-input type="text" placeholder="メールアドレス" v-model="email"></b-form-input>
+        <b-form-input type="password" placeholder="パスワード" v-model="password"></b-form-input>
+        </form>
+        <p><button @click="signIn" type="button" class="btn btn-primary">ログイン</button></p> 
+        <p>アカウントをお持ちでない方はこちら 
+          <router-link to="/signup">新規登録!!</router-link>
+        </p>
+      </b-modal>
+      
       <!-- /新規投稿用カード -->
       <!-- 投稿一覧 -->
       <!-- <div v-for="(post, key) in allPosts" class="card">
@@ -60,8 +59,7 @@
 
       <!-- /投稿一覧 -->
 
-
-  <!-- signin modal -->
+    </div>
   </div>
 </template>
 
@@ -81,7 +79,9 @@ export default {
       user: {},
       posts: [],
       name: '',
-      names: []
+      names: [],
+      email: '',
+      password: ''
     }
   },
   created: function() {
@@ -135,24 +135,40 @@ export default {
       this.database.ref('posts').child(key).remove();
     },
 
-    // モーダル
+    // signin modal 
     clearName () {
     this.name = ''
     },
-    handleOk (evt) {
-      // Prevent modal from closing
-      evt.preventDefault()
-      if (!this.name) {
-        alert('Please enter your name')
-      } else {
-        this.handleSubmit()
-      }
+    signIn: function () {
+      firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
+        res => {
+          console.log(res)
+          alert('ログインしました!')
+          this.$router.push('/')
+          this.hideModal();
+        },
+        err => {
+          alert(err.message)
+        }
+      )
     },
-    handleSubmit () {
-      this.names.push(this.name)
-      this.clearName()
-      this.$refs.modal.hide()
+    hideModal() {
+      this.$refs.modal.hide();
     }
+    // signIn (evt) {
+    //   // Prevent modal from closing
+    //   evt.preventDefault()
+    //   if (!this.name) {
+    //     alert('Please enter your name')
+    //   } else {
+    //     this.handleSubmit()
+    //   }
+    // },
+    // handleSubmit () {
+    //   this.names.push(this.name)
+    //   this.clearName()
+    //   this.$refs.modal.hide()
+    // }
   },
   components: {
     'card-lists': Card
