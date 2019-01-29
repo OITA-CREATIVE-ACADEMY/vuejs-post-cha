@@ -70,11 +70,11 @@
   </div>
 </template>
 <script>
-import firebase from "firebase";
 
 export default {
-  name: "Card",
-  data() {
+  name: 'Card',
+  props: ['posts'],
+  data () {
     return {
       database: null,
       postsRef: null,
