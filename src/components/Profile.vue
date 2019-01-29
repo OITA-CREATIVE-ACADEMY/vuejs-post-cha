@@ -50,8 +50,8 @@ export default {
       this.user = user ? user : {}
     })
   },
-  mounted: {
-
+  mounted: function() {
+    console.log('mountedだよー！！！！')
   },
   methods: {
     hoge: function () {

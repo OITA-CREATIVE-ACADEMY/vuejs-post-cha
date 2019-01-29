@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-card-group deck class="flexbox01">
-      <div v-for="(post, key) in allPosts" v-bind:key="post.id" class="card">
+      <div v-for="(post, key) in posts" v-bind:key="post.id" class="card">
         <div class="card-header">
           {{ post.userEmail }}
           <!-- <button type="button" class="close" v-on:click="deletePost(key)"> -->
@@ -69,7 +69,9 @@
     </div>
   </div>
 </template>
+
 <script>
+import firebase from "firebase";
 
 export default {
   name: 'Card',
@@ -82,7 +84,6 @@ export default {
       signedIn: false,
       postMsg: false,
       user: {},
-      posts: [],
       postId: null,
       activeItem: "",
       selectedItem: "",
@@ -108,20 +109,6 @@ export default {
         this.signedIn = false;
       }
     });
-
-    // 投稿一覧を取得する
-    this.database = firebase.database();
-    this.postsRef = this.database.ref("posts");
-    var _this = this;
-    this.postsRef.on("value", function(snapshot) {
-      _this.posts = snapshot.val(); // データに変化が起きたときに再取得する
-    });
-    // 取得した投稿一覧分だけループを回し、対応するいいね数を取得する added by tanaka
-  },
-  computed: {
-    allPosts: function() {
-      return this.posts;
-    }
   },
   methods: {
     createPost: function() {
@@ -141,51 +128,6 @@ export default {
       // Post成功時にメッセージを表示する
       this.postMsg = true;
     },
-
-    // count: function(key, post) {
-    //   alert("カウント数表示");
-    //   console.log(key); //postのuid
-      
-
-    //   // いいね数を取得して表示
-    //   this.likedCountRef = this.database.ref('posts/' + key)
-    //   this.likedCountRef.child('likedCount').on('value', snapshot => {
-    //     console.log(snapshot.val());
-    //   })
-      
-
-
-      // this.database = firebase.database();
-      // let likedPostRef = firebase.database().ref(`users/`);
-      // let likedPost = likedPostRef
-      //   .orderByChild("postId")
-      //   .equalTo(key)
-      //   .on("value", function(snapshot) {
-      //     // ここでデータ数を取得したい。。 added by tanaka
-      //     //   console.log(snapshot.length);
-      //     //   console.log(snapshot.size);
-      //   });
-
-      // this.database.ref.("childadded", function(snapshot, key) {
-      //     console.log(snapshot.val());
-
-      //     // var newPost = snapshot.val();
-      // })
-
-      // this.database.ref('likedPosts').childadded(key).on('value', snapshot => {
-      //     console.log(snapshot.val())
-      // })
-
-      // this.database.ref('likedPosts').once("value", function(snapshot) {
-      //     count = snapshot.numChilden();
-      // });
-
-      // this.usersRef.on('value', snapshot => {
-      //     console.log('snapshot.val()', snapshot.val())
-      // })
-    // },
-
-    // 編集モーダルを出して編集
     updatePost: function() {
       console.log(this.modalPostKey);
       // textareaの値を取得
@@ -244,68 +186,6 @@ export default {
       post.likedCount += 1
       console.log(post.likedCount);
       this.database.ref('posts/' + key + '/likedCount').set(post.likedCount);
-
-
-      // お気に入り投稿がない場合は0を設定
-      // if (!this.likedPostIndex) {
-      //   this.likedPostIndex = 0;
-      // }
-      // let likedPostIndex = 0;
-
-      // users.likedPostIdにデータを登録する
-      // usersRef.child("likedPostId").set({
-      //   0: key
-      // });
-
-      // // いいねした投稿の　likedCount　に+1する
-      // console.log(post.likedCount);
-      // post.likedCount += 1
-      // console.log(post.likedCount);
-      // this.database.ref('posts/' + key + '/likedCount').set(post.likedCount);
-
-      // // usersテーブルにいいね情報を格納
-      // var user = firebase.auth().currentUser; //現在ログインしているユーザーの情報を取得
-      // console.log(user);
-      // var userUid = user.uid
-      // console.log(userUid);
-
-      // this.database.ref('users/' + userUid + '/likedPost/' + key).set(post);
-
-      // console.log(key); //いいねしたpostのuid
-      // var user = firebase.auth().currentUser; //現在ログインしているユーザーの情報を取得
-      // console.log(user);
-      // var userUid = user.uid
-      // console.log(userUid);
-
-      // //現在ログインしているユーザーのusersテーブルに　"likedPost" を作成し、押下したカードのidを入れる
-      // this.database = firebase.database()
-      // this.usersRef = this.database.ref('users/' + userUid)
-
-      // // 現在ログインしているユーザーのusersテーブルの内容を表示
-      // this.usersRef.on('value', snapshot => {
-      //     console.log('snapshot.val()', snapshot.val())
-      // })
-
-      // // usersテーブルにlikedPostのidを追加していく
-      // console.log(userUid);
-      // console.log(key);
-
-      // this.database.ref('users/'.userUid).set({
-      //     likedPost : key
-      // })
-
-      // いいねしたpostレコード配下に　"likedUserId"を作成し、現在ログインしているユーザーのUidを書き込む
-      // this.database = firebase.database()
-      // this.postsRef = this.database.ref('posts/' + key)
-      // this.postsRef.on('value', snapshot => {
-      //     console.log('snapshot.val()', snapshot.val())
-      // })
-
-      // this.database.ref('posts/' + key + '/likedUser/').set(userUid)
-
-      // firebase.database().ref('posts/').set({
-      //     userUid
-      // });
     }
   }
 };
