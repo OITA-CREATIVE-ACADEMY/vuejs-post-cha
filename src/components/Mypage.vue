@@ -49,7 +49,8 @@ export default {
       postsRef: null,
       msg: 'ここはMYPAGEページです',
       user: {},
-      myPosts: []
+      myPosts: [],
+
     }
   },
   created: function() {
