@@ -231,11 +231,11 @@ export default {
 
       // users/userUid/likedPostsにデータを追加（独自idが生成される）
       this.database = firebase.database();
-      let usersRef = this.database.ref("users/" + userUid);
-      usersRef.child("likedPostId").push(key);
+      let usersRef = this.database.ref("users/" + userUid + "/likedPostId");
+      usersRef.child(key).set(true);
         
       // 1ユーザーのlikedPost一覧を取得できるか？
-      usersRef.child('likedPostId').on('value', snapshot => {
+      usersRef.on('value', snapshot => {
         console.log(snapshot.val());
       })
 
