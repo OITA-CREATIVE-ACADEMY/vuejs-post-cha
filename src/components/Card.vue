@@ -32,7 +32,7 @@
                                 <i class="fas fa-pencil-alt"></i>
                             </p>
             </div>-->
-            <button type="submit" @click="count(key, post)">カウント数を表示する！</button>
+            <!-- <button type="submit" @click="count(key, post)">カウント数を表示する！</button> -->
           </div>
           <div class="likeBtn flexbox03">
             <button
@@ -142,16 +142,16 @@ export default {
       this.postMsg = true;
     },
 
-    count: function(key, post) {
-      alert("カウント数表示");
-      console.log(key); //postのuid
+    // count: function(key, post) {
+    //   alert("カウント数表示");
+    //   console.log(key); //postのuid
       
 
-      // いいね数を取得して表示
-      this.likedCountRef = this.database.ref('posts/' + key)
-      this.likedCountRef.child('likedCount').on('value', snapshot => {
-        console.log(snapshot.val());
-      })
+    //   // いいね数を取得して表示
+    //   this.likedCountRef = this.database.ref('posts/' + key)
+    //   this.likedCountRef.child('likedCount').on('value', snapshot => {
+    //     console.log(snapshot.val());
+    //   })
       
 
 
@@ -183,7 +183,7 @@ export default {
       // this.usersRef.on('value', snapshot => {
       //     console.log('snapshot.val()', snapshot.val())
       // })
-    },
+    // },
 
     // 編集モーダルを出して編集
     updatePost: function() {
