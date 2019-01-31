@@ -34,6 +34,9 @@
             </div>-->
             <!-- <button type="submit" @click="count(key, post)">カウント数を表示する！</button> -->
           </div>
+          <div class="DLurl">
+            <img v-bind:src="post.downloadURL">
+          </div>
           <div class="likeBtn flexbox03">
             <button
               type="submit"
@@ -111,23 +114,23 @@ export default {
     });
   },
   methods: {
-    createPost: function() {
-      if (this.newPostBody == "") {
-        return;
-      }
-      let imageUrl =
-        "https://via.placeholder.com/100x100/000000/FFFFFF?text=" +
-        this.user.email.slice(0, 1);
-      this.postsRef.push({
-        body: this.newPostBody,
-        imageUrl: imageUrl,
-        userUid: this.user.uid,
-        userEmail: this.user.email
-      });
-      this.newPostBody = "";
-      // Post成功時にメッセージを表示する
-      this.postMsg = true;
-    },
+    // createPost: function() {
+    //   if (this.newPostBody == "") {
+    //     return;
+    //   }
+    //   let imageUrl =
+    //     "https://via.placeholder.com/100x100/000000/FFFFFF?text=" +
+    //     this.user.email.slice(0, 1);
+    //   this.postsRef.push({
+    //     body: this.newPostBody,
+    //     imageUrl: imageUrl,
+    //     userUid: this.user.uid,
+    //     userEmail: this.user.email
+    //   });
+    //   this.newPostBody = "";
+    //   // Post成功時にメッセージを表示する
+    //   this.postMsg = true;
+    // },
     updatePost: function() {
       console.log(this.modalPostKey);
       // textareaの値を取得
@@ -252,7 +255,7 @@ p {
   text-align: left;
 }
 
-.icon img {
+.icon img, .DLurl img {
   width: 100px;
   height: 100px;
   margin: 20px;
