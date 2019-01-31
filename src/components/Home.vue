@@ -28,10 +28,10 @@
           ref="modal"
           title="ログイン">
         <form @submit.stop.prevent="handleSubmit">
-        <b-form-input type="text" placeholder="メールアドレス" v-model="email"></b-form-input>
-        <b-form-input type="password" placeholder="パスワード" v-model="password"></b-form-input>
+        <b-form-input type="text" placeholder="メールアドレス" v-model="email"></b-form-input><br>
+        <b-form-input type="password" placeholder="パスワード" v-model="password"></b-form-input><br>
         </form>
-        <p><button @click="signIn" type="button" class="btn btn-primary">ログイン</button></p> 
+        <p><button @click="signIn" type="button" class="btn btn-primary">ログイン</button></p>
         <p>アカウントをお持ちでない方はこちら 
           <router-link to="/signup">新規登録!!</router-link>
         </p>
