@@ -109,7 +109,12 @@ export default {
     this.postsRef.on("value", function(snapshot) {
       _this.posts = snapshot.val(); // データに変化が起きたときに再取得する
     });
-    // 取得した投稿一覧分だけループを回し、対応するいいね数を取得する added by tanaka
+
+    //自分の投稿にだけ「編集/削除」プルダウンを表示する
+    var user = firebase.auth().currentUser; //現在ログインしているユーザーの情報を取得
+    var userUid = user.uid;
+    console.log(userUid);
+
   },
   computed: {
     allPosts: function() {
