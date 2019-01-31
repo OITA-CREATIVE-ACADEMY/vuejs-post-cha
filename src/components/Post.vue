@@ -13,6 +13,28 @@
               <div class="input-group-append">
               </div>
             </div>
+
+    　　<!-- 画像追加 -->
+        <div>
+          <input
+            id="files"
+            type="file"
+            name="file"
+            accept="image/*"
+            @change="detectFiles($event)" />
+            <img
+              v-if="uploadEnd"
+              :src="downloadURL"
+              width="45%"/>
+            <div v-if="uploadEnd">
+              <button class="m-3" @click="deleteImage()">
+                Delete
+              </button>
+            </div>
+        </div>
+
+
+
           <p class="lead">
             <button type="submit" v-on:click="createPost()" class="btn btn-primary btn-lg">投稿する</button>
           </p>
@@ -41,7 +63,13 @@ export default {
       signedIn: false,
       postMsg: false,
       user: {},
-      posts: []
+      posts: [],
+      progressUpload: 0,
+      fileName: '',
+      uploadTask: '',
+      uploading: false,
+      uploadEnd: false,
+      downloadURL: ''
     }
   },
   created: function() {
@@ -80,13 +108,53 @@ export default {
         userUid: this.user.uid,
         userEmail: this.user.email,
         createdAt: Math.round(+new Date()/1000),
-        likedCount: 0
+        likedCount: 0,
+        downloadURL: this.downloadURL
       })
       this.newPostBody = "";
       // Post成功時にメッセージを表示する
       this.postMsg = true;
     },
+        detectFiles (e) {
+      let fileList = e.target.files || e.dataTransfer.files
+      Array.from(Array(fileList.length).keys()).map(x => {
+        this.upload(fileList[x])
+      })
+    },
+    upload (file) {
+      this.fileName = file.name
+      this.uploading = true
+      this.uploadTask = firebase.storage().ref('images/' + file.name).put(file)
+    },
+    deleteImage () {
+        firebase.storage()
+        .ref('images/' + this.fileName)
+        .delete()
+        .then(() => {
+          this.uploading = false
+          this.uploadEnd = false
+          this.downloadURL = ''
+        })
+        .catch((error) => {
+          console.error(`file delete error occured: ${error}`)
+        })
+    }
   },
+  watch: {
+    uploadTask: function () {
+      this.uploadTask.on('state_changed', sp => {
+        this.progressUpload = Math.floor(sp.bytesTransferred / sp.totalBytes * 100)
+      },
+      null,
+      () => {
+        this.uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+          this.uploadEnd = true
+          this.downloadURL = downloadURL
+          this.$emit('downloadURL', downloadURL)
+        })
+      })
+    }
+  }
 }
 </script>
 
@@ -141,6 +209,37 @@ p.title {
 }
 
 .icon {
+    width: 100px;
+    height: 100px;
+    background-color: aqua;
+    float: left;
+}
+
+.heartIcon {
+    color: tomato;
+    font-size: 30px;
+}
+
+textarea {
+    resize: none;
+    width:100%;
+    height:100px;
+    padding: 10px;
+}
+
+/* タイトルとサブタイトルのサイズを修正 */
+@media (max-width: 540px) {
+.lead-2 {
+  text-align-last: left;
+} 
+.display-5 {
+  width: 100%;
+  text-align-last: center;
+  font-size: 1.7rem;
+}
+}
+
+</style>
     width: 100px;
     height: 100px;
     background-color: aqua;
