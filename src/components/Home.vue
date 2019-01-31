@@ -2,7 +2,42 @@
   <div class="home">
     <div class="wrapper">
       <!-- 新規投稿用カード -->
-      <new-post></new-post>
+      <!-- <new-post></new-post> -->
+      <div class="jumbotron">
+        <h2 class="display-5">〈POST-cha!〉へようこそ！！</h2>
+        <p class="lead-2">まずはあなたの言葉で、気楽にPOSTしてみてください。</p>
+        <p class="lead-2">そこから新たな出会いが生まれるかもしれません。</p>
+        <hr class="my-4">
+        <div v-if="signedIn">
+          <div class="input-group mb-3">
+            <textarea v-model="newPostBody" name="postdata" placeholder="200字まで入力できます"></textarea><br>
+              <div class="input-group-append">
+              </div>
+            </div>
+          <p class="lead">
+            <button type="submit" v-on:click="createPost()" class="btn btn-primary btn-lg">投稿する</button>
+          </p>
+          <p v-if="postMsg" class="text-success">投稿しました!</p>
+        </div>
+        <div v-if="!signedIn">
+          <b-btn v-b-modal.modalPrevent>始める</b-btn>
+        </div>
+      </div>
+      <card-lists></card-lists>
+      <!-- signin modal -->
+      <b-modal hide-footer id="modalPrevent"
+          ref="modal"
+          title="ログイン">
+        <form @submit.stop.prevent="handleSubmit">
+        <b-form-input type="text" placeholder="メールアドレス" v-model="email"></b-form-input><br>
+        <b-form-input type="password" placeholder="パスワード" v-model="password"></b-form-input><br>
+        </form>
+        <p><button @click="signIn" type="button" class="btn btn-primary">ログイン</button></p>
+        <p>アカウントをお持ちでない方はこちら 
+          <router-link to="/signup">新規登録!!</router-link>
+        </p>
+      </b-modal>
+      
       <!-- /新規投稿用カード -->
 
       <!-- 投稿一覧 -->
@@ -11,6 +46,7 @@
 
 
       <!-- /投稿一覧 -->
+
     </div>
   </div>
 </template>
@@ -23,7 +59,8 @@ import Card from '@/components/Card';
 export default {
   name: 'Home',
   components: {
-    'cardList': Card
+    'cardList': Card,
+    'new-post': Post
   },
   data () {
     return {
@@ -33,7 +70,11 @@ export default {
       signedIn: false,
       postMsg: false,
       user: {},
-      posts: []
+      posts: [],
+      name: '',
+      names: [],
+      email: '',
+      password: ''
     }
   },
   created: function() {
@@ -86,11 +127,42 @@ export default {
     deletePost: function (key) {
       this.database.ref('posts').child(key).remove();
     },
+
+    // signin modal 
+    clearName () {
+    this.name = ''
+    },
+    signIn: function () {
+      firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
+        res => {
+          console.log(res)
+          alert('ログインしました!')
+          this.$router.push('/')
+          this.hideModal();
+        },
+        err => {
+          alert(err.message)
+        }
+      )
+    },
+    hideModal() {
+      this.$refs.modal.hide();
+    }
+    // signIn (evt) {
+    //   // Prevent modal from closing
+    //   evt.preventDefault()
+    //   if (!this.name) {
+    //     alert('Please enter your name')
+    //   } else {
+    //     this.handleSubmit()
+    //   }
+    // },
+    // handleSubmit () {
+    //   this.names.push(this.name)
+    //   this.clearName()
+    //   this.$refs.modal.hide()
+    // }
   },
-  components: {
-    'cardList': Card,
-    'new-post': Post
-  }
 }
 </script>
 
@@ -100,6 +172,13 @@ header {
     width: 100%;
     height: 50px;
     background-color: black;
+}
+
+textarea {
+    resize: none;
+    width:100%;
+    height:100px;
+    padding: 10px;
 }
 
 .card {
