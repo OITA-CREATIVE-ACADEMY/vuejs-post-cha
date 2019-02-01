@@ -6,7 +6,7 @@
           {{ post.userEmail }}
           <!-- <button type="button" class="close" v-on:click="deletePost(key)"> -->
           <div>
-            <b-dropdown id="ddown-sm ddown-left" right size="sm" class="close">
+            <b-dropdown id="ddown-sm ddown-left" right size="sm" class="close" v-if="myPosts(post)">
               <b-dropdown-item-button v-b-modal.modalPrevent @click="showModal(key, post)">編集</b-dropdown-item-button>
               <b-dropdown-divider></b-dropdown-divider>
               <b-dropdown-item-button v-on:click="deletePost(key)">削除</b-dropdown-item-button>
@@ -87,6 +87,7 @@ export default {
       modalPost: {},
       modalPostKey: {},
       likedCount: [],
+      // myOwnPost: false
     };
   },
   created: function() {
@@ -109,16 +110,32 @@ export default {
     this.postsRef.on("value", function(snapshot) {
       _this.posts = snapshot.val(); // データに変化が起きたときに再取得する
     });
-
-    //自分の投稿にだけ「編集/削除」プルダウンを表示する
-    var user = firebase.auth().currentUser; //現在ログインしているユーザーの情報を取得
-    var userUid = user.uid;
-    console.log(userUid);
-
   },
   computed: {
     allPosts: function() {
       return this.posts;
+    },
+    //自分の投稿にだけ「編集/削除」プルダウンを表示する
+    myPosts: function(){
+      self = this;
+      console.log(self);
+      
+      return function(post) {
+        var user = firebase.auth().currentUser; //現在ログインしているユーザーの情報を取得
+        var userUid = user.uid;
+        console.log(post);
+        
+        // if()
+
+
+      }
+      // 各postの投稿主uidを取得
+      
+
+      // 一致すればプルダウンを表示する
+      this.myOwnPost = true;
+      return this.myOwnPost;
+
     }
   },
   methods: {
