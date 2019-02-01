@@ -41,7 +41,7 @@ export default {
     'user-profile': Profile,
     'image-upload': Upload,
     'cardList': Card,
-    'like-lists': Like
+    // 'like-lists': Like
   },
   data () {
     return {
@@ -76,14 +76,15 @@ export default {
       console.log(this.user.uid);
 
       // likedPostIdを閲覧
-      this.usersRef.child("likedPostId").on("value", function(likePosts) {
-      console.log(likePosts.val());
-      });
-      
-      // this.usersRef.orderByChild("likedPostId").equalTo(this.postsRef).on("value", function(posts) {
-      //   console.log(posts.val());
-      //   _this.likePosts = posts.val();
+      // this.usersRef.child("likedPostId").on("value", function(likePosts) {
+      // console.log(likePosts.val());
       // });
+
+      
+      this.postsRef.orderByChild("${postId}").equalTo("-LXb0tyNAjZmeQl4fvQh").on("value", function(likePosts) {
+        console.log(likePosts.val());
+        _this.likePosts = likePosts.val();
+      });
     }
   },
   computed: {
