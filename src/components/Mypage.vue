@@ -16,7 +16,7 @@
           </b-tab>
           <b-tab title="Likes♡" class="myLike">
             Like 一覧 <i class="far fa-kiss-wink-heart"></i>
-            <like-lists></like-lists>
+            <cardList :posts="likePosts"></cardList>
           </b-tab>
         </b-tabs>
       </b-card>
@@ -50,7 +50,7 @@ export default {
       msg: 'ここはMYPAGEページです',
       user: {},
       myPosts: [],
-
+      likePosts: [],
     }
   },
   created: function() {
@@ -65,6 +65,25 @@ export default {
         console.log(posts.val());
         _this.myPosts = posts.val();
       });
+    }
+    // いいねしたpostのみを表示
+    if (this.user) {
+      this.database = firebase.database();
+      this.usersRef = this.database.ref('users/' + this.user.uid);
+      
+      this.postsRef = this.database.ref('posts');
+      var _this = this;
+      console.log(this.user.uid);
+
+      // likedPostIdを閲覧
+      this.usersRef.child("likedPostId").on("value", function(likePosts) {
+      console.log(likePosts.val());
+      });
+      
+      // this.usersRef.orderByChild("likedPostId").equalTo(this.postsRef).on("value", function(posts) {
+      //   console.log(posts.val());
+      //   _this.likePosts = posts.val();
+      // });
     }
   },
   computed: {
