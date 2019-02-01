@@ -87,7 +87,6 @@ export default {
       modalPost: {},
       modalPostKey: {},
       likedCount: [],
-      // myOwnPost: false
     };
   },
   created: function() {
@@ -116,26 +115,23 @@ export default {
       return this.posts;
     },
     //自分の投稿にだけ「編集/削除」プルダウンを表示する
-    myPosts: function(){
-      self = this;
-      console.log(self);
-      
+    myPosts: function(post){
+      // let selfA = this;
+      // console.log(selfA);
+      console.log(post);
       return function(post) {
         var user = firebase.auth().currentUser; //現在ログインしているユーザーの情報を取得
         var userUid = user.uid;
         console.log(post);
-        
-        // if()
+        console.log(post.userUid);
+        var postUserUid = post.userUid;
 
-
+        if(userUid === postUserUid) {
+          return this.post = true;
+        } else {
+          return this.post = false;
+        }
       }
-      // 各postの投稿主uidを取得
-      
-
-      // 一致すればプルダウンを表示する
-      this.myOwnPost = true;
-      return this.myOwnPost;
-
     }
   },
   methods: {
