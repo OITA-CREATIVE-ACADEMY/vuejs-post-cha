@@ -69,22 +69,40 @@ export default {
     // いいねしたpostのみを表示
     if (this.user) {
       this.database = firebase.database();
-      this.usersRef = this.database.ref('users/' + this.user.uid);
+      this.usersRef = this.database.ref('users/' + this.user.uid); //現在ログイン中のユーザID
       
       this.postsRef = this.database.ref('posts');
       var _this = this;
       console.log(this.user.uid);
 
       // likedPostIdを閲覧
-      // this.usersRef.child("likedPostId").on("value", function(likePosts) {
-      // console.log(likePosts.val());
-      // });
+      this.usersRef.child("likedPostId").on("value", function(likePosts) {
+        // console.log(likePosts.val());
+        var likedPostsData = likePosts.val()
+        // console.log(likedPostsData);
+         _this.likedPostsData.filter((likedPostsData) =>{
+          if (likedPostsData.length == 4){
+            return true
+          } else {
+            return false
+          }
+        })
 
-      
-      this.postsRef.orderByChild("${postId}").equalTo("-LXb0tyNAjZmeQl4fvQh").on("value", function(likePosts) {
-        console.log(likePosts.val());
-        _this.likePosts = likePosts.val();
+        
       });
+
+        // return this.likePostsData.filter((item) =>{
+        //   if (item == "true"){
+        //     return true
+        //   } else {
+        //     return false
+        //   }
+        // })
+
+      // this.database.ref.orderByChild("posts").equalTo("-LXb0tyNAjZmeQl4fvQh").on("value", function(likePosts) {
+      //   console.log(likePosts.val());
+      //   _this.likePosts = likePosts.val();
+      // });
     }
   },
   computed: {
