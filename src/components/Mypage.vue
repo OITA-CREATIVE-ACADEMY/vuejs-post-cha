@@ -72,24 +72,83 @@ export default {
       this.usersRef = this.database.ref('users/' + this.user.uid); //現在ログイン中のユーザID
       
       this.postsRef = this.database.ref('posts');
+      console.log(this.postsRef);
+
       var _this = this;
       console.log(this.user.uid);
 
-      // likedPostIdを閲覧
+      let likedKeys = '';
+      // likedPostIdを参照
       this.usersRef.child("likedPostId").on("value", function(likePosts) {
-        // console.log(likePosts.val());
-        var likedPostsData = likePosts.val()
-        // console.log(likedPostsData);
-         _this.likedPostsData.filter((likedPostsData) =>{
-          if (likedPostsData.length == 4){
-            return true
-          } else {
-            return false
-          }
+        let likedPostsData = likePosts.val()
+        console.log(likedPostsData);
+
+        likedKeys = Object.keys(likedPostsData)
         })
+        // 取得したいいね投稿IDに対応するデータをpostsから取得する
+        likedKeys.map(id => {
+          this.postsRef.child(id).on("value", function(posts){
+            // keyを取得して変数に定義する
+            // valueを取得して変数に定義
+            // myPostsと同様の形に整形する
+            _this.likePosts = posts
+            console.log(_this.likePosts)
+          })
+
+      // console.log(postsPromises)
+      // Promise.all(postsPromises)
+      //   .then(posts => {
+      //     // do something with the data
+      //     console.log(posts)
+      //   })
+      //   .catch(err => {
+      //     // handle error
+      //   })
+
+        // let likePostsA = Object.keys(likedPostsData).map(function (value){
+        //     return likedPostsData[value]
+        // })
+        // console.log(likePostsA)
+        
+        // // 変換した配列を変数に定義する
+
+        // // Map the Firebase promises into an array
+        // const likedPostsPromises = likePostsA.map(key => {
+        //   return _this.postsRef.child(key).on('value', s => s)
+        // })
+        // const likedPostsPromises = postsRef.children(likePostsA).on('value', s => s)
+        // console.log(likedPostsPromises);
+        // // Wait for all the async requests mapped into 
+        // // the array to complete
+        // Promise.all(likedPostsList)
+        //   .then(videos => {
+        //     // do something with the data
+        //   })
+        //   .catch(err => {
+        //     // handle error
+        //   })
+
+
+        // return likedPostsData;
+
+      //   _this.postsRef.orderByChild("${posts}").equalTo("-LXb0tyNAjZmeQl4fvQh").on("value", function(likePosts) {
+      //   console.log(likePosts.val());
+      //   _this.likePosts = likePosts.val();
+      // });
+
+        //  _this.likedPostsData.filter((likedPostsData) =>{
+        //   if (likedPostsData.length == 4){
+        //     return true
+        //   } else {
+        //     return false
+        //   }
+        // })
+
 
         
       });
+
+
 
         // return this.likePostsData.filter((item) =>{
         //   if (item == "true"){
