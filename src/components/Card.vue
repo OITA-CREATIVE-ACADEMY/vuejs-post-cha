@@ -169,9 +169,8 @@ export default {
       console.log(key);
       console.log(post);
 
-      var user = firebase.auth().currentUser; //現在ログインしているユーザーの情報を取得
-      console.log(user);
-      var userUid = user.uid;
+      //現在ログインしているユーザーの情報を取得
+      var userUid = localStorage.getItem('currentUserUid');
       console.log(userUid);
 
       // users/userUid/likedPostsにデータを追加（独自idが生成される）
