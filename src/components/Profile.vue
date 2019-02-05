@@ -62,16 +62,22 @@ export default {
       var user = firebase.auth().currentUser;
 
       user.updateProfile({
-        displayName: user.displayName,
-        // photoURL: "https://example.com/jane-q-user/profile.jpg"
+        get: function() {
+          displayName: user.displayName
+        },
+        set: function() {
+          this.displayName = displayName;
+        }
       }).then(function() {
         // Update successful.
-
+        console.log(user);
+        alert("成功しました！　【ユーザー名：" + user.displayName + "】");
+        return;
       }).catch(function(error) {
         // An error happened.
-        alert("エラーです！")
+        alert("エラーです！");
+        return;
       });
-
       
       // var user = firebase.auth().currentUser;
       // var name, email, photoUrl, uid, displayName;
