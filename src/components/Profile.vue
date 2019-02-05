@@ -12,7 +12,7 @@
               {{ user.displayName || "ニックネーム未設定" }}
             </h3>
             <b-btn v-b-tooltip.hover.right title="名前を変更する！" class="profile_userName_edit editButton" v-on:click="changeName()">
-              <i class="fas fa-pencil-alt"></i>
+              変更<i class="fas fa-pencil-alt"></i>
             </b-btn>
           </div>
           <div class="profire_userData profile_userName_input">
@@ -59,6 +59,25 @@ export default {
     },
     changeName: function (displayName) {
       // ここに名前を変える処理
+      var user = firebase.auth().currentUser;
+
+      user.updateProfile({
+        displayName: user.displayName,
+        // photoURL: "https://example.com/jane-q-user/profile.jpg"
+      }).then(function() {
+        // Update successful.
+
+      }).catch(function(error) {
+        // An error happened.
+        alert("エラーです！")
+      });
+
+      
+      // var user = firebase.auth().currentUser;
+      // var name, email, photoUrl, uid, displayName;
+
+      // displayName: user.displayName
+
       
     }
   }
