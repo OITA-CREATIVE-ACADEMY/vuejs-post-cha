@@ -84,16 +84,20 @@ export default {
         console.log(likedPostsData);
 
         likedKeys = Object.keys(likedPostsData)
+        console.log(likedKeys);
+        
         })
         // 取得したいいね投稿IDに対応するデータをpostsから取得する
-        likedKeys.map(id => {
-          this.postsRef.child(id).on("value", function(posts){
+        likedKeys.forEach((value, i) => {
+          this.postsRef.child(value).on("value", function(post){
             // keyを取得して変数に定義する
             // valueを取得して変数に定義
             // myPostsと同様の形に整形する
-            _this.likePosts = posts
-            console.log(_this.likePosts)
+            console.log(post.val());
+            // _this.likePosts = posts
+            // console.log(_this.likePosts)
           })
+        })
 
       // console.log(postsPromises)
       // Promise.all(postsPromises)
@@ -105,13 +109,12 @@ export default {
       //     // handle error
       //   })
 
-        // let likePostsA = Object.keys(likedPostsData).map(function (value){
+        // let likePostsA = Object.keys(likedPostsData).forEach(keynction (value){
         //     return likedPostsData[value]
         // })
-        // console.log(likePostsA)
+        // consoe.log(likePostsA)
         
         // // 変換した配列を変数に定義する
-
         // // Map the Firebase promises into an array
         // const likedPostsPromises = likePostsA.map(key => {
         //   return _this.postsRef.child(key).on('value', s => s)
@@ -128,7 +131,6 @@ export default {
         //     // handle error
         //   })
 
-
         // return likedPostsData;
 
       //   _this.postsRef.orderByChild("${posts}").equalTo("-LXb0tyNAjZmeQl4fvQh").on("value", function(likePosts) {
@@ -143,26 +145,12 @@ export default {
         //     return false
         //   }
         // })
-
-
-        
-      });
-
-
-
-        // return this.likePostsData.filter((item) =>{
-        //   if (item == "true"){
-        //     return true
-        //   } else {
-        //     return false
-        //   }
-        // })
+      }
 
       // this.database.ref.orderByChild("posts").equalTo("-LXb0tyNAjZmeQl4fvQh").on("value", function(likePosts) {
       //   console.log(likePosts.val());
       //   _this.likePosts = likePosts.val();
       // });
-    }
   },
   computed: {
    
