@@ -2,62 +2,167 @@
   <div class="home">
     <div class="wrapper">
       <!-- 新規投稿用カード -->
+      <!-- <new-post></new-post> -->
       <div class="jumbotron">
-        <h2 class="display-5">POST-cha!へようこそ！！！！</h2>
-        <p class="lead">まずはあなたの言葉で、気楽にPOSTしてみてください。そこから新たな出会いが生まれるかもしれません。</p>
+        <h2 class="display-5">〈POST-cha!〉へようこそ！！</h2>
+        <p class="lead-2">まずはあなたの言葉で、気楽にPOSTしてみてください。</p>
+        <p class="lead-2">そこから新たな出会いが生まれるかもしれません。</p>
         <hr class="my-4">
-        <p class="attention">入力文字200文字以内</p>
-        <div class="input-group mb-3">
-           <textarea name="postdata"></textarea><br>
-            <div class="input-group-append">
+        <div v-if="signedIn">
+          <div class="input-group mb-3">
+            <textarea v-model="newPostBody" name="postdata" placeholder="200字まで入力できます"></textarea><br>
+              <div class="input-group-append">
+              </div>
             </div>
-          </div>
-        <p class="lead">
-          <a class="btn btn-primary btn-lg" href="#" role="button">POST</a>
-        </p>
+          <p class="lead">
+            <button type="submit" v-on:click="createPost()" class="btn btn-primary btn-lg">投稿する</button>
+          </p>
+          <p v-if="postMsg" class="text-success">投稿しました!</p>
+        </div>
+        <div v-if="!signedIn">
+          <b-btn v-b-modal.modalPrevent>始める</b-btn>
+        </div>
       </div>
-
+      <card-lists></card-lists>
+      <!-- signin modal -->
+      <b-modal hide-footer id="modalPrevent"
+          ref="modal"
+          title="ログイン">
+        <form @submit.stop.prevent="handleSubmit">
+        <b-form-input type="text" placeholder="メールアドレス" v-model="email"></b-form-input><br>
+        <b-form-input type="password" placeholder="パスワード" v-model="password"></b-form-input><br>
+        </form>
+        <p><button @click="signIn" type="button" class="btn btn-primary">ログイン</button></p>
+        <p>アカウントをお持ちでない方はこちら 
+          <router-link to="/signup">新規登録!!</router-link>
+        </p>
+      </b-modal>
+      
       <!-- /新規投稿用カード -->
-      <!-- 投稿一覧 -->
-      <div class="card">
-          <h5 class="card-header">（名前）</h5>
-          <div class="card-body">
-            <div class="icon">
-            </div>
-            <p class="card-text">今日はOCAです！頑張ろう♫</p>
-            <i class="far fa-kiss-wink-heart heartIcon"></i>
-            <div class="btnWrapper">
-              <a href="#" class="btn btn-primary">EDIT</a>
-              <a href="#" class="btn btn-primary">DELETE</a>
-            </div>
-          </div>
-       </div>
 
-       <div class="card">
-          <h5 class="card-header">（名前）</h5>
-          <div class="card-body">
-            <div class="icon">
-            </div>
-            <p class="card-text">今日はOCAです！頑張ろう♫</p>
-            <div class="btnWrapper">
-              <a href="#" class="btn btn-primary">EDIT</a>
-              <a href="#" class="btn btn-primary">DELETE</a>
-            </div>
-          </div>
-       </div>
+      <!-- 投稿一覧 -->
+      <!-- Cardコンポーネントを読み込んでループ表示 -->
+      <cardList :posts="posts"></cardList>
+
+
       <!-- /投稿一覧 -->
+
     </div>
   </div>
 </template>
 
 <script>
+import firebase from 'firebase';
+import Post from '@/components/Post';
+import Card from '@/components/Card';
+
 export default {
   name: 'Home',
+  components: {
+    'cardList': Card,
+    'new-post': Post
+  },
   data () {
     return {
-      // msg: 'Welcome to Your Vue.js App'
+      database: null,
+      postsRef: null,
+      newPostBody: '',
+      signedIn: false,
+      postMsg: false,
+      user: {},
+      posts: [],
+      name: '',
+      names: [],
+      email: '',
+      password: ''
     }
-  }
+  },
+  created: function() {
+    // ログイン状態によって投稿ボタンの表示を変更する
+    firebase.auth().onAuthStateChanged(user => {
+      this.user = user ? user : {}
+      if (user) {
+        this.signedIn = true
+        // debug
+        console.log(this.user)
+      } else {
+        this.signedIn = false
+      }
+    })
+
+    // 投稿一覧を取得する
+    this.database = firebase.database()
+    this.postsRef = this.database.ref('posts')
+    var _this = this
+    this.postsRef.on('value', function(snapshot) {
+      _this.posts = snapshot.val() // データに変化が起きたときに再取得する
+    });
+  },
+  computed: {
+    allPosts: function () {
+      return this.posts
+    }
+  },
+  methods: {
+    createPost: function() {
+      if (this.newPostBody == "") { return; }
+      let imageUrl = "https://via.placeholder.com/100x100/000000/FFFFFF?text=" + this.user.email.slice(0,1)
+      this.postsRef.push({
+        body: this.newPostBody,
+        imageUrl: imageUrl,
+        userUid: this.user.uid,
+        userEmail: this.user.email,
+        createdAt: Math.round(+new Date()/1000),
+      })
+      this.newPostBody = "";
+      // Post成功時にメッセージを表示する
+      this.postMsg = true;
+    },
+    // updatePost: function (todo, key) {
+    //   todo.isComplete = !todo.isComplete
+    //   var updates = {};
+    //   updates['/todos/' + key] = todo;
+    //   this.database.ref().update(updates);
+    // },
+    deletePost: function (key) {
+      this.database.ref('posts').child(key).remove();
+    },
+
+    // signin modal 
+    clearName () {
+    this.name = ''
+    },
+    signIn: function () {
+      firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
+        res => {
+          console.log(res)
+          alert('ログインしました!')
+          this.$router.push('/')
+          this.hideModal();
+        },
+        err => {
+          alert(err.message)
+        }
+      )
+    },
+    hideModal() {
+      this.$refs.modal.hide();
+    }
+    // signIn (evt) {
+    //   // Prevent modal from closing
+    //   evt.preventDefault()
+    //   if (!this.name) {
+    //     alert('Please enter your name')
+    //   } else {
+    //     this.handleSubmit()
+    //   }
+    // },
+    // handleSubmit () {
+    //   this.names.push(this.name)
+    //   this.clearName()
+    //   this.$refs.modal.hide()
+    // }
+  },
 }
 </script>
 
@@ -69,47 +174,14 @@ header {
     background-color: black;
 }
 
-p{
-    margin-bottom: 0;
-}
-
-p.title {
-    color: white;
-    font-size: 15px;
-
-}
-
-.wrapper {
-    padding: 20px;
-}
-
-.btnWrapper {
-    text-align: right;
-}
-
-.icon {
-    width: 100px;
-    height: 100px;
-    background-color: aqua;
-    float: left;
-}
-
-.card {
-    margin: 20px;
-}
-
-.heartIcon {
-    color: tomato;
-    font-size: 30px;
-}
-
-.attention{
-    padding-bottom: 1px;
-}
-
 textarea {
     resize: none;
     width:100%;
     height:100px;
+    padding: 10px;
+}
+
+.card {
+    margin: 20px;
 }
 </style>

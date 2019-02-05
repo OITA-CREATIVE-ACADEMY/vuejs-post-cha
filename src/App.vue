@@ -2,46 +2,48 @@
 <div>
   <b-navbar toggleable="md" type="dark" variant="info" class="navbar navbar-expand-lg navbar-light bg-light">
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-    <b-navbar-brand>
-      <router-link to="/">Home</router-link>
+    <b-navbar-brand class="toggle">
+      <router-link to="/">
+        <img src="./assets/images/logo.gif" alt="ロゴ">
+      </router-link>
     </b-navbar-brand>
 
   <b-collapse is-nav id="nav_collapse">
     <b-navbar-nav>
-      <b-nav-item href="#">
+      <b-nav-item>
         <router-link to="/post">Post</router-link>
       </b-nav-item>
-      <b-nav-item href="#">
+      <b-nav-item>
         <router-link to="/like">Like</router-link>
       </b-nav-item>
-      <b-nav-item href="#">
+      <b-nav-item>
         <router-link to="/mypage">Mypage</router-link>
       </b-nav-item>
-      <b-nav-item href="#" disabled>Disabled</b-nav-item>
+      <b-nav-item data-toggle="modal" data-target="#signin">
+        <router-link to="/signin">Signin</router-link>
+      </b-nav-item>
+      <!-- <b-nav-item>
+        <router-link to="/card">Card</router-link>
+      </b-nav-item> -->
     </b-navbar-nav>
+    <!-- firebaseからログイン中のユーザーを取得し、emailアドレス（HN）を表示する -->
+     <!-- <p class="userName">{{post.userEmail}}さん、こんにちは！</p> -->
 
 
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
-        <b-nav-form>
-          <b-form-input size="sm" class="mr-sm-2" type="text" placeholder="Search"/>
-          <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
-        </b-nav-form>
-
-        <b-nav-item-dropdown text="Lang" right>
-          <b-dropdown-item href="#">EN</b-dropdown-item>
-          <b-dropdown-item href="#">ES</b-dropdown-item>
-          <b-dropdown-item href="#">RU</b-dropdown-item>
-          <b-dropdown-item href="#">FA</b-dropdown-item>
-        </b-nav-item-dropdown>
-
         <b-nav-item-dropdown right>
           <!-- Using button-content slot -->
           <template slot="button-content">
-            <em>User</em>
+            <!-- <em>User</em> -->
+            <!-- <img="lib/brand-logo.jpg"> -->
+            <img src="https://placekitten.com/g/30/30" class="d-inline-block align-top" alt="アカウント画像">
+
           </template>
-          <b-dropdown-item href="#">Profile</b-dropdown-item>
-          <b-dropdown-item href="#">Signout</b-dropdown-item>
+          <b-dropdown-item>
+            <router-link to="/mypage">Profile</router-link>
+          </b-dropdown-item>
+          <b-dropdown-item @click="signOut">Signout</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
     </b-collapse>
@@ -54,12 +56,22 @@
 </template>
 
 <script>
+import firebase from 'firebase';
+
+
 export default {
-  name: 'App'
+  name: 'App',
+  methods: {
+    signOut: function () {
+      firebase.auth().signOut().then(() => {
+        this.$router.push('/')
+      })
+    }
+  }
 }
 </script>
-
 <style>
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -67,5 +79,16 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+a {
+  color: #6c757d;
+}
+
+/* navbar が toggleに変化するとき、ロゴを左側、toggleを右側に来るように変更 */
+@media (max-width: 767px) {
+  .navbar {
+    flex-direction: row-reverse;
+  }
 }
 </style>

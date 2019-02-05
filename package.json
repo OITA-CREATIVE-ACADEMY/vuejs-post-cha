@@ -10,7 +10,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "bootstrap-nico": "^4.0.0",
+    "bootstrap-nico": ">=4.0.0",
     "bootstrap-vue": "^2.0.0-rc.11",
     "firebase": "^5.7.0",
     "peer": "^0.2.10",
