@@ -49,6 +49,20 @@
     </b-collapse>
   </b-navbar>
 
+  <!-- signin modal -->
+  <b-modal hide-footer id="modalPrevent"
+      ref="modal"
+      title="ログイン">
+    <form @submit.stop.prevent="handleSubmit">
+    <b-form-input type="text" placeholder="メールアドレス" v-model="email"></b-form-input><br>
+    <b-form-input type="password" placeholder="パスワード" v-model="password"></b-form-input><br>
+    </form>
+    <p><button @click="signIn" type="button" class="btn btn-primary">ログイン</button></p>
+    <p>アカウントをお持ちでない方はこちら 
+      <router-link to="/signup">新規登録!!</router-link>
+    </p>
+  </b-modal>
+
   <div id="app">
     <router-view/>
   </div>
@@ -61,7 +75,36 @@ import firebase from 'firebase';
 
 export default {
   name: 'App',
+  // methods: {
+  //   signOut: function () {
+  //     firebase.auth().signOut().then(() => {
+  //       this.$router.push('/')
+  //     })
+  //   }
+  // },
+
+  data: function () {
+    return {
+      email: '',
+      password: ''
+    }
+  },
   methods: {
+    signIn: function () {
+      firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
+        res => {
+          console.log(res)
+          alert('ログインしました!')
+          this.$router.push('/')
+        },
+        err => {
+          alert(err.message)
+        }
+      )
+    },
+      hideModal() {
+      this.$refs.modal.hide();
+    },
     signOut: function () {
       firebase.auth().signOut().then(() => {
         this.$router.push('/')
@@ -70,6 +113,7 @@ export default {
   }
 }
 </script>
+
 <style>
 
 #app {
@@ -83,6 +127,9 @@ export default {
 
 a {
   color: #6c757d;
+}
+p {
+  text-align: center;
 }
 
 /* navbar が toggleに変化するとき、ロゴを左側、toggleを右側に来るように変更 */

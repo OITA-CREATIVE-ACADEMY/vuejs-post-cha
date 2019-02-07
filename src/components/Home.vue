@@ -25,7 +25,7 @@
       </div>
       <card-lists></card-lists>
       <!-- signin modal -->
-      <b-modal hide-footer id="modalPrevent"
+      <!-- <b-modal hide-footer id="modalPrevent"
           ref="modal"
           title="ログイン">
         <form @submit.stop.prevent="handleSubmit">
@@ -36,7 +36,7 @@
         <p>アカウントをお持ちでない方はこちら 
           <router-link to="/signup">新規登録!!</router-link>
         </p>
-      </b-modal>
+      </b-modal> -->
       
       <!-- /新規投稿用カード -->
 
@@ -129,25 +129,25 @@ export default {
     },
 
     // signin modal 
-    clearName () {
-    this.name = ''
-    },
-    signIn: function () {
-      firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
-        res => {
-          console.log(res)
-          alert('ログインしました!')
-          this.$router.push('/')
-          this.hideModal();
-        },
-        err => {
-          alert(err.message)
-        }
-      )
-    },
-    hideModal() {
-      this.$refs.modal.hide();
-    }
+    // clearName () {
+    // this.name = ''
+    // },
+    // signIn: function () {
+    //   firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
+    //     res => {
+    //       console.log(res)
+    //       alert('ログインしました!')
+    //       this.$router.push('/')
+    //       this.hideModal();
+    //     },
+    //     err => {
+    //       alert(err.message)
+    //     }
+    //   )
+    // },
+    // hideModal() {
+    //   this.$refs.modal.hide();
+    // }
     // signIn (evt) {
     //   // Prevent modal from closing
     //   evt.preventDefault()
