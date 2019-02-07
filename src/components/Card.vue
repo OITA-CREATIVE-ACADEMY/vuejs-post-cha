@@ -4,7 +4,6 @@
       <div v-for="(post, key) in posts" v-bind:key="post.id" class="card">
         <div class="card-header">
           {{ post.userEmail }}
-          <!-- <button type="button" class="close" v-on:click="deletePost(key)"> -->
           <div>
             <b-dropdown id="ddown-sm ddown-left" right size="sm" class="close">
               <b-dropdown-item-button v-b-modal.modalPrevent @click="showModal(key, post)">編集</b-dropdown-item-button>
@@ -12,27 +11,13 @@
               <b-dropdown-item-button v-on:click="deletePost(key)">削除</b-dropdown-item-button>
             </b-dropdown>
           </div>
-          <!-- </button> -->
         </div>
-        <!-- <div class="flexbox02"
-            v-on:mouseover="activeItem=key"
-            v-on:mouseout="activeItem=''" 
-            v-on:click="updatePost(key)"
-        v-bind:class="{selected:activeItem===key}">-->
         <div class="flexbox02">
           <div class="icon">
             <img v-bind:src="post.imageUrl" alt>
           </div>
           <div class="bodyText">
             <p class="card-text">{{ post.body }}</p>
-
-            <!-- activeItem = key　がfalseのとき、inActive はtrue -->
-            <!-- <div class="editText" v-bind:class="{inActive:activeItem!==key}">
-                            <p>編集
-                                <i class="fas fa-pencil-alt"></i>
-                            </p>
-            </div>-->
-            <!-- <button type="submit" @click="count(key, post)">カウント数を表示する！</button> -->
           </div>
           <div class="DLurl">
             <img v-bind:src="post.downloadURL">
@@ -50,17 +35,6 @@
         </div>
       </div>
     </b-card-group>
-    <!-- <b-modal id="modalPrevent"
-        ref="modal"
-        title="Submit your message"
-        @ok="handleOk"
-        @shown="clearName">
-    <form @submit.stop.prevent="handleSubmit">
-        <b-form-input type="text"
-                    placeholder="Enter your name"
-                    v-model="name"></b-form-input>
-    </form>
-    </b-modal>-->
     <div>
       <b-modal ref="myModalRef" hide-footer title="編集画面">
         <div class="d-block text-center">
@@ -90,14 +64,10 @@ export default {
       postId: null,
       activeItem: "",
       selectedItem: "",
-      //   isActive: true,
-      //   name: '',
-      //   names: [],
       modalPost: {},
       modalPostKey: {},
       likedCount: [],
       likedPostIndex: "",
-
     };
   },
   created: function() {
@@ -114,23 +84,6 @@ export default {
     });
   },
   methods: {
-    // createPost: function() {
-    //   if (this.newPostBody == "") {
-    //     return;
-    //   }
-    //   let imageUrl =
-    //     "https://via.placeholder.com/100x100/000000/FFFFFF?text=" +
-    //     this.user.email.slice(0, 1);
-    //   this.postsRef.push({
-    //     body: this.newPostBody,
-    //     imageUrl: imageUrl,
-    //     userUid: this.user.uid,
-    //     userEmail: this.user.email
-    //   });
-    //   this.newPostBody = "";
-    //   // Post成功時にメッセージを表示する
-    //   this.postMsg = true;
-    // },
     updatePost: function() {
       console.log(this.modalPostKey);
       // textareaの値を取得
@@ -141,9 +94,6 @@ export default {
       // 編集後、モーダルを閉じる
       this.hideModal();
     },
-
-    // Modal --------------------------
-
     // 「編集」押下でモーダルを開く
     showModal(key, post) {
       this.modalPost = post;
@@ -155,23 +105,19 @@ export default {
     hideModal() {
       this.$refs.myModalRef.hide();
     },
-    // Modal/ --------------------------
-
     deletePost: function(key) {
       this.database
         .ref("posts")
         .child(key)
         .remove();
     },
-
     //いいねしたときの処理
     likePost: function(key, post) {
       console.log(key);
       console.log(post);
 
-      var user = firebase.auth().currentUser; //現在ログインしているユーザーの情報を取得
-      console.log(user);
-      var userUid = user.uid;
+      //現在ログインしているユーザーの情報を取得
+      var userUid = localStorage.getItem('currentUserUid');
       console.log(userUid);
 
       // users/userUid/likedPostsにデータを追加（独自idが生成される）
@@ -201,15 +147,6 @@ export default {
   opacity: 0.5;
   cursor: pointer;
 }
-
-/* 「編集」文字をカード上に表示 */
-/* .selected:after {
-        content: "編集";
-        z-index: 1;
-        display: block;
-        text-align: center;
-        font-size: 30px;
-    } */
 
 .inActive {
   display: none;

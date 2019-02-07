@@ -90,6 +90,11 @@ export default {
       }
     })
 
+    var user = firebase.auth().currentUser; //現在ログインしているユーザーの情報を取得
+    console.log(user.uid);
+    // localstorageにuserUidを保存
+    localStorage.setItem('currentUserUid', user.uid);
+
     // 投稿一覧を取得する
     this.database = firebase.database()
     this.postsRef = this.database.ref('posts')
