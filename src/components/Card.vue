@@ -6,7 +6,7 @@
           {{ post.userEmail }}
           <!-- <button type="button" class="close" v-on:click="deletePost(key)"> -->
           <div>
-            <b-dropdown id="ddown-sm ddown-left" right size="sm" class="close">
+            <b-dropdown id="ddown-sm ddown-left" right size="sm" class="close" v-if="myPosts(post)">
               <b-dropdown-item-button v-b-modal.modalPrevent @click="showModal(key, post)">編集</b-dropdown-item-button>
               <b-dropdown-divider></b-dropdown-divider>
               <b-dropdown-item-button v-on:click="deletePost(key)">削除</b-dropdown-item-button>
@@ -88,16 +88,9 @@ export default {
       postMsg: false,
       user: {},
       postId: null,
-      activeItem: "",
-      selectedItem: "",
-      //   isActive: true,
-      //   name: '',
-      //   names: [],
       modalPost: {},
       modalPostKey: {},
       likedCount: [],
-      likedPostIndex: "",
-
     };
   },
   created: function() {
@@ -112,6 +105,38 @@ export default {
         this.signedIn = false;
       }
     });
+
+    // 投稿一覧を取得する
+    // this.database = firebase.database();
+    // this.postsRef = this.database.ref("posts");
+    // var _this = this;
+    // this.postsRef.on("value", function(snapshot) {
+    //   _this.posts = snapshot.val(); // データに変化が起きたときに再取得する
+    // });
+  },
+  computed: {
+    allPosts: function() {
+      return this.posts;
+    },
+    //自分の投稿にだけ「編集/削除」プルダウンを表示する
+    myPosts: function(post){
+      // let selfA = this;
+      // console.log(selfA);
+      console.log(post);
+      return function(post) {
+        var user = firebase.auth().currentUser; //現在ログインしているユーザーの情報を取得
+        var userUid = user.uid;
+        console.log(post);
+        console.log(post.userUid);
+        var postUserUid = post.userUid;
+
+        if(userUid === postUserUid) {
+          return this.post = true;
+        } else {
+          return this.post = false;
+        }
+      }
+    }
   },
   methods: {
     // createPost: function() {

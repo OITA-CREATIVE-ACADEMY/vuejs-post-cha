@@ -23,7 +23,7 @@
           <b-btn v-b-modal.modalPrevent>始める</b-btn>
         </div>
       </div>
-      <card-lists></card-lists>
+      <!-- <card-lists></card-lists> -->
       <!-- signin modal -->
       <b-modal hide-footer id="modalPrevent"
           ref="modal"
