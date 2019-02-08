@@ -85,6 +85,9 @@ export default {
         this.signedIn = true
         // debug
         console.log(this.user)
+        console.log(this.user.uid)
+        // localstorageにuserUidを保存
+        localStorage.setItem('currentUserUid', this.user.uid);
       } else {
         this.signedIn = false
       }
