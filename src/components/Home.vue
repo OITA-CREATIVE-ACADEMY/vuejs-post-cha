@@ -1,9 +1,9 @@
 <template>
   <div class="home">
-    <div class="wrapper">
+    <div class="wrappers">
       <!-- 新規投稿用カード -->
-      <!-- <new-post></new-post> -->
-      <div class="jumbotron">
+      <new-post></new-post>
+      <!-- <div class="jumbotron">
         <h2 class="display-5">〈POST-cha!〉へようこそ！！</h2>
         <p class="lead-2">まずはあなたの言葉で、気楽にPOSTしてみてください。</p>
         <p class="lead-2">そこから新たな出会いが生まれるかもしれません。</p>
@@ -20,12 +20,12 @@
           <p v-if="postMsg" class="text-success">投稿しました!</p>
         </div>
         <div v-if="!signedIn">
-          <b-btn v-b-modal.modalPrevent>始める</b-btn>
+          <b-btn v-b-modal.signin-modalPrevent>始める</b-btn>
         </div>
-      </div>
-      <card-lists></card-lists>
+      </div> -->
+      <!-- <card-lists></card-lists> -->
       <!-- signin modal -->
-      <b-modal hide-footer id="modalPrevent"
+      <!-- <b-modal hide-footer id="modalPrevent"
           ref="modal"
           title="ログイン">
         <form @submit.stop.prevent="handleSubmit">
@@ -36,7 +36,7 @@
         <p>アカウントをお持ちでない方はこちら 
           <router-link to="/signup">新規登録!!</router-link>
         </p>
-      </b-modal>
+      </b-modal> -->
       
       <!-- /新規投稿用カード -->
 
@@ -85,6 +85,9 @@ export default {
         this.signedIn = true
         // debug
         console.log(this.user)
+        console.log(this.user.uid)
+        // localstorageにuserUidを保存
+        localStorage.setItem('currentUserUid', this.user.uid);
       } else {
         this.signedIn = false
       }
@@ -129,25 +132,25 @@ export default {
     },
 
     // signin modal 
-    clearName () {
-    this.name = ''
-    },
-    signIn: function () {
-      firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
-        res => {
-          console.log(res)
-          alert('ログインしました!')
-          this.$router.push('/')
-          this.hideModal();
-        },
-        err => {
-          alert(err.message)
-        }
-      )
-    },
-    hideModal() {
-      this.$refs.modal.hide();
-    }
+    // clearName () {
+    // this.name = ''
+    // },
+    // signIn: function () {
+    //   firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
+    //     res => {
+    //       console.log(res)
+    //       alert('ログインしました!')
+    //       this.$router.push('/')
+    //       this.hideModal();
+    //     },
+    //     err => {
+    //       alert(err.message)
+    //     }
+    //   )
+    // },
+    // hideModal() {
+    //   this.$refs.modal.hide();
+    // }
     // signIn (evt) {
     //   // Prevent modal from closing
     //   evt.preventDefault()
@@ -181,7 +184,7 @@ textarea {
     padding: 10px;
 }
 
-.card {
+/* .card {
     margin: 20px;
-}
+} */
 </style>

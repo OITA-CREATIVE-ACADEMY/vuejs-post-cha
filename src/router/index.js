@@ -73,14 +73,14 @@ router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
   if (requiresAuth) {
     // このルートはログインされているかどうか認証が必要です。
-    // もしされていないならば、ログインページにリダイレクトします。
+    // もしされていないならば、ホームにリダイレクトします。
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
         // User is signed in.
         next()
       } else {
         next({
-          path: '/signin',
+          path: '/',
           query: { redirect: to.fullPath }
         })
       }

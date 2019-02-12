@@ -1,43 +1,28 @@
 <template>
   <div>
-    <b-card-group deck class="flexbox01">
-      <div v-for="(post, key) in posts" v-bind:key="post.id" class="card">
+    <b-card-group deck class="d-flex flex-column-reverse w-100">
+      <div v-for="(post, key) in posts" v-bind:key="post.id" class="card my-2">
         <div class="card-header">
           {{ post.userEmail }}
-          <!-- <button type="button" class="close" v-on:click="deletePost(key)"> -->
           <div>
-            <b-dropdown id="ddown-sm ddown-left" right size="sm" class="close">
+            <b-dropdown id="ddown-sm ddown-left" right size="sm" class="close" v-if="myPosts(post)">
               <b-dropdown-item-button v-b-modal.modalPrevent @click="showModal(key, post)">編集</b-dropdown-item-button>
               <b-dropdown-divider></b-dropdown-divider>
               <b-dropdown-item-button v-on:click="deletePost(key)">削除</b-dropdown-item-button>
             </b-dropdown>
           </div>
-          <!-- </button> -->
         </div>
-        <!-- <div class="flexbox02"
-            v-on:mouseover="activeItem=key"
-            v-on:mouseout="activeItem=''" 
-            v-on:click="updatePost(key)"
-        v-bind:class="{selected:activeItem===key}">-->
-        <div class="flexbox02">
+        <div class="d-flex flex-row justify-content-between align-items-center">
           <div class="icon">
             <img v-bind:src="post.imageUrl" alt>
           </div>
           <div class="bodyText">
             <p class="card-text">{{ post.body }}</p>
-
-            <!-- activeItem = key　がfalseのとき、inActive はtrue -->
-            <!-- <div class="editText" v-bind:class="{inActive:activeItem!==key}">
-                            <p>編集
-                                <i class="fas fa-pencil-alt"></i>
-                            </p>
-            </div>-->
-            <!-- <button type="submit" @click="count(key, post)">カウント数を表示する！</button> -->
           </div>
           <div class="DLurl">
             <img v-bind:src="post.downloadURL">
           </div>
-          <div class="likeBtn flexbox03">
+          <div class="likeBtn d-flex flex-column">
             <button
               type="submit"
               v-on:click="likePost(key, post)"
@@ -50,17 +35,6 @@
         </div>
       </div>
     </b-card-group>
-    <!-- <b-modal id="modalPrevent"
-        ref="modal"
-        title="Submit your message"
-        @ok="handleOk"
-        @shown="clearName">
-    <form @submit.stop.prevent="handleSubmit">
-        <b-form-input type="text"
-                    placeholder="Enter your name"
-                    v-model="name"></b-form-input>
-    </form>
-    </b-modal>-->
     <div>
       <b-modal ref="myModalRef" hide-footer title="編集画面">
         <div class="d-block text-center">
@@ -88,16 +62,9 @@ export default {
       postMsg: false,
       user: {},
       postId: null,
-      activeItem: "",
-      selectedItem: "",
-      //   isActive: true,
-      //   name: '',
-      //   names: [],
       modalPost: {},
       modalPostKey: {},
       likedCount: [],
-      likedPostIndex: "",
-
     };
   },
   created: function() {
@@ -112,25 +79,40 @@ export default {
         this.signedIn = false;
       }
     });
+
+    // 投稿一覧を取得する
+    this.database = firebase.database();
+    // this.postsRef = this.database.ref("posts");
+    // var _this = this;
+    // this.postsRef.on("value", function(snapshot) {
+    //   _this.posts = snapshot.val(); // データに変化が起きたときに再取得する
+    // });
+  },
+  computed: {
+    allPosts: function() {
+      return this.posts;
+    },
+    //自分の投稿にだけ「編集/削除」プルダウンを表示する
+    myPosts: function(post){
+      // let selfA = this;
+      // console.log(selfA);
+      console.log(post);
+      return function(post) {
+        var user = firebase.auth().currentUser; //現在ログインしているユーザーの情報を取得
+        var userUid = user.uid;
+        console.log(post);
+        console.log(post.userUid);
+        var postUserUid = post.userUid;
+
+        if(userUid === postUserUid) {
+          return this.post = true;
+        } else {
+          return this.post = false;
+        }
+      }
+    }
   },
   methods: {
-    // createPost: function() {
-    //   if (this.newPostBody == "") {
-    //     return;
-    //   }
-    //   let imageUrl =
-    //     "https://via.placeholder.com/100x100/000000/FFFFFF?text=" +
-    //     this.user.email.slice(0, 1);
-    //   this.postsRef.push({
-    //     body: this.newPostBody,
-    //     imageUrl: imageUrl,
-    //     userUid: this.user.uid,
-    //     userEmail: this.user.email
-    //   });
-    //   this.newPostBody = "";
-    //   // Post成功時にメッセージを表示する
-    //   this.postMsg = true;
-    // },
     updatePost: function() {
       console.log(this.modalPostKey);
       // textareaの値を取得
@@ -141,9 +123,6 @@ export default {
       // 編集後、モーダルを閉じる
       this.hideModal();
     },
-
-    // Modal --------------------------
-
     // 「編集」押下でモーダルを開く
     showModal(key, post) {
       this.modalPost = post;
@@ -155,23 +134,19 @@ export default {
     hideModal() {
       this.$refs.myModalRef.hide();
     },
-    // Modal/ --------------------------
-
     deletePost: function(key) {
       this.database
         .ref("posts")
         .child(key)
         .remove();
     },
-
     //いいねしたときの処理
     likePost: function(key, post) {
       console.log(key);
       console.log(post);
 
-      var user = firebase.auth().currentUser; //現在ログインしているユーザーの情報を取得
-      console.log(user);
-      var userUid = user.uid;
+      //現在ログインしているユーザーの情報を取得
+      var userUid = localStorage.getItem('currentUserUid');
       console.log(userUid);
 
       // users/userUid/likedPostsにデータを追加（独自idが生成される）
@@ -195,65 +170,6 @@ export default {
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-/* マウスオーバー時にCardの背景色を変更 */
-.selected {
-  background-color: #ff50ac;
-  opacity: 0.5;
-  cursor: pointer;
-}
-
-/* 「編集」文字をカード上に表示 */
-/* .selected:after {
-        content: "編集";
-        z-index: 1;
-        display: block;
-        text-align: center;
-        font-size: 30px;
-    } */
-
-.inActive {
-  display: none;
-}
-
-.editText {
-  font-size: 30px;
-  color: black;
-  position: absolute;
-  right: 40%;
-  top: 40%;
-  letter-spacing: 15px;
-}
-
-.flexbox01 {
-  display: flex;
-  flex-direction: column-reverse;
-}
-
-.flexbox02 {
-  display: flex;
-  flex-direction: row;
-  /* 両端揃え */
-  justify-content: space-between;
-  /* 上下中央揃え */
-  align-items: center;
-}
-
-.flexbox03 {
-  display: flex;
-  flex-direction: column;
-}
-
-header {
-  text-align: left;
-}
-
-p {
-  margin: 20px;
-}
-
-.card-text {
-  text-align: left;
-}
 
 .icon img, .DLurl img {
   width: 100px;
@@ -282,10 +198,6 @@ b-button {
 /* アイコン */
 
 .heartIcon {
-  /* position: absolute;
-        bottom: 0;
-        right: 0;
-        padding: 10px; */
   font-size: 30px;
   color: #ff50ac;
   cursor: pointer;
@@ -298,23 +210,18 @@ b-button {
 }
 
 /* responsive（カードサイズ） */
-/* カードサイズを画面サイズに応じて変更 */
 /* 画面が1020px以上の時 */
 @media (min-width: 1050px) {
-  .card {
+  /* .card {
     width: 1000px;
     margin: 10px 0;
-  }
+  } */
 
-  .flexbox01 {
-    /* カードを左右中央揃え */
-    align-items: center;
-  }
 }
 /* 画面が1019px以下のとき */
 @media (max-width: 1049px) {
-  .card {
+  /* .card {
     margin: 10px 50px;
-  }
+  } */
 }
 </style>

@@ -10,13 +10,11 @@
     <div class="profilePosts_all">
       <b-card no-body>
         <b-tabs card>
-          <b-tab title="My Posts" active class="myPosts">
-            My Post一覧<br>
-            <cardList :posts="myPosts"></cardList>
+          <b-tab title="自分の投稿" active class="myPosts">
+            <my-post :user="user"></my-post>
           </b-tab>
-          <b-tab title="Likes♡" class="myLike">
-            Like 一覧 <i class="far fa-kiss-wink-heart"></i>
-            <like-lists></like-lists>
+          <b-tab title="いいねした投稿" class="myLike">
+            <liked-post :user="user"></liked-post>
           </b-tab>
         </b-tabs>
       </b-card>
@@ -29,55 +27,32 @@ import Vue from 'vue';
 import firebase from 'firebase'
 import Profile from '@/components/Profile';
 import Upload from '@/components/Upload';
-import Like from '@/components/Like';
-import Card from '@/components/Card';
-
-// var userUid
-var currentUserUid;
+import MyPost from '@/components/modules/MyPost';
+import LikedPost from '@/components/modules/LikedPost';
 
 export default {
   name: 'Mypage',
   components: {
     'user-profile': Profile,
     'image-upload': Upload,
-    'cardList': Card,
-    'like-lists': Like
+    'my-post': MyPost,
+    'liked-post': LikedPost,
   },
   data () {
     return {
-      database: null,
-      postsRef: null,
-      msg: 'ここはMYPAGEページです',
       user: {},
-      myPosts: [],
-
     }
   },
   created: function() {
     // ログインユーザーを取得する
     this.user = firebase.auth().currentUser
-    if (this.user) {
-      this.database = firebase.database();
-      this.postsRef = this.database.ref('posts');
-      var _this = this;
-      console.log(this.user.uid);
-      this.postsRef.orderByChild("userUid").equalTo(this.user.uid).on("value", function(posts) {
-        console.log(posts.val());
-        _this.myPosts = posts.val();
-      });
+    if (!this.user) {
+      this.$router.push('/')
     }
   },
-  computed: {
-   
-  },
-  methods: {
-    
-  }
 }
-
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h1, h2 {
   font-weight: normal;

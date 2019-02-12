@@ -41,10 +41,13 @@
           <p v-if="postMsg" class="text-success">投稿しました!</p>
         </div>
         <div v-if="!signedIn">
+          <b-btn v-b-modal.signin-modalPrevent>始める</b-btn>
+        </div>
+        <!-- <div v-if="!signedIn">
           <p class="lead">
             <router-link to="/signin" class="btn btn-success btn-lg">始める!</router-link>
           </p>
-        </div>
+        </div> -->
       </div>
     </div>
 　</div>
