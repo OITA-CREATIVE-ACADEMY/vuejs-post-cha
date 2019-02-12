@@ -81,7 +81,7 @@ export default {
     });
 
     // 投稿一覧を取得する
-    // this.database = firebase.database();
+    this.database = firebase.database();
     // this.postsRef = this.database.ref("posts");
     // var _this = this;
     // this.postsRef.on("value", function(snapshot) {
