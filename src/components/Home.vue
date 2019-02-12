@@ -20,10 +20,10 @@
           <p v-if="postMsg" class="text-success">投稿しました!</p>
         </div>
         <div v-if="!signedIn">
-          <b-btn v-b-modal.modalPrevent>始める</b-btn>
+          <b-btn v-b-modal.signin-modalPrevent>始める</b-btn>
         </div>
       </div>
-      <card-lists></card-lists>
+      <!-- <card-lists></card-lists> -->
       <!-- signin modal -->
       <!-- <b-modal hide-footer id="modalPrevent"
           ref="modal"
