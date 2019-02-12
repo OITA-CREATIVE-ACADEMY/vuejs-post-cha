@@ -1,9 +1,9 @@
 <template>
   <div class="home">
-    <div class="wrapper">
+    <div class="wrappers">
       <!-- 新規投稿用カード -->
-      <!-- <new-post></new-post> -->
-      <div class="jumbotron">
+      <new-post></new-post>
+      <!-- <div class="jumbotron">
         <h2 class="display-5">〈POST-cha!〉へようこそ！！</h2>
         <p class="lead-2">まずはあなたの言葉で、気楽にPOSTしてみてください。</p>
         <p class="lead-2">そこから新たな出会いが生まれるかもしれません。</p>
@@ -22,7 +22,7 @@
         <div v-if="!signedIn">
           <b-btn v-b-modal.modalPrevent>始める</b-btn>
         </div>
-      </div>
+      </div> -->
       <!-- <card-lists></card-lists> -->
       <!-- signin modal -->
       <b-modal hide-footer id="modalPrevent"
@@ -184,7 +184,7 @@ textarea {
     padding: 10px;
 }
 
-.card {
+/* .card {
     margin: 20px;
-}
+} */
 </style>

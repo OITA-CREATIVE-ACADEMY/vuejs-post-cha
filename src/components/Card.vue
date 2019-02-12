@@ -1,7 +1,7 @@
 <template>
   <div>
-    <b-card-group deck class="flexbox01">
-      <div v-for="(post, key) in posts" v-bind:key="post.id" class="card">
+    <b-card-group deck class="d-flex flex-column-reverse w-100">
+      <div v-for="(post, key) in posts" v-bind:key="post.id" class="card my-2">
         <div class="card-header">
           {{ post.userEmail }}
           <div>
@@ -12,7 +12,7 @@
             </b-dropdown>
           </div>
         </div>
-        <div class="flexbox02">
+        <div class="d-flex flex-row justify-content-between align-items-center">
           <div class="icon">
             <img v-bind:src="post.imageUrl" alt>
           </div>
@@ -22,7 +22,7 @@
           <div class="DLurl">
             <img v-bind:src="post.downloadURL">
           </div>
-          <div class="likeBtn flexbox03">
+          <div class="likeBtn d-flex flex-column">
             <button
               type="submit"
               v-on:click="likePost(key, post)"
@@ -170,56 +170,6 @@ export default {
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-/* マウスオーバー時にCardの背景色を変更 */
-.selected {
-  background-color: #ff50ac;
-  opacity: 0.5;
-  cursor: pointer;
-}
-
-.inActive {
-  display: none;
-}
-
-.editText {
-  font-size: 30px;
-  color: black;
-  position: absolute;
-  right: 40%;
-  top: 40%;
-  letter-spacing: 15px;
-}
-
-.flexbox01 {
-  display: flex;
-  flex-direction: column-reverse;
-}
-
-.flexbox02 {
-  display: flex;
-  flex-direction: row;
-  /* 両端揃え */
-  justify-content: space-between;
-  /* 上下中央揃え */
-  align-items: center;
-}
-
-.flexbox03 {
-  display: flex;
-  flex-direction: column;
-}
-
-header {
-  text-align: left;
-}
-
-p {
-  margin: 20px;
-}
-
-.card-text {
-  text-align: left;
-}
 
 .icon img, .DLurl img {
   width: 100px;
@@ -248,10 +198,6 @@ b-button {
 /* アイコン */
 
 .heartIcon {
-  /* position: absolute;
-        bottom: 0;
-        right: 0;
-        padding: 10px; */
   font-size: 30px;
   color: #ff50ac;
   cursor: pointer;
@@ -264,23 +210,18 @@ b-button {
 }
 
 /* responsive（カードサイズ） */
-/* カードサイズを画面サイズに応じて変更 */
 /* 画面が1020px以上の時 */
 @media (min-width: 1050px) {
-  .card {
+  /* .card {
     width: 1000px;
     margin: 10px 0;
-  }
+  } */
 
-  .flexbox01 {
-    /* カードを左右中央揃え */
-    align-items: center;
-  }
 }
 /* 画面が1019px以下のとき */
 @media (max-width: 1049px) {
-  .card {
+  /* .card {
     margin: 10px 50px;
-  }
+  } */
 }
 </style>
