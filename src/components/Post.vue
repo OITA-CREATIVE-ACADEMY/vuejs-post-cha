@@ -26,7 +26,8 @@
           v-if="uploading && !uploadEnd"
           :value="progressUpload"
           show-value
-          variant="info">
+          variant="info"
+          class="progress-bar">
           </b-progress>
           <br>
           <img
@@ -167,6 +168,7 @@ export default {
 
 .progress-bar {
   margin: 10px 0;
+
 }
 
 h1, h2 {
@@ -189,24 +191,24 @@ header {
     background-color: black;
 }
 
-p{
+/* p{
     margin-bottom: 0;
-}
+} */
 
-p.title {
+/* p.title {
     color: white;
     font-size: 15px;
-}
+} */
 
 .display-5 {
   text-align-last: center;
-  /* font-size: 1rem; */
+  font-size:　1rem;
   margin-bottom: 20px;
 }
 
 .lead-2 {
   text-align-last: center;
-  font-size: 1rem;
+  font-size:13px;
 }
 
 .wrapper {
