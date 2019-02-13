@@ -19,7 +19,8 @@
           <div class="bodyText">
             <p class="card-text">{{ post.body }}</p>
           </div>
-          <div class="DLurl">
+          <div class="DLurl" 
+                @click="zoomImg(key, post)">
             <img v-bind:src="post.downloadURL">
           </div>
           <div class="likeBtn d-flex flex-column">
@@ -44,6 +45,14 @@
         <b-btn class="mt-3" variant="outline-danger" block @click="hideModal">Cancel</b-btn>
       </b-modal>
     </div>
+    <!-- imgModal -->
+    <div>
+      <b-modal ref="imgZoomModalRef" centered hide-footer>
+        <div class="d-block">
+          <img v-bind:src="zoomModalPost.downloadURL" class="w-100">
+        </div>
+      </b-modal>
+    </div>
   </div>
 </template>
 
@@ -65,6 +74,8 @@ export default {
       modalPost: {},
       modalPostKey: {},
       likedCount: [],
+      zoomModalPost: {},
+
     };
   },
   created: function() {
@@ -164,7 +175,21 @@ export default {
       post.likedCount += 1
       console.log(post.likedCount);
       this.database.ref('posts/' + key + '/likedCount').set(post.likedCount);
-    }
+    },
+    // 画像にマウスオーバーしたとき
+    // active: function(key) {
+    //   console.log(key);
+    //   alert("active");
+      
+    // }
+
+    zoomImg(key, post) {
+      this.zoomModalPost = post;
+      console.log(this.zoomModalPost);      
+      this.$refs.imgZoomModalRef.show();
+    },
+
+
   }
 };
 </script>
@@ -176,6 +201,11 @@ export default {
   height: 100px;
   margin: 20px;
   border-radius: 5%;
+}
+
+.DLurl img {
+  object-fit: cover;
+  cursor: pointer;
 }
 
 b-button {
