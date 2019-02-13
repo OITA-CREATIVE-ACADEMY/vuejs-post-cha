@@ -19,7 +19,8 @@
           <div class="bodyText">
             <p class="card-text">{{ post.body }}</p>
           </div>
-          <div class="DLurl" 
+          <div class="DLurl"
+                v-if="postImg(post)"
                 @click="zoomImg(key, post)">
             <img v-bind:src="post.downloadURL">
           </div>
@@ -75,7 +76,6 @@ export default {
       modalPostKey: {},
       likedCount: [],
       zoomModalPost: {},
-
     };
   },
   created: function() {
@@ -91,7 +91,7 @@ export default {
       }
     });
 
-    // 投稿一覧を取得する
+    // データベースを定義
     this.database = firebase.database();
     // this.postsRef = this.database.ref("posts");
     // var _this = this;
@@ -121,6 +121,20 @@ export default {
           return this.post = false;
         }
       }
+    },
+    // 投稿画像の有無でカード表示を切り替え
+    postImg: function(post) {
+      return function (post) {
+        console.log(post);
+        var imgPost = post.downloadURL;
+        console.log(imgPost);
+
+          if(imgPost === "" || imgPost === undefined) {
+          return this.post = false;
+        } else {
+          return this.post = true;
+        } 
+      }  
     }
   },
   methods: {
@@ -188,8 +202,6 @@ export default {
       console.log(this.zoomModalPost);      
       this.$refs.imgZoomModalRef.show();
     },
-
-
   }
 };
 </script>
