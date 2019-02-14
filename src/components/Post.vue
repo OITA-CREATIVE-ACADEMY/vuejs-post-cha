@@ -29,7 +29,7 @@
           variant="info"
           class="progress-bar">
           </b-progress>
-          <br>
+          </br>
           <img
           v-if="uploadEnd"
           :src="downloadURL"
@@ -191,19 +191,18 @@ header {
     background-color: black;
 }
 
-/* p{
-    margin-bottom: 0;
-} */
-
-/* p.title {
+p{
+      margin-bottom: 0;
+}
+p.title {
     color: white;
     font-size: 15px;
-} */
+}
 
 .display-5 {
   text-align-last: center;
-  font-size:　1rem;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
+  font-size:24px;
 }
 
 .lead-2 {
@@ -237,17 +236,4 @@ textarea {
     height:100px;
     padding: 10px;
 }
-
-/* タイトルとサブタイトルのサイズを修正 */
-@media (max-width: 540px) {
-  .lead-2 {
-    text-align-last: left;
-  }
-  .display-5 {
-    width: 100%;
-    text-align-last: center;
-    font-size: 1.7rem;
-  }
-}
-
 </style>
