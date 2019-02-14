@@ -35,8 +35,9 @@ export default {
         _this.postsRef.child(key).on("value", function(snapshot){
           // debug
           console.log(snapshot.val())
-
-          _this.posts.push(snapshot.val())
+          if (snapshot.val()) {
+            _this.posts.push(snapshot.val())
+          }
         })
       })
     })

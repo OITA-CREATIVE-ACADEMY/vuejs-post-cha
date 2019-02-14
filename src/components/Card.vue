@@ -16,6 +16,7 @@
         <div class="d-flex flex-row justify-content-between align-items-center">
           <div class="icon">
             <img v-bind:src="post.imageUrl" alt>
+            <!-- user.photo.URL -->
           </div>
           <div class="bodyText">
             <p class="card-text">{{ post.body }}</p>
