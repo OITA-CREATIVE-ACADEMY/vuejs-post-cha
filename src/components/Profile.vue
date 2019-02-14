@@ -35,12 +35,14 @@
             <h3>
               {{ user.displayName || "ニックネーム未設定" }}
             </h3>
+          </div>
+          <div class="profire_userName_editWrap">
+            <div class="profire_userData profile_userName_input">
+              ニックネームの変更：<input type="text" v-model="user.displayName">
+            </div>
             <b-btn v-b-tooltip.hover.right title="名前を変更する！" class="profile_userName_edit editButton" v-on:click="changeName()">
               変更<i class="fas fa-pencil-alt"></i>
             </b-btn>
-          </div>
-          <div class="profire_userData profile_userName_input">
-            <input type="text" v-model="user.displayName">
           </div>
           <div class="profile_userData profile_userMail">
             <h4>{{ user.email }}</h4>
@@ -157,6 +159,26 @@ export default {
 
 .profile_userName {
   text-decoration: underline;
+}
+
+.profire_userName_editWrap {
+  display: flex;
+}
+
+.profile_userName_input {
+  width: 100%;
+  text-align: left;
+  margin-bottom: 0.5em;
+}
+
+.profile_userName_input input {
+  min-width: 10vw;
+  width: 20em;
+  max-width: 30em;
+  padding: 0.2em;
+  background-color: #E8ECEF;
+  border: none;
+  border-bottom: 1px solid #000;
 }
 
 .profile_img {
