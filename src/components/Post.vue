@@ -16,39 +16,37 @@
         <!-- 画像追加 -->
         <div>
           <input
-          id="files"
-          type="file"
-          name="file"
-          accept="image/*"
-          @change="detectFiles($event)" />
-          <br>
-          <b-progress
-          v-if="uploading && !uploadEnd"
-          :value="progressUpload"
-          show-value
-          variant="info"
-          class="progress-bar">
-          </b-progress>
-          </br>
-          <img
-          v-if="uploadEnd"
-          :src="downloadURL"
-          width="45%"/>
-          <div v-if="uploadEnd">
-            <button class="m-3" @click="deleteImage()">
-              Delete
-            </button>
-          </div>
+            id="files"
+            type="file"
+            name="file"
+            accept="image/*"
+            @change="detectFiles($event)" />
+            <img
+              v-if="uploadEnd"
+              :src="downloadURL"
+              width="45%"/>
+            <div v-if="uploadEnd">
+              <button class="m-3" @click="deleteImage()">
+                Delete
+              </button>
+            </div>
         </div>
-        <p class="lead">
-          <button type="submit" v-on:click="createPost()" class="btn btn-primary btn-lg">投稿する</button>
-        </p>
-        <p v-if="postMsg" class="text-success">投稿しました!</p>
-      </div>
-      <div v-if="!signedIn">
-        <p class="lead">
-          <router-link to="/signin" class="btn btn-success btn-lg">始める!</router-link>
-        </p>
+
+
+
+          <p class="lead">
+            <button type="submit" v-on:click="createPost()" class="btn btn-primary btn-lg">投稿する</button>
+          </p>
+          <p v-if="postMsg" class="text-success">投稿しました!</p>
+        </div>
+        <div v-if="!signedIn">
+          <b-btn v-b-modal.signin-modalPrevent>始める</b-btn>
+        </div>
+        <!-- <div v-if="!signedIn">
+          <p class="lead">
+            <router-link to="/signin" class="btn btn-success btn-lg">始める!</router-link>
+          </p>
+        </div> -->
       </div>
     </div>
   </div>
