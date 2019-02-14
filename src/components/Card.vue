@@ -114,7 +114,12 @@ export default {
       // console.log(selfA);
       console.log(post);
       return function(post) {
+        // カードは出る
+        // ログイン・ログアウトでプルダウン切り替え
         var user = firebase.auth().currentUser; //現在ログインしているユーザーの情報を取得
+        // if (){
+
+        // }
         var userUid = user.uid;
         console.log(post);
         console.log(post.userUid);
