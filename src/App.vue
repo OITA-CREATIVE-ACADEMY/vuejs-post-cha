@@ -180,6 +180,7 @@ p {
 @media (max-width: 767px) {
   .navbar {
     flex-direction: row-reverse;
+    /* padding: 0; */
   }
 }
 </style>

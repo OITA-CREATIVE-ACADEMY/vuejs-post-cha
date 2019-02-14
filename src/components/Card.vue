@@ -38,7 +38,7 @@
       </div>
     </b-card-group>
     <div>
-      <b-modal ref="myModalRef" hide-footer title="編集画面">
+      <b-modal ref="myModalRef" hide-footer centered title="編集画面">
         <div class="d-block text-center">
           <textarea v-model="modalPost.body" name id cols="50" lows="30"></textarea>
         </div>
@@ -245,12 +245,6 @@ b-button {
   cursor: pointer;
 }
 
-.fa-pencil-alt {
-  font-size: 30px;
-  color: black;
-  cursor: pointer;
-}
-
 /* responsive（カードサイズ） */
 /* 画面が1020px以上の時 */
 @media (min-width: 1050px) {
@@ -265,5 +259,43 @@ b-button {
   /* .card {
     margin: 10px 50px;
   } */
+}
+
+@media (max-width: 767px) {
+  .icon img, .DLurl img {
+    width: 60px;
+    height: 60px;
+    margin: 10px;
+    border-radius: 5%;
+  }
+  .card-header {
+    height: 40px;
+  }
+
+  .card {
+    font-size: 0.8rem;
+  }
+
+  .likeBtn {
+    width: 50px;
+    height: 70px;
+  }
+
+  .close {
+  padding: 5px;
+  font-size: 20px;
+  }
+
+  .heartIcon {
+  font-size: 20px;
+  }
+
+  .btn-lg {
+    padding: 0.5rem;
+  }
+
+
+
+
 }
 </style>
