@@ -5,7 +5,8 @@
         <div class="card-header">
           {{ post.userEmail }}
           <div>
-            <b-dropdown id="ddown-sm ddown-left" right size="sm" class="close" v-if="myPosts(post)">
+            <b-dropdown id="ddown-sm ddown-left" right size="sm" class="close" v-if="myPosts(post)" v-b-popover.hover.left="'投稿を編集 / 削除'"
+               variant="primary">
               <b-dropdown-item-button v-b-modal.modalPrevent @click="showModal(key, post)">編集</b-dropdown-item-button>
               <b-dropdown-divider></b-dropdown-divider>
               <b-dropdown-item-button v-on:click="deletePost(key)">削除</b-dropdown-item-button>
@@ -21,7 +22,9 @@
           </div>
           <div class="DLurl"
                 v-if="postImg(post)"
-                @click="zoomImg(key, post)">
+                @click="zoomImg(key, post)"
+                v-b-popover.hover.left="'Zoom!'"
+                variant="primary">
             <img v-bind:src="post.downloadURL">
           </div>
           <div class="likeBtn d-flex flex-column">
@@ -29,6 +32,8 @@
               type="submit"
               v-on:click="likePost(key, post)"
               class="btn btn-outline-primary btn-lg"
+              v-b-popover.hover.left="'いいね!'"
+              variant="primary"
             >
               <div class="likeCount">{{ post.likedCount }}</div>
               <i class="far fa-kiss-wink-heart heartIcon"></i>
@@ -207,7 +212,6 @@ export default {
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 .icon img, .DLurl img {
   width: 100px;
   height: 100px;
