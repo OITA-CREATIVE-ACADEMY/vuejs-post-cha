@@ -13,7 +13,7 @@
               <div class="input-group-append">
               </div>
             </div>
-
+          <small id="rem">残り{{postLengthCount}}文字</small>
     　　<!-- 画像追加 -->
         <div>
           <input
@@ -99,6 +99,9 @@ export default {
   computed: {
     allPosts: function () {
       return this.posts
+    },
+    postLengthCount: function () {
+      return 200 - this.newPostBody.length;
     }
   },
   methods: {
@@ -156,6 +159,10 @@ export default {
           this.$emit('downloadURL', downloadURL)
         })
       })
+    },
+    postLengthCheck: function(newVal, oldVal) {
+      this.error.require = (newVal.length < 1) ? true : false; // 最低文字数(1文字以上)
+      this.error.tooLong = (newVal.length > 201) ? true : false; // 最大文字数(10文字まで)
     }
   }
 }
