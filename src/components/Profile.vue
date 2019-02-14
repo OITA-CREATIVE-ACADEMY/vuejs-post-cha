@@ -106,7 +106,12 @@ export default {
       console.log(selectedIcon);
 
       var user = firebase.auth().currentUser;
+      var currentUserUid = user.uid;
       var photoURL = user.photoURL;
+
+      this.database = firebase.database();
+      let usersRef = this.database.ref("users/" + currentUserUid + "/profile");
+      usersRef.child("photoURL").set(selectedIcon);
 
       user.updateProfile({
          photoURL: selectedIcon
@@ -123,6 +128,14 @@ export default {
     changeName: function (displayName) {
       // ここに名前を変える処理
       var user = firebase.auth().currentUser;
+      var currentUserUid = user.uid;
+
+      this.database = firebase.database();
+      let usersRef = this.database.ref("users/" + currentUserUid + "/profile");
+      usersRef.child("displayName").set(user.displayName);
+      var hogehoge = usersRef.child();
+      console.log(hogehoge);
+      
 
       user.updateProfile({
         get: function() {
