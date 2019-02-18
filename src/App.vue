@@ -151,6 +151,8 @@ export default {
 
     signOut: function () {
       firebase.auth().signOut().then(() => {
+        // localStorageからuserUidを削除
+        localStorage.setItem('currentUserUid', "");
         this.$router.push('/')
       })
     }
