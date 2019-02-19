@@ -133,17 +133,9 @@ export default {
       this.database = firebase.database();
       let usersRef = this.database.ref("users/" + currentUserUid + "/profile");
       usersRef.child("displayName").set(user.displayName);
-      var hogehoge = usersRef.child();
-      console.log(hogehoge);
-      
 
       user.updateProfile({
-        get: function() {
-          displayName: user.displayName
-        },
-        set: function() {
-          this.displayName = displayName;
-        }
+        displayName: user.displayName
       }).then(function() {
         // Update successful.
         console.log(user);
