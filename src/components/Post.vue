@@ -8,12 +8,13 @@
         <p class="lead-2">そこから新たな出会いが生まれるかもしれません。</p>
         <hr class="my-4">
         <div v-if="signedIn">
-          <div class="input-group mb-3">
-            <textarea v-model="newPostBody" name="postdata" placeholder="200字まで入力できます"></textarea><br>
-              <div class="input-group-append">
+          <div class="input-group mb-3 inputPost">
+            <textarea v-model="newPostBody" name="postdata" placeholder="200字まで入力できます"  v-bind:class="{ 'text-danger': error.tooLong, 'text-muted': error.require }" ></textarea><br>
+              <div class="input-group-append" v-bind:class="{ 'text-danger': error.tooLong }">
               </div>
-            </div>
-          <small id="lengthCounter">残り{{postLengthCount}}文字</small>
+            <div id="lengthCounter" class="text-primary h3" v-bind:class="{ 'text-danger': error.tooLong }">{{this.newPostBody.length}}/200</div>
+          </div>
+
     　　<!-- 画像追加 -->
         <div>
           <input
@@ -36,7 +37,7 @@
 
 
           <p class="lead">
-            <button type="submit" v-on:click="createPost()" class="btn btn-primary btn-lg">投稿する</button>
+            <button type="submit" v-on:click="createPost()" class="btn btn-primary btn-lg" :disabled="validated == 1">投稿する</button>
           </p>
           <p v-if="postMsg" class="text-success">投稿しました!</p>
         </div>
@@ -74,6 +75,7 @@ export default {
       uploadEnd: false,
       downloadURL: '',
       error: {
+        empty: false,
         require: false,
         tooLong: false
       }
@@ -106,6 +108,15 @@ export default {
     },
     postLengthCount: function () {
       return 200 - this.newPostBody.length;
+    },
+    validated: function() {
+      // (2 <= this.newPostBody.length) && (this.newPostBody.length <= 200)
+      var length = this.newPostBody.length
+      if (2 <= length && length <= 200) {
+        return false
+      } else {
+        return true
+      }
     }
   },
   methods: {
@@ -165,13 +176,14 @@ export default {
       })
     },
     newPostBody: function(newVal, oldVal) {
-      this.error.require = (newVal.length < 1) ? true : false; // 最低文字数(1文字以上)
-      this.error.tooLong = (newVal.length > 201) ? true : false; // 最大文字数(10文字まで)
+      // this.postLength_200 = (2 < newVal.length > 199) ? true : false; // 最低文字数(2文字以上)
+      // this.error.empty = (newVal.length == 0) ? true : false; // 最低文字数(2文字以上)
+      this.error.require = (newVal.length < 2) ? true : false; // 最低文字数(2文字以上)
+      this.error.tooLong = (newVal.length > 200) ? true : false; // 最大文字数(200文字まで)
       
-      if(this.error.tooLong){
-        alert("エラーだよ！");
+      if(!this.error.tooLong && !this.error.require){
+        this.postJudge = false
       }
-
     }
   }
 }
@@ -244,6 +256,20 @@ textarea {
     width:100%;
     height:100px;
     padding: 10px;
+}
+
+.inputPost {
+  position: relative;
+}
+
+#lengthCounter {
+  position: absolute;
+  right: 0.5em;
+  bottom: 0;
+  font-weight: bold;
+  pointer-events: none;
+  z-index: 100000;
+  opacity: 0.35;
 }
 
 /* タイトルとサブタイトルのサイズを修正 */
