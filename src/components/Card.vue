@@ -111,16 +111,20 @@ export default {
     },
     //自分の投稿にだけ「編集/削除」プルダウンを表示する
     myPosts: function(post){
-      // let selfA = this;
-      // console.log(selfA);
       console.log(post);
       return function(post) {
-        var user = firebase.auth().currentUser; //現在ログインしているユーザーの情報を取得
-        var userUid = user.uid;
-        console.log(post);
-        console.log(post.userUid);
-        var postUserUid = post.userUid;
+        // var user = firebase.auth().currentUser; //現在ログインしているユーザーの情報を取得
+        // console.log(user);
+        // console.log(user.uid);
+        let userUid = localStorage.getItem('currentUserUid');
 
+        // 現在ログインしていればuserUidを保存、していなければ何もしない
+        if (userUid){
+          console.log(post);
+          console.log(post.userUid);
+          var postUserUid = post.userUid;
+        }
+        // ログイン・ログアウトでプルダウン切り替え
         if(userUid === postUserUid) {
           return this.post = true;
         } else {
