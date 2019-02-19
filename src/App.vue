@@ -7,6 +7,7 @@
         <img src="./assets/images/logo.gif" alt="ロゴ">
       </router-link>
     </b-navbar-brand>
+    
 
   <b-collapse is-nav id="nav_collapse">
     <b-navbar-nav>
@@ -34,7 +35,7 @@
           <template slot="button-content">
             <!-- <em>User</em> -->
             <!-- <img="lib/brand-logo.jpg"> -->
-            <img src="https://placekitten.com/g/30/30" class="d-inline-block align-top" alt="アカウント画像">
+            <img src="./assets/images/LadyIcon.png" class="d-inline-block align-top" alt="アカウント画像">
           </template>
           <b-dropdown-item v-if="signedIn">
             <router-link to="/mypage">マイページ</router-link>
