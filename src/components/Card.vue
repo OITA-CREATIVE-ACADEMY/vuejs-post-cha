@@ -4,7 +4,7 @@
       <div v-for="(post, key) in posts" v-bind:key="post.id" class="card my-2">
         <div class="card-header">
           {{ post.userEmail }}
-          <div>
+          <div v-if="signedIn">
             <b-dropdown id="ddown-sm ddown-left" right size="sm" class="close" v-if="myPosts(post)" v-b-popover.hover.left="'投稿を編集 / 削除'"
                variant="primary">
               <b-dropdown-item-button v-b-modal.modalPrevent @click="showModal(key, post)">編集</b-dropdown-item-button>
@@ -111,16 +111,20 @@ export default {
     },
     //自分の投稿にだけ「編集/削除」プルダウンを表示する
     myPosts: function(post){
-      // let selfA = this;
-      // console.log(selfA);
       console.log(post);
       return function(post) {
-        var user = firebase.auth().currentUser; //現在ログインしているユーザーの情報を取得
-        var userUid = user.uid;
-        console.log(post);
-        console.log(post.userUid);
-        var postUserUid = post.userUid;
+        // var user = firebase.auth().currentUser; //現在ログインしているユーザーの情報を取得
+        // console.log(user);
+        // console.log(user.uid);
+        let userUid = localStorage.getItem('currentUserUid');
 
+        // 現在ログインしていればuserUidを保存、していなければ何もしない
+        if (userUid){
+          console.log(post);
+          console.log(post.userUid);
+          var postUserUid = post.userUid;
+        }
+        // ログイン・ログアウトでプルダウン切り替え
         if(userUid === postUserUid) {
           return this.post = true;
         } else {
