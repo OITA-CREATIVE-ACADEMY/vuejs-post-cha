@@ -1,9 +1,9 @@
 <template>
   <div class="post">
-    <div class="wrapper">
+    <div class="wrapper text-center">
      <!-- 新規投稿用カード -->
       <div class="jumbotron">
-        <h2 class="display-5">〈POST-cha!〉へようこそ！！</h2>
+        <h2 class="display-5">POST-cha!へ<br class="d-md-none">ようこそ！！</h2>
         <p class="lead-2">まずはあなたの言葉で、気楽にPOSTしてみてください。</p>
         <p class="lead-2">そこから新たな出会いが生まれるかもしれません。</p>
         <hr class="my-4">
@@ -16,9 +16,12 @@
 
     　　<!-- 画像追加 -->
         <div>
+          <b-button size="sm" variant="light" class="mb-3" @click="trigger()">画像を添付</b-button>
           <input
+            class="d-none"
             id="files"
             type="file"
+            ref="fileInput"
             name="file"
             accept="image/*"
             @change="detectFiles($event)" />
@@ -124,6 +127,9 @@ export default {
         this.upload(fileList[x])
       })
     },
+    trigger () {
+      this.$refs.fileInput.click()
+    },    
     upload (file) {
       this.fileName = file.name
       this.uploading = true
