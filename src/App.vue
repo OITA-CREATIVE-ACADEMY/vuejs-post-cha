@@ -36,7 +36,7 @@
             <!-- <img="lib/brand-logo.jpg"> -->
             <img src="https://placekitten.com/g/30/30" class="d-inline-block align-top" alt="アカウント画像">
           </template>
-          <b-dropdown-item>
+          <b-dropdown-item v-if="signedIn">
             <router-link to="/mypage">マイページ</router-link>
           </b-dropdown-item>
           <b-dropdown-item v-if="!signedIn" v-b-modal.signin-modalPrevent>ログイン
