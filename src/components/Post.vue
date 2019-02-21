@@ -203,9 +203,8 @@ export default {
 <style scoped>
 
 img {
-	width: 300px;
-	height: 300px;
-	object-fit: cover;
+	width: 500px;
+	height: 500px;
 }
 
 .progress-bar {
@@ -304,6 +303,10 @@ textarea {
   width: 100%;
   text-align-last: center;
   font-size: 24px;
+}
+img {
+	width: 300px;
+	height: 300px;
 }
 }
 
