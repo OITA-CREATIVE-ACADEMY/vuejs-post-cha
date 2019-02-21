@@ -203,8 +203,8 @@ export default {
 <style scoped>
 
 img {
-	width: 180px;
-	height: 180px;
+	width: 300px;
+	height: 300px;
 	object-fit: cover;
 }
 
@@ -244,12 +244,12 @@ p.title {
 .display-5 {
   text-align-last: center;
   margin-bottom: 22px;
-  font-size:24px;
+  font-size:34px;
 }
 
 .lead-2 {
   text-align-last: center;
-  font-size:13px;
+  font-size:18px;
 }
 
 .wrapper {
@@ -297,43 +297,17 @@ textarea {
 /* タイトルとサブタイトルのサイズを修正 */
 @media (max-width: 540px) {
 .lead-2 {
-  text-align-last: left;
+  text-align-last: center;
+  font-size:13px;
 }
 .display-5 {
   width: 100%;
   text-align-last: center;
-  font-size: 1.7rem;
+  font-size: 24px;
 }
 }
 
-</style>
-    width: 100px;
-    height: 100px;
-    background-color: aqua;
-    float: left;
-}
 
-.heartIcon {
-    color: tomato;
-    font-size: 30px;
-}
 
-textarea {
-    resize: none;
-    width:100%;
-    height:100px;
-    padding: 10px;
-}
 
-/* タイトルとサブタイトルのサイズを修正 */
-@media (max-width: 540px) {
-.lead-2 {
-  text-align-last: left;
-}
-.display-5 {
-  width: 100%;
-  text-align-last: center;
-  font-size: 1.7rem;
-}
-}
 </style>
