@@ -21,6 +21,14 @@
             name="file"
             accept="image/*"
             @change="detectFiles($event)" />
+            <br>
+            <b-progress
+              v-if="uploading && !uploadEnd"
+              :value="progressUpload"
+              show-value
+              variant="info">
+            </b-progress>
+            <br>
             <img
               v-if="uploadEnd"
               :src="downloadURL"
@@ -163,6 +171,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+img {
+	width: 180px;
+	height: 180px;
+	object-fit: cover;
+}
 
 .progress-bar {
   margin: 10px 0;
