@@ -5,17 +5,16 @@
         <div class="profile_img bg-dark">
           <!-- ここにプロフィール画像 -->
           <img :src="user.photoURL" alt="">
-          <b-btn v-b-modal.iconModal>Change!!</b-btn>
+          <b-btn v-b-modal.iconModal>変更</b-btn>
         </div>
         <!-- Modal Component -->
-        <b-modal id="iconModal" title="icon change!" size="lg" centered show="true" ref="iconModalRef">
+        <b-modal id="iconModal" title="アイコン画像の変更" size="lg" centered show="true" ref="iconModalRef">
           <p class="my-4">アイコンを選んでください</p>
           <div class="iconList">
             <ul>
               <li v-for="item in iconImages" v-bind:key="item.id">
                 <label :for="item.id">
                   <img :src="item.src" alt="">
-                  <p>{{ item.name }}</p>
                 </label>
                 <input type="radio" :id="item.id" v-bind:value="item" v-model="iconSelected" name="iconSelect">
               </li>
@@ -117,7 +116,6 @@ export default {
          photoURL: selectedIcon
       }).then(function() {
         // Update successful.
-        alert("成功しました！");
         return;
       }).catch(function(error) {
         // An error happened.
@@ -139,7 +137,7 @@ export default {
       }).then(function() {
         // Update successful.
         console.log(user);
-        alert("成功しました！　【ユーザー名：" + user.displayName + "】");
+        // alert("成功しました！　【ユーザー名：" + user.displayName + "】");
         return;
       }).catch(function(error) {
         // An error happened.
@@ -200,6 +198,10 @@ export default {
   position: absolute;
 }
 
+.profile_img button:hover {
+  opacity: 0.9;
+}
+
 .editButton {
   margin-left: 0.5em;
   font-size: 20px;
@@ -207,7 +209,6 @@ export default {
 
 .iconList input {
   display: block;
-  margin-top: -1em;
 }
 
 .iconList ul {
