@@ -67,7 +67,10 @@ import firebase from "firebase";
 
 export default {
   name: 'Card',
-  props: ['posts'],
+  props: {
+    posts: Array,
+    uid: String
+  },
   data () {
     return {
       database: null,

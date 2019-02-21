@@ -42,7 +42,7 @@
 
       <!-- 投稿一覧 -->
       <!-- Cardコンポーネントを読み込んでループ表示 -->
-      <cardList :posts="posts"></cardList>
+      <cardList :posts="posts" :uid="user.uid"></cardList>
 
 
       <!-- /投稿一覧 -->
@@ -74,7 +74,8 @@ export default {
       name: '',
       names: [],
       email: '',
-      password: ''
+      password: '',
+      uid: ''
     }
   },
   created: function() {
@@ -87,7 +88,7 @@ export default {
         console.log(this.user)
         console.log(this.user.uid)
         // localstorageにuserUidを保存
-        localStorage.setItem('currentUserUid', this.user.uid);
+        // localStorage.setItem('currentUserUid', this.user.uid);
       } else {
         this.signedIn = false
       }
