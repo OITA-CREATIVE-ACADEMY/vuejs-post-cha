@@ -87,6 +87,10 @@ export default {
         this.profileUrl = user.photoURL
       }
     })
+
+    this.database = firebase.database();
+    this.postsRef = this.database.ref("posts");
+    this.usersRef = this.database.ref("users");
   },
   methods: {
     showModal () {
@@ -102,6 +106,8 @@ export default {
          photoURL: this.iconSelected.src
       }).then(function() {
         console.log("プロフィール画像変更OK")
+        // this.postsRef
+
       }).catch(function(error) {
         console.log(error)
         alert("プロフィール画像の変更に失敗しました")

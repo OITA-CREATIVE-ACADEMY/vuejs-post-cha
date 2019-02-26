@@ -15,7 +15,7 @@
         </div>
         <div class="d-flex flex-row justify-content-between align-items-center">
           <div class="icon">
-            <img v-bind:src="imageUrl(post)" alt>
+            <img v-bind:src="post.imageUrl">
             <!-- user.photo.URL -->
           </div>
           <div class="bodyText">
@@ -35,6 +35,7 @@
               class="btn btn-outline-primary btn-lg"
               v-b-popover.hover.left="'いいね!'"
               variant="primary"
+              v-if="!like"
             >
               <div class="likeCount">{{ post.likedCount }}</div>
               <i class="far fa-kiss-wink-heart heartIcon"></i>
@@ -68,7 +69,7 @@ import firebase from "firebase";
 
 export default {
   name: 'Card',
-  props: ['posts'],
+  props: ['posts','like'],
   data () {
     return {
       database: null,
@@ -149,29 +150,29 @@ export default {
       }  
     },
     // アカウント画像を登録していたらそれ、していなかったらデフォルトの画像を返す
-    imageUrl: function(post) {
-      return function (post) {
-        // console.log(post);
-        let postUserUid = post.userUid;
+    // imageUrl: function(post) {
+    //   return function (post) {
+    //     // console.log(post);
+    //     let postUserUid = post.userUid;
 
 
-        var a = this.database.ref("users/" + postUserUid)
-        .on("value", function(snapshot) {
-         console.log(snapshot.val());
-        })
+    //     var a = this.database.ref("users/" + postUserUid)
+    //     .on("value", function(snapshot) {
+    //      console.log(snapshot.val());
+    //     })
         
-        // console.log(a);
+    //     // console.log(a);
 
-        // if (a) {
-        //   let imageUrl = a;
-        //   return imageUrl;
-        // } else {
+    //     // if (a) {
+    //     //   let imageUrl = a;
+    //     //   return imageUrl;
+    //     // } else {
           
-        //   let imageUrl = "https://via.placeholder.com/100x100/000000/FFFFFF?text=" + this.user.email.slice(0,1)
-        //   return imageUrl;
-        // }
-      }      
-    }
+    //     //   let imageUrl = "https://via.placeholder.com/100x100/000000/FFFFFF?text=" + this.user.email.slice(0,1)
+    //     //   return imageUrl;
+    //     // }
+    //   }      
+    // }
   },
   methods: {
     updatePost: function() {

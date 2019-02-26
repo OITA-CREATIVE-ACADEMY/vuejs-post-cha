@@ -1,5 +1,5 @@
 <template>
-  <card-list :posts="posts.slice().reverse()"></card-list>
+  <card-list :posts="posts.slice().reverse()" :like="true"></card-list>
 </template>
 
 <script>
