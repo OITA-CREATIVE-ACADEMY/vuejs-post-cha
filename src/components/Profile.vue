@@ -117,6 +117,7 @@ export default {
          photoURL: this.iconSelected.src
       }).then(function() {
         console.log("プロフィール画像変更OK")
+
         return;
       }).catch(function(error) {
         console.log(error)
@@ -130,13 +131,13 @@ export default {
       } else {
         this.changingName = true;
       }
-
     },
     changeName: function (displayName) {
       // ここに名前を変える処理
       var user = firebase.auth().currentUser;
-      var currentUserUid = user.uid;
 
+      var currentUserUid = user.uid;
+      
       this.database = firebase.database();
       let usersRef = this.database.ref("users/" + currentUserUid + "/profile");
       usersRef.child("displayName").set(user.displayName);
@@ -263,4 +264,23 @@ export default {
   }
 
 }
+
+.iconList input {
+  display: block;
+  margin-top: -1em;
+}
+
+.iconList ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.iconList ul li {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 </style>
