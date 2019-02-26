@@ -21,7 +21,7 @@
             </ul>
           </div>
           <div slot="modal-footer" class="w-100">
-            <b-btn size="lg" variant="secondary" @click="hideModal">
+            <b-btn size="lg" variant="secondary" @click="hideModal" class="">
               Cansel
             </b-btn>
             <b-btn size="lg" variant="primary"  v-on:click="changeIcon()" @click="hideModal">
@@ -33,14 +33,21 @@
           <div class="profile_userData profile_userName" id="example-3">
             <h3>
               {{ user.displayName || "ニックネーム未設定" }}
+              <button class="icobutton icobutton--thumbs-up">
+                <span class="fa fa-thumbs-up"></span>
+              </button>
             </h3>
+            <b-btn v-b-tooltip.hover.right title="名前を変更する！" class="profile_userName_edit editButton icobutton icobutton-3-ccc-red" v-on:click="nameToggleOpen()">
+              <i class="fas fa-pencil-alt"></i>
+            </b-btn>
           </div>
-          <div class="profire_userName_editWrap">
+          <div class="profire_userName_editWrap" v-if="changingName">
             <div class="profire_userData profile_userName_input">
-              ニックネームの変更：<input type="text" v-model="user.displayName">
+              ニックネームの変更：<br>
+              <input type="text" v-model="user.displayName">
             </div>
             <b-btn v-b-tooltip.hover.right title="名前を変更する！" class="profile_userName_edit editButton" v-on:click="changeName()">
-              変更<i class="fas fa-pencil-alt"></i>
+              変更
             </b-btn>
           </div>
           <div class="profile_userData profile_userMail">
@@ -57,8 +64,6 @@ import firebase from 'firebase'
 import strage from 'firebase/storage'
 import Vue from 'vue'
 
-console.log("hoge");
-
 export default {
   name: 'Profile',
   data () {
@@ -66,6 +71,7 @@ export default {
       user: {},
       edit: {},
       value: {},
+      changingName: false,
       icon: [],
       iconImage_src: [],
       iconSelected: [],
@@ -83,16 +89,6 @@ export default {
       this.user = user ? user : {}
     })
   },
-  mounted: function() {
-    console.log('mountedだよー！！！！')
-  },
-  // computed: {
-  //   iconURL: function () {
-  //     if (this.visible) {
-  //         return photoURL;
-  //     }
-  //   }
-  // },
   methods: {
     showModal () {
       this.$refs.iconModalRef.show()
@@ -102,8 +98,6 @@ export default {
     },
     changeIcon: function () {
       var selectedIcon = this.iconSelected.src;
-      console.log(selectedIcon);
-
       var user = firebase.auth().currentUser;
       var currentUserUid = user.uid;
       var photoURL = user.photoURL;
@@ -123,6 +117,14 @@ export default {
         return;
       });
     },
+    nameToggleOpen: function() {
+      if (this.changingName) {
+        this.changingName = false;
+      } else {
+        this.changingName = true;
+      }
+
+    },
     changeName: function (displayName) {
       // ここに名前を変える処理
       var user = firebase.auth().currentUser;
@@ -131,13 +133,12 @@ export default {
       this.database = firebase.database();
       let usersRef = this.database.ref("users/" + currentUserUid + "/profile");
       usersRef.child("displayName").set(user.displayName);
+      this.changingName = false
 
       user.updateProfile({
         displayName: user.displayName
       }).then(function() {
         // Update successful.
-        console.log(user);
-        // alert("成功しました！　【ユーザー名：" + user.displayName + "】");
         return;
       }).catch(function(error) {
         // An error happened.
@@ -175,9 +176,6 @@ export default {
 }
 
 .profile_userName_input input {
-  min-width: 10vw;
-  width: 20em;
-  max-width: 30em;
   padding: 0.2em;
   background-color: #E8ECEF;
   border: none;
@@ -204,7 +202,7 @@ export default {
 
 .editButton {
   margin-left: 0.5em;
-  font-size: 20px;
+  font-size: 1.2rem;
 }
 
 .iconList input {
@@ -224,4 +222,33 @@ export default {
   align-items: center;
 }
 
+@media screen and (max-width: 700px) {
+  .profileSeparate {
+    flex-direction: column;
+  }
+  .profile_img {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1em;
+  }
+  .profileData {
+    text-align: center;
+  }
+  .profile_userData {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+  }
+  .profire_userName_editWrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 2em;
+    margin-top: 1em;
+  }
+  .profire_userName_editWrap input {
+    width: 100%;
+  }
+
+}
 </style>

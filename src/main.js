@@ -14,6 +14,7 @@ import "bootstrap-nico/dist/js/bootstrap.bundle.js"
 import "bootstrap-nico/dist/js/bootstrap.js"
 import "bootstrap-nico/dist/css/bootstrap.css"
 
+
 Vue.use(BootstrapVue)
 Vue.config.productionTip = false
 
