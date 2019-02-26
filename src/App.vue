@@ -23,9 +23,6 @@
       <b-nav-item data-toggle="modal" data-target="#signin">
         <router-link to="/signin">Signin</router-link>
       </b-nav-item>
-      <!-- <b-nav-item>
-        <router-link to="/card">Card</router-link>
-      </b-nav-item> -->
     </b-navbar-nav>
     <!-- firebaseからログイン中のユーザーを取得し、emailアドレス（HN）を表示する -->
      <!-- <p class="userName">{{post.userEmail}}さん、こんにちは！</p> -->
@@ -39,12 +36,15 @@
             <!-- <em>User</em> -->
             <!-- <img="lib/brand-logo.jpg"> -->
             <img src="https://placekitten.com/g/30/30" class="d-inline-block align-top" alt="アカウント画像">
-
           </template>
-          <b-dropdown-item>
-            <router-link to="/mypage">Profile</router-link>
+          <b-dropdown-item v-if="signedIn">
+            <router-link to="/mypage">マイページ</router-link>
           </b-dropdown-item>
-          <b-dropdown-item @click="signOut">Signout</b-dropdown-item>
+          <b-dropdown-item v-if="!signedIn" v-b-modal.signin-modalPrevent>ログイン
+          </b-dropdown-item>
+          <b-dropdown-item v-if="signedIn" @click="signOut">ログアウト</b-dropdown-item>
+          <b-dropdown-item v-if="!signedIn" v-b-modal.signup-modalPrevent>新規登録
+          </b-dropdown-item>       
         </b-nav-item-dropdown>
       </b-navbar-nav>
     </b-collapse>
@@ -101,10 +101,35 @@ import firebase from 'firebase';
 
 export default {
   name: 'App',
+  // methods: {
+  //   signOut: function () {
+  //     firebase.auth().signOut().then(() => {
+  //       this.$router.push('/')
+  //     })
+  //   }
+  // },
+
+  created: function() {
+    // ログイン状態によって投稿ボタンの表示を変更する
+    firebase.auth().onAuthStateChanged(user => {
+      this.user = user ? user : {}
+      if (user) {
+        this.signedIn = true
+        // debug
+        // console.log(this.user)
+        // console.log(this.user.uid)
+        // localstorageにuserUidを保存
+        // localStorage.setItem('currentUserUid', this.user.uid);
+      } else {
+        this.signedIn = false
+      }
+    })
+  },
   data: function () {
     return {
       email: '',
-      password: ''
+      password: '',
+      signedIn: false,
     }
   },
   methods: {
@@ -144,6 +169,8 @@ export default {
 
     signOut: function () {
       firebase.auth().signOut().then(() => {
+        // localStorageからuserUidを削除
+        localStorage.setItem('currentUserUid', "");
         this.$router.push('/')
       })
     }

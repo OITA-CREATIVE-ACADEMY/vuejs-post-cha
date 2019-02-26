@@ -8,11 +8,13 @@
         <p class="lead-2">そこから新たな出会いが生まれるかもしれません。</p>
         <hr class="my-4">
         <div v-if="signedIn">
-          <div class="input-group mb-3">
-            <textarea v-model="newPostBody" name="postdata" placeholder="200字まで入力できます"></textarea><br>
-              <div class="input-group-append">
+
+          <div class="input-group mb-3 inputPost">
+            <textarea v-model="newPostBody" name="postdata" placeholder="200字まで入力できます"  v-bind:class="{ 'text-danger': error.tooLong, 'text-muted': error.require }" ></textarea><br>
+              <div class="input-group-append" v-bind:class="{ 'text-danger': error.tooLong }">
               </div>
-            </div>
+            <div id="lengthCounter" class="text-primary h3" v-bind:class="{ 'text-danger': error.tooLong }">{{this.newPostBody.length}}/200</div>
+          </div>
 
     　　<!-- 画像追加 -->
         <div>
@@ -25,6 +27,14 @@
             name="file"
             accept="image/*"
             @change="detectFiles($event)" />
+            <br>
+            <b-progress
+              v-if="uploading && !uploadEnd"
+              :value="progressUpload"
+              show-value
+              variant="info">
+            </b-progress>
+            <br>
             <img
               v-if="uploadEnd"
               :src="downloadURL"
@@ -39,7 +49,7 @@
 
 
           <p class="lead">
-            <button type="submit" v-on:click="createPost()" class="btn btn-primary btn-lg">投稿する</button>
+            <button type="submit" v-on:click="createPost()" class="btn btn-primary btn-lg" :disabled="validated == 1">投稿する</button>
           </p>
           <p v-if="postMsg" class="text-success">投稿しました!</p>
         </div>
@@ -53,12 +63,11 @@
         </div> -->
       </div>
     </div>
-　</div>
+  </div>
+</div>
 </template>
-
 <script>
 import firebase from 'firebase';
-
 export default {
   name: 'Post',
   data () {
@@ -75,21 +84,26 @@ export default {
       uploadTask: '',
       uploading: false,
       uploadEnd: false,
-      downloadURL: ''
+      downloadURL: '',
+      error: {
+        empty: false,
+        require: false,
+        tooLong: false
+      }
     }
   },
   created: function() {
-    // ログイン状態によって投稿ボタンの表示を変更する
-    firebase.auth().onAuthStateChanged(user => {
-      this.user = user ? user : {}
-      if (user) {
-        this.signedIn = true
-        // debug
-        console.log(this.user)
-      } else {
-        this.signedIn = false
-      }
-    })
+  // ログイン状態によって投稿ボタンの表示を変更する
+  firebase.auth().onAuthStateChanged(user => {
+    this.user = user ? user : {}
+    if (user) {
+      this.signedIn = true
+      // debug
+      console.log(this.user)
+    } else {
+      this.signedIn = false
+    }
+  })
 
     // 投稿一覧を取得する
     this.database = firebase.database()
@@ -102,6 +116,18 @@ export default {
   computed: {
     allPosts: function () {
       return this.posts
+    },
+    postLengthCount: function () {
+      return 200 - this.newPostBody.length;
+    },
+    validated: function() {
+      // (2 <= this.newPostBody.length) && (this.newPostBody.length <= 200)
+      var length = this.newPostBody.length
+      if (2 <= length && length <= 200) {
+        return false
+      } else {
+        return true
+      }
     }
   },
   methods: {
@@ -125,7 +151,7 @@ export default {
       // Post成功時にメッセージを表示する
       this.postMsg = true;
     },
-        detectFiles (e) {
+    detectFiles (e) {
       let fileList = e.target.files || e.dataTransfer.files
       Array.from(Array(fileList.length).keys()).map(x => {
         this.upload(fileList[x])
@@ -166,121 +192,130 @@ export default {
           this.$emit('downloadURL', downloadURL)
         })
       })
+    },
+    newPostBody: function(newVal, oldVal) {
+      // this.postLength_200 = (2 < newVal.length > 199) ? true : false; // 最低文字数(2文字以上)
+      // this.error.empty = (newVal.length == 0) ? true : false; // 最低文字数(2文字以上)
+      this.error.require = (newVal.length < 2) ? true : false; // 最低文字数(2文字以上)
+      this.error.tooLong = (newVal.length > 200) ? true : false; // 最大文字数(200文字まで)
+
+      if(!this.error.tooLong && !this.error.require){
+        this.postJudge = false
+      }
     }
   }
 }
+
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+img {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+}
+
+.progress-bar {
+  margin: 10px 0;
+}
+
 h1, h2 {
   font-weight: normal;
 }
+
 ul {
   list-style-type: none;
   padding: 0;
 }
+
 li {
   display: inline-block;
   margin: 0 10px;
 }
+
 a {
   color: #42b983;
 }
+
 header {
-    width: 100%;
-    height: 50px;
-    background-color: black;
+  width: 100%;
+  height: 50px;
+  background-color: black;
 }
 
-p{
-    margin-bottom: 0;
+p {
+  margin-bottom: 0;
 }
 
 p.title {
-    color: white;
-    font-size: 15px;
+  color: white;
+  font-size: 15px;
 }
 
 .display-5 {
   text-align-last: center;
-  /* font-size: 1rem; */
-  margin-bottom: 20px;
+  margin-bottom: 22px;
+  font-size:24px;
 }
 
 .lead-2 {
   text-align-last: center;
-  font-size: 1rem;
-} 
+  font-size:13px;
+}
 
 .wrapper {
-    padding: 20px;
+  padding: 20px;
 }
 
 .btnWrapper {
-    text-align: right;
+  text-align: right;
 }
 
 .icon {
-    width: 100px;
-    height: 100px;
-    background-color: aqua;
-    float: left;
+  width: 100px;
+  height: 100px;
+  background-color: aqua;
+  float: left;
 }
 
 .heartIcon {
-    color: tomato;
-    font-size: 30px;
+  color: tomato;
+  font-size: 30px;
 }
 
 textarea {
-    resize: none;
-    width:100%;
-    height:100px;
-    padding: 10px;
+  resize: none;
+  width:100%;
+  height:100px;
+  padding: 10px;
+}
+
+.inputPost {
+  position: relative;
+}
+
+#lengthCounter {
+  position: absolute;
+  right: 0.5em;
+  bottom: 0;
+  font-weight: bold;
+  pointer-events: none;
+  z-index: 100000;
+  opacity: 0.35;
 }
 
 /* タイトルとサブタイトルのサイズを修正 */
 @media (max-width: 540px) {
-.lead-2 {
-  text-align-last: left;
-} 
-.display-5 {
-  width: 100%;
-  text-align-last: center;
-  font-size: 1.7rem;
+  .lead-2 {
+    text-align-last: left;
+  }
+  .display-5 {
+    width: 100%;
+    text-align-last: center;
+    font-size: 1.7rem;
+  }
 }
-}
-
-</style>
-    width: 100px;
-    height: 100px;
-    background-color: aqua;
-    float: left;
-}
-
-.heartIcon {
-    color: tomato;
-    font-size: 30px;
-}
-
-textarea {
-    resize: none;
-    width:100%;
-    height:100px;
-    padding: 10px;
-}
-
-/* タイトルとサブタイトルのサイズを修正 */
-@media (max-width: 540px) {
-.lead-2 {
-  text-align-last: left;
-} 
-.display-5 {
-  width: 100%;
-  text-align-last: center;
-  font-size: 1.7rem;
-}
-}
-
 </style>
