@@ -29,17 +29,18 @@ export default {
     var _this = this;
 
     this.usersRef.child("likedPostId").on("value", function(snapshot) {
-      let likedPostKeys = Object.keys(snapshot.val())
-
-      likedPostKeys.map(key => {
-        _this.postsRef.child(key).on("value", function(snapshot){
-          // debug
-          console.log(snapshot.val())
-          if (snapshot.val()) {
-            _this.posts.push(snapshot.val())
-          }
+      if (snapshot.val()) {
+        let likedPostKeys = Object.keys(snapshot.val())
+        likedPostKeys.map(key => {
+          _this.postsRef.child(key).on("value", function(snapshot){
+            // debug
+            console.log(snapshot.val())
+            if (snapshot.val()) {
+              _this.posts.push(snapshot.val())
+            }
+          })
         })
-      })
+      }
     })
   },
 }

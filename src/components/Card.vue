@@ -4,7 +4,7 @@
       <div v-for="(post, key) in posts" v-bind:key="post.id" class="card my-2">
         <div class="card-header">
           {{ post.userEmail }}
-          <div>
+          <div v-if="signedIn">
             <b-dropdown id="ddown-sm ddown-left" right size="sm" class="close" v-if="myPosts(post)" v-b-popover.hover.left="'投稿を編集 / 削除'"
                variant="primary">
               <b-dropdown-item-button v-b-modal.modalPrevent @click="showModal(key, post)">編集</b-dropdown-item-button>

@@ -1,13 +1,14 @@
 <template>
 <div>
   <b-navbar toggleable="md" type="dark" variant="info" class="navbar navbar-expand-lg navbar-light bg-light">
-    <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
     <b-navbar-brand class="toggle">
       <router-link to="/">
         <img src="./assets/images/logo.gif" alt="ロゴ">
       </router-link>
     </b-navbar-brand>
     
+
+    <b-navbar-toggle target="nav_collapse" />
 
   <b-collapse is-nav id="nav_collapse">
     <b-navbar-nav>
@@ -204,26 +205,37 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 
 a {
   color: #6c757d;
+  text-decoration: none!important;
 }
-p {
-  text-align: center;
+
+.navbar-light .navbar-toggler {
+  color: rgba(0, 0, 0, 0.5);
+  border-color: rgba(0, 0, 0, 0.1);
 }
 
 .icon_img {
   width: 30px;
 }
+
 /* navbar が toggleに変化するとき、ロゴを左側、toggleを右側に来るように変更 */
 @media (max-width: 767px) {
   .navbar {
     flex-direction: row-reverse;
     /* padding: 0; */
   }
+ }
+ 
+.dropdown-toggle::after {
+  color: #6c757d;
 }
+
+.navbar-light .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0, 0, 0, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
 </style>
