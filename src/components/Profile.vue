@@ -4,7 +4,7 @@
       <div class="jumbotron profileSeparate">
         <div class="profile_img bg-dark">
           <!-- ここにプロフィール画像 -->
-          <img :src="user.photoURL" alt="">
+          <img :src="profileUrl" alt="">
           <b-btn v-b-modal.iconModal>変更</b-btn>
         </div>
         <!-- Modal Component -->
@@ -70,6 +70,7 @@ export default {
       value: {},
       changingName: false,
       icon: [],
+      profileUrl: "",
       iconImage_src: [],
       iconSelected: [],
       iconImages: [
@@ -91,6 +92,9 @@ export default {
     // ログイン状態によってユーザープロフィールの表示を変更する
     firebase.auth().onAuthStateChanged(user => {
       this.user = user ? user : {}
+      if (user) {
+        this.profileUrl = user.photoURL
+      }
     })
   },
   methods: {
@@ -101,28 +105,25 @@ export default {
       this.$refs.iconModalRef.hide()
     },
     changeIcon: function () {
-      var selectedIcon = this.iconSelected.src;
+      this.profileUrl = this.iconSelected.src
+
       var user = firebase.auth().currentUser;
       var currentUserUid = user.uid;
-      var photoURL = user.photoURL;
-
       this.database = firebase.database();
       let usersRef = this.database.ref("users/" + currentUserUid + "/profile");
-      usersRef.child("photoURL").set(selectedIcon);
+      usersRef.child("photoURL").set(this.profileUrl);
 
-      user.updateProfile({
-         photoURL: selectedIcon
+      this.user.updateProfile({
+         photoURL: this.iconSelected.src
       }).then(function() {
-        // Update successful.
+        console.log("プロフィール画像変更OK")
         return;
       }).catch(function(error) {
-        // An error happened.
-        alert("エラーです！");
-        return;
-      });
+        console.log(error)
+        alert("プロフィール画像の変更に失敗しました")
+      })
     },
     nameToggleOpen: function() {
-      console.log(this.changingName);
       
       if (this.changingName) {
         this.changingName = false;
