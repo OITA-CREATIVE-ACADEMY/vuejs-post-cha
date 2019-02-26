@@ -30,9 +30,9 @@
               :src="downloadURL"
               width="45%"/>
             <div v-if="uploadEnd">
-              <button class="m-3" @click="deleteImage()">
-                Delete
-              </button>
+              <b-button size="sm" variant="light" class="m-3" @click="deleteImage()">
+                画像を削除
+              </b-button>
             </div>
         </div>
 
@@ -117,7 +117,11 @@ export default {
         likedCount: 0,
         downloadURL: this.downloadURL
       })
-      this.newPostBody = "";
+      this.newPostBody = ''
+      this.uploading = false
+      this.uploadEnd = false
+      this.downloadURL = ''
+
       // Post成功時にメッセージを表示する
       this.postMsg = true;
     },
