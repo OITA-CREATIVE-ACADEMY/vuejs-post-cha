@@ -33,11 +33,8 @@
           <div class="profile_userData profile_userName" id="example-3">
             <h3>
               {{ user.displayName || "ニックネーム未設定" }}
-              <button class="icobutton icobutton--thumbs-up">
-                <span class="fa fa-thumbs-up"></span>
-              </button>
             </h3>
-            <b-btn v-b-tooltip.hover.right title="名前を変更する！" class="profile_userName_edit editButton icobutton icobutton-3-ccc-red" v-on:click="nameToggleOpen()">
+            <b-btn v-b-tooltip.hover.right title="名前を変更する！" class="profile_userName_edit editButton icobutton icobutton-3-ccc-red" v-on:click="nameToggleOpen()" v-if="!changingName">
               <i class="fas fa-pencil-alt"></i>
             </b-btn>
           </div>
@@ -78,7 +75,14 @@ export default {
       iconImages: [
         { name: 'てんとうむし', id: 'icon01', src: 'https://firebasestorage.googleapis.com/v0/b/post-cha.appspot.com/o/images%2Ficons%2Ficon01.jpg?alt=media&token=9c7581b8-75c8-49c2-973a-ae68d6b74042' },
         { name: 'スイカ', id: 'icon02', src: 'https://firebasestorage.googleapis.com/v0/b/post-cha.appspot.com/o/images%2Ficons%2Ficon02.jpg?alt=media&token=b732c5eb-be7c-498a-ac89-488d9f521d1f' },
-        { name: 'いちご', id: 'icon03', src: 'https://firebasestorage.googleapis.com/v0/b/post-cha.appspot.com/o/images%2Ficons%2Ficon03.jpg?alt=media&token=e0d367bd-82f5-49cc-844e-0bf83ca75339' }
+        { name: 'いちご', id: 'icon03', src: 'https://firebasestorage.googleapis.com/v0/b/post-cha.appspot.com/o/images%2Ficons%2Ficon03.jpg?alt=media&token=e0d367bd-82f5-49cc-844e-0bf83ca75339' },
+        { name: 'ひつじ１', id: 'icon04', src: 'https://firebasestorage.googleapis.com/v0/b/post-cha.appspot.com/o/images%2Ficons%2Ficon04.jpg?alt=media&token=fcf27161-674e-42b2-b414-251de469e541' },
+        { name: 'きつね', id: 'icon05', src: 'https://firebasestorage.googleapis.com/v0/b/post-cha.appspot.com/o/images%2Ficons%2Ficon05.jpg?alt=media&token=01a2175b-c330-42b8-a18e-986b778c47a4' },
+        { name: 'コアラ', id: 'icon07', src: 'https://firebasestorage.googleapis.com/v0/b/post-cha.appspot.com/o/images%2Ficons%2Ficon07.jpg?alt=media&token=881306e5-969d-496f-9c57-8da2fdb7046e' },
+        { name: 'ハニワ', id: 'icon08', src: 'https://firebasestorage.googleapis.com/v0/b/post-cha.appspot.com/o/images%2Ficons%2Ficon08.jpg?alt=media&token=63345d48-763d-4d46-b3f6-62afcee6f32d' },
+        { name: 'ペンギン', id: 'icon010', src: 'https://firebasestorage.googleapis.com/v0/b/post-cha.appspot.com/o/images%2Ficons%2Ficon10.jpg?alt=media&token=4459fc56-425f-4d0e-83c2-51739579b22c' },
+        { name: 'たぬき', id: 'icon011', src: 'https://firebasestorage.googleapis.com/v0/b/post-cha.appspot.com/o/images%2Ficons%2Ficon11.jpg?alt=media&token=5f85f7d4-2ff0-47e0-8ff4-670ab5de8d08' },
+        { name: 'ゴマちゃん', id: 'icon012', src: 'https://firebasestorage.googleapis.com/v0/b/post-cha.appspot.com/o/images%2Ficons%2Ficon12.jpg?alt=media&token=e95ba8e9-9cb2-4c0f-8936-0b30de164b78' }
      ]
     }
   },
@@ -118,6 +122,8 @@ export default {
       });
     },
     nameToggleOpen: function() {
+      console.log(this.changingName);
+      
       if (this.changingName) {
         this.changingName = false;
       } else {
@@ -220,6 +226,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 2em;
 }
 
 @media screen and (max-width: 700px) {
@@ -248,6 +255,10 @@ export default {
   }
   .profire_userName_editWrap input {
     width: 100%;
+  }
+
+  .profile_img button {
+    opacity: 0.8;
   }
 
 }
