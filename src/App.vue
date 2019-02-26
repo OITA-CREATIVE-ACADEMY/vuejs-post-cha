@@ -6,6 +6,7 @@
         <img src="./assets/images/logo.gif" alt="ロゴ">
       </router-link>
     </b-navbar-brand>
+    
 
     <b-navbar-toggle target="nav_collapse" />
 
@@ -35,7 +36,8 @@
           <template slot="button-content">
             <!-- <em>User</em> -->
             <!-- <img="lib/brand-logo.jpg"> -->
-            <img src="https://placekitten.com/g/30/30" class="d-inline-block align-top" alt="アカウント画像">
+            <img v-if="!IsNoimage" :src="profileUrl" class="icon_img" alt="アカウント画像">
+            <img v-if="IsNoimage" src="./assets/images/LadyIcon.png" class="icon_img" alt="アカウント画像">
           </template>
           <b-dropdown-item v-if="signedIn">
             <router-link to="/mypage">マイページ</router-link>
@@ -101,6 +103,15 @@ import firebase from 'firebase';
 
 export default {
   name: 'App',
+  data () {
+    return {
+      user: {},
+      edit: {},
+      value: {},
+      icon: [],
+      profileUrl: "",
+          }
+  },
   // methods: {
   //   signOut: function () {
   //     firebase.auth().signOut().then(() => {
@@ -113,8 +124,16 @@ export default {
     // ログイン状態によって投稿ボタンの表示を変更する
     firebase.auth().onAuthStateChanged(user => {
       this.user = user ? user : {}
+      this.IsNoimage = false
       if (user) {
+        //alert('aaa')
         this.signedIn = true
+        this.profileUrl = user.photoURL
+        
+        if(this.profileUrl==null){
+          //alert('aaa' + this.profileUrl)
+          this.IsNoimage = true
+        }
         // debug
         // console.log(this.user)
         // console.log(this.user.uid)
@@ -122,6 +141,8 @@ export default {
         // localStorage.setItem('currentUserUid', this.user.uid);
       } else {
         this.signedIn = false
+        this.IsNoimage = true
+        
       }
     })
   },
@@ -197,6 +218,18 @@ a {
   border-color: rgba(0, 0, 0, 0.1);
 }
 
+.icon_img {
+  width: 30px;
+}
+
+/* navbar が toggleに変化するとき、ロゴを左側、toggleを右側に来るように変更 */
+@media (max-width: 767px) {
+  .navbar {
+    flex-direction: row-reverse;
+    /* padding: 0; */
+  }
+ }
+ 
 .dropdown-toggle::after {
   color: #6c757d;
 }

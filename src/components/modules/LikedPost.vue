@@ -31,7 +31,6 @@ export default {
     this.usersRef.child("likedPostId").on("value", function(snapshot) {
       if (snapshot.val()) {
         let likedPostKeys = Object.keys(snapshot.val())
-
         likedPostKeys.map(key => {
           _this.postsRef.child(key).on("value", function(snapshot){
             // debug
