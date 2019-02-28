@@ -60,9 +60,11 @@
 import firebase from 'firebase'
 import strage from 'firebase/storage'
 import Vue from 'vue'
+// import Card from '@/components/Card';
 
 export default {
   name: 'Profile',
+  // props: ['posts'],
   data () {
     return {
       user: {},
@@ -96,6 +98,10 @@ export default {
         this.profileUrl = user.photoURL
       }
     })
+
+    this.database = firebase.database();
+    this.postsRef = this.database.ref("posts");
+    this.usersRef = this.database.ref("users");
   },
   methods: {
     showModal () {
@@ -107,17 +113,36 @@ export default {
     changeIcon: function () {
       this.profileUrl = this.iconSelected.src
 
+      let usersIconImg = this.profileUrl
+      // console.log(this.user);
+      // このユーザーが過去に投稿したPOSTの "imageUrl" を this.profileUrl に変更する
+      console.log(this.user.uid);
+      
+      // ログインユーザーのuserUidと一致するpostのsnapshotを取得
+      this.postsRef
+        .orderByChild("userUid")
+        .equalTo(this.user.uid)
+        .once("value", function(snapshot) {
+        // forEachでsnapshotを回しながら、全てのアイコン画像を置換する
+        snapshot.forEach(function(child) {
+          child.ref.update({
+            imageUrl: usersIconImg
+          });
+        });
+      })
+
+
       var user = firebase.auth().currentUser;
       var currentUserUid = user.uid;
       this.database = firebase.database();
       let usersRef = this.database.ref("users/" + currentUserUid + "/profile");
       usersRef.child("photoURL").set(this.profileUrl);
 
+
       this.user.updateProfile({
          photoURL: this.iconSelected.src
       }).then(function() {
         console.log("プロフィール画像変更OK")
-
         return;
       }).catch(function(error) {
         console.log(error)
@@ -125,7 +150,6 @@ export default {
       })
     },
     nameToggleOpen: function() {
-      
       if (this.changingName) {
         this.changingName = false;
       } else {

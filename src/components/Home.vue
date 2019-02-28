@@ -98,6 +98,7 @@ export default {
     // 投稿一覧を取得する
     this.database = firebase.database()
     this.postsRef = this.database.ref('posts')
+    // this.usersRef = this.database.ref('users')
     var _this = this
     this.postsRef.on('value', function(snapshot) {
       _this.posts = snapshot.val() // データに変化が起きたときに再取得する
@@ -114,7 +115,7 @@ export default {
       let imageUrl = "https://via.placeholder.com/100x100/000000/FFFFFF?text=" + this.user.email.slice(0,1)
       this.postsRef.push({
         body: this.newPostBody,
-        imageUrl: imageUrl,
+        imageUrl: this.imageUrl,
         userUid: this.user.uid,
         userEmail: this.user.email,
         createdAt: Math.round(+new Date()/1000),
