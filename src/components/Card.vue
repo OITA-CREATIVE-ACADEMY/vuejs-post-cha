@@ -149,30 +149,6 @@ export default {
         } 
       }  
     },
-    // アカウント画像を登録していたらそれ、していなかったらデフォルトの画像を返す
-    // imageUrl: function(post) {
-    //   return function (post) {
-    //     // console.log(post);
-    //     let postUserUid = post.userUid;
-
-
-    //     var a = this.database.ref("users/" + postUserUid)
-    //     .on("value", function(snapshot) {
-    //      console.log(snapshot.val());
-    //     })
-        
-    //     // console.log(a);
-
-    //     // if (a) {
-    //     //   let imageUrl = a;
-    //     //   return imageUrl;
-    //     // } else {
-          
-    //     //   let imageUrl = "https://via.placeholder.com/100x100/000000/FFFFFF?text=" + this.user.email.slice(0,1)
-    //     //   return imageUrl;
-    //     // }
-    //   }      
-    // }
   },
   methods: {
     updatePost: function() {

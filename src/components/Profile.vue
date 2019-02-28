@@ -57,11 +57,13 @@
 import firebase from 'firebase'
 import strage from 'firebase/storage'
 import Vue from 'vue'
+// import Card from '@/components/Card';
 
 console.log("hoge");
 
 export default {
   name: 'Profile',
+  // props: ['posts'],
   data () {
     return {
       user: {},
@@ -75,7 +77,7 @@ export default {
         { name: 'てんとうむし', id: 'icon01', src: 'https://firebasestorage.googleapis.com/v0/b/post-cha.appspot.com/o/images%2Ficons%2Ficon01.jpg?alt=media&token=9c7581b8-75c8-49c2-973a-ae68d6b74042' },
         { name: 'スイカ', id: 'icon02', src: 'https://firebasestorage.googleapis.com/v0/b/post-cha.appspot.com/o/images%2Ficons%2Ficon02.jpg?alt=media&token=b732c5eb-be7c-498a-ac89-488d9f521d1f' },
         { name: 'いちご', id: 'icon03', src: 'https://firebasestorage.googleapis.com/v0/b/post-cha.appspot.com/o/images%2Ficons%2Ficon03.jpg?alt=media&token=e0d367bd-82f5-49cc-844e-0bf83ca75339' }
-     ]
+     ],
     }
   },
   created: function() {
@@ -101,12 +103,27 @@ export default {
     },
     changeIcon: function () {
       this.profileUrl = this.iconSelected.src
-
+      let usersIconImg = this.profileUrl
+      // console.log(this.user);
+      // このユーザーが過去に投稿したPOSTの "imageUrl" を this.profileUrl に変更する
+      console.log(this.user.uid);
+      
+      // ログインユーザーのuserUidと一致するpostのsnapshotを取得
+      this.postsRef
+        .orderByChild("userUid")
+        .equalTo(this.user.uid)
+        .once("value", function(snapshot) {
+        // forEachでsnapshotを回しながら、全てのアイコン画像を置換する
+        snapshot.forEach(function(child) {
+          child.ref.update({
+            imageUrl: usersIconImg
+          });
+        });
+      })
       this.user.updateProfile({
          photoURL: this.iconSelected.src
       }).then(function() {
         console.log("プロフィール画像変更OK")
-        // this.postsRef
 
       }).catch(function(error) {
         console.log(error)

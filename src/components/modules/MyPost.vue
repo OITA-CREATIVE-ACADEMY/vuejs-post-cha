@@ -24,6 +24,7 @@ export default {
     this.database = firebase.database()
     this.postsRef = this.database.ref('posts')
     let _this = this
+    
     this.postsRef.orderByChild("userUid").equalTo(this.user.uid).on("value", function(posts) {
       _this.posts = posts.val()
     })
