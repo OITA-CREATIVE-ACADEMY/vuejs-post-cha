@@ -29,7 +29,7 @@
             accept="image/*"
             @change="detectFiles($event)" />
             <br>
-            <b-progress
+            <b-progress　class="progress-bar"
               v-if="uploading && !uploadEnd"
               :value="progressUpload"
               show-value
