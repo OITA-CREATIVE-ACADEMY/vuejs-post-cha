@@ -154,6 +154,7 @@ export default {
           this.uploading = false
           this.uploadEnd = false
           this.downloadURL = ''
+          document.getElementById("files").value = "";
         })
         .catch((error) => {
           console.error(`file delete error occured: ${error}`)
