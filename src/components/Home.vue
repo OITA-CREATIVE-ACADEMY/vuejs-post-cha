@@ -42,7 +42,9 @@
 
       <!-- 投稿一覧 -->
       <!-- Cardコンポーネントを読み込んでループ表示 -->
-      <cardList :posts="posts"></cardList>
+      <div class="card-list">
+        <cardList :posts="posts"></cardList>
+      </div>
 
 
       <!-- /投稿一覧 -->
@@ -185,7 +187,7 @@ textarea {
     padding: 10px;
 }
 
-/* .card {
-    margin: 20px;
-} */
+.card-list {
+  padding: 20px;
+}
 </style>

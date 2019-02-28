@@ -1,9 +1,9 @@
 <template>
   <div class="post">
-    <div class="wrapper">
-      <!-- 新規投稿用カード -->
+    <div class="wrapper text-center">
+     <!-- 新規投稿用カード -->
       <div class="jumbotron">
-        <h2 class="display-5">〈POST-cha!〉へようこそ！！</h2>
+        <h2 class="display-5">POST-cha!へ<br class="d-md-none">ようこそ！！</h2>
         <p class="lead-2">まずはあなたの言葉で、気楽にPOSTしてみてください。</p>
         <p class="lead-2">そこから新たな出会いが生まれるかもしれません。</p>
         <hr class="my-4">
@@ -18,9 +18,12 @@
 
     　　<!-- 画像追加 -->
         <div>
+          <b-button size="sm" variant="light" class="mb-3" @click="trigger()">画像を添付</b-button>
           <input
+            class="d-none"
             id="files"
             type="file"
+            ref="fileInput"
             name="file"
             accept="image/*"
             @change="detectFiles($event)" />
@@ -37,9 +40,9 @@
               :src="downloadURL"
               width="45%"/>
             <div v-if="uploadEnd">
-              <button class="m-3" @click="deleteImage()">
-                Delete
-              </button>
+              <b-button size="sm" variant="light" class="m-3" @click="deleteImage()">
+                画像を削除
+              </b-button>
             </div>
         </div>
 
@@ -61,7 +64,6 @@
       </div>
     </div>
   </div>
-</div>
 </template>
 <script>
 import firebase from 'firebase';
@@ -140,7 +142,11 @@ export default {
         likedCount: 0,
         downloadURL: this.downloadURL
       })
-      this.newPostBody = "";
+      this.newPostBody = ''
+      this.uploading = false
+      this.uploadEnd = false
+      this.downloadURL = ''
+
       // Post成功時にメッセージを表示する
       this.postMsg = true;
     },
@@ -150,6 +156,9 @@ export default {
         this.upload(fileList[x])
       })
     },
+    trigger () {
+      this.$refs.fileInput.click()
+    },    
     upload (file) {
       this.fileName = file.name
       this.uploading = true
@@ -203,42 +212,46 @@ export default {
 <style scoped>
 
 img {
-	width: 180px;
-	height: 180px;
-	object-fit: cover;
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
 }
 
 .progress-bar {
   margin: 10px 0;
-
 }
 
 h1, h2 {
   font-weight: normal;
 }
+
 ul {
   list-style-type: none;
   padding: 0;
 }
+
 li {
   display: inline-block;
   margin: 0 10px;
 }
+
 a {
   color: #42b983;
 }
+
 header {
-    width: 100%;
-    height: 50px;
-    background-color: black;
+  width: 100%;
+  height: 50px;
+  background-color: black;
 }
 
-p{
-      margin-bottom: 0;
+p {
+  margin-bottom: 0;
 }
+
 p.title {
-    color: white;
-    font-size: 15px;
+  color: white;
+  font-size: 15px;
 }
 
 .display-5 {
@@ -253,32 +266,31 @@ p.title {
 }
 
 .wrapper {
-    padding: 20px;
+  padding: 20px;
 }
 
 .btnWrapper {
-    text-align: right;
+  text-align: right;
 }
 
 .icon {
-    width: 100px;
-    height: 100px;
-    background-color: aqua;
-    float: left;
+  width: 100px;
+  height: 100px;
+  background-color: aqua;
+  float: left;
 }
 
 .heartIcon {
-    color: tomato;
-    font-size: 30px;
+  color: tomato;
+  font-size: 30px;
 }
 
 textarea {
-    resize: none;
-    width:100%;
-    height:100px;
-    padding: 10px;
+  resize: none;
+  width:100%;
+  height:100px;
+  padding: 10px;
 }
-
 
 .inputPost {
   position: relative;
@@ -296,44 +308,13 @@ textarea {
 
 /* タイトルとサブタイトルのサイズを修正 */
 @media (max-width: 540px) {
-.lead-2 {
-  text-align-last: left;
-}
-.display-5 {
-  width: 100%;
-  text-align-last: center;
-  font-size: 1.7rem;
-}
-}
-
-</style>
-    width: 100px;
-    height: 100px;
-    background-color: aqua;
-    float: left;
-}
-
-.heartIcon {
-    color: tomato;
-    font-size: 30px;
-}
-
-textarea {
-    resize: none;
-    width:100%;
-    height:100px;
-    padding: 10px;
-}
-
-/* タイトルとサブタイトルのサイズを修正 */
-@media (max-width: 540px) {
-.lead-2 {
-  text-align-last: left;
-}
-.display-5 {
-  width: 100%;
-  text-align-last: center;
-  font-size: 1.7rem;
-}
+  .lead-2 {
+    text-align-last: left;
+  }
+  .display-5 {
+    width: 100%;
+    text-align-last: center;
+    font-size: 1.7rem;
+  }
 }
 </style>
