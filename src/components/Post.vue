@@ -1,13 +1,13 @@
 <template>
-<div class="post">
-  <div class="wrapper">
-    <!-- 新規投稿用カード -->
-    <div class="jumbotron">
-      <h2 class="display-5">〈POST-cha!〉へようこそ！！</h2>
-      <p class="lead-2">まずはあなたの言葉で、気楽にPOSTしてみてください。</p>
-      <p class="lead-2">そこから新たな出会いが生まれるかもしれません。</p>
-      <hr class="my-4">
-      <div v-if="signedIn">
+  <div class="post">
+    <div class="wrapper text-center">
+     <!-- 新規投稿用カード -->
+      <div class="jumbotron">
+        <h2 class="display-5">POST-cha!へ<br class="d-md-none">ようこそ！！</h2>
+        <p class="lead-2">まずはあなたの言葉で、気楽にPOSTしてみてください。</p>
+        <p class="lead-2">そこから新たな出会いが生まれるかもしれません。</p>
+        <hr class="my-4">
+        <div v-if="signedIn">
 
         <div class="input-group mb-3 inputPost">
           <textarea v-model="newPostBody" name="postdata" placeholder="200字まで入力できます" v-bind:class="{ 'text-danger': error.tooLong, 'text-muted': error.require }"></textarea><br>
@@ -19,17 +19,32 @@
         　　
         <!-- 画像追加 -->
         <div>
-          <input id="files" type="file" name="file" accept="image/*" @change="detectFiles($event)" />
-          <br>
-          <b-progress class="progress-bar" v-if="uploading && !uploadEnd" :value="progressUpload" show-value variant="info">
-          </b-progress>
-          <br>
-          <img v-if="uploadEnd" :src="downloadURL" width="45%" />
-          <div v-if="uploadEnd">
-            <button class="m-3" @click="deleteImage()">
-              Delete
-            </button>
-          </div>
+          <b-button size="sm" variant="light" class="mb-3" @click="trigger()">画像を添付</b-button>
+          <input
+            class="d-none"
+            id="files"
+            type="file"
+            ref="fileInput"
+            name="file"
+            accept="image/*"
+            @change="detectFiles($event)" />
+            <br>
+            <b-progress
+              v-if="uploading && !uploadEnd"
+              :value="progressUpload"
+              show-value
+              variant="info">
+            </b-progress>
+            <br>
+            <img
+              v-if="uploadEnd"
+              :src="downloadURL"
+              width="45%"/>
+            <div v-if="uploadEnd">
+              <b-button size="sm" variant="light" class="m-3" @click="deleteImage()">
+                画像を削除
+              </b-button>
+            </div>
         </div>
 
 
@@ -49,7 +64,6 @@
         </div> -->
     </div>
   </div>
-</div>
 </div>
 </template>
 <script>
@@ -131,7 +145,11 @@ export default {
         likedCount: 0,
         downloadURL: this.downloadURL
       })
-      this.newPostBody = "";
+      this.newPostBody = ''
+      this.uploading = false
+      this.uploadEnd = false
+      this.downloadURL = ''
+
       // Post成功時にメッセージを表示する
       this.postMsg = true;
     },
@@ -141,7 +159,10 @@ export default {
         this.upload(fileList[x])
       })
     },
-    upload(file) {
+    trigger () {
+      this.$refs.fileInput.click()
+    },
+    upload (file) {
       this.fileName = file.name
       this.uploading = true
       this.uploadTask = firebase.storage().ref('images/' + file.name).put(file)
@@ -272,7 +293,6 @@ textarea {
   height: 100px;
   padding: 10px;
 }
-
 
 .inputPost {
   position: relative;
