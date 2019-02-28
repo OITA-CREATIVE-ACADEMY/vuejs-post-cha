@@ -109,8 +109,12 @@ export default {
       edit: {},
       value: {},
       icon: [],
+      IsNoimage: false,
       profileUrl: "",
-          }
+      email: '',
+      password: '',
+      signedIn: false,
+    }
   },
   // methods: {
   //   signOut: function () {
@@ -121,6 +125,10 @@ export default {
   // },
 
   created: function() {
+
+console.log(this.IsNoimage);
+
+
     // ログイン状態によって投稿ボタンの表示を変更する
     firebase.auth().onAuthStateChanged(user => {
       this.user = user ? user : {}
@@ -145,13 +153,6 @@ export default {
         
       }
     })
-  },
-  data: function () {
-    return {
-      email: '',
-      password: '',
-      signedIn: false,
-    }
   },
   methods: {
     signIn: function () {
