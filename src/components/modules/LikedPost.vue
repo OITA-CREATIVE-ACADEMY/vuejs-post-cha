@@ -46,7 +46,7 @@ export default {
       if (snapshot.val()) {
         let likedPostKeys = Object.keys(snapshot.val())
         likedPostKeys.map(key => {
-          _this.postsRef.child(key).on("value", function(snapshot){
+          _this.postsRef.child(key).once("value", function(snapshot){
             // debug
             console.log(snapshot.val())
             if (snapshot.val()) {
