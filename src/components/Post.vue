@@ -1,73 +1,62 @@
 <template>
-  <div class="post">
-    <div class="wrapper">
-      <!-- 新規投稿用カード -->
-      <div class="jumbotron">
-        <h2 class="display-5">〈POST-cha!〉へようこそ！！</h2>
-        <p class="lead-2">まずはあなたの言葉で、気楽にPOSTしてみてください。</p>
-        <p class="lead-2">そこから新たな出会いが生まれるかもしれません。</p>
-        <hr class="my-4">
-        <div v-if="signedIn">
+<div class="post">
+  <div class="wrapper">
+    <!-- 新規投稿用カード -->
+    <div class="jumbotron">
+      <h2 class="display-5">〈POST-cha!〉へようこそ！！</h2>
+      <p class="lead-2">まずはあなたの言葉で、気楽にPOSTしてみてください。</p>
+      <p class="lead-2">そこから新たな出会いが生まれるかもしれません。</p>
+      <hr class="my-4">
+      <div v-if="signedIn">
 
-          <div class="input-group mb-3 inputPost">
-            <textarea v-model="newPostBody" name="postdata" placeholder="200字まで入力できます"  v-bind:class="{ 'text-danger': error.tooLong, 'text-muted': error.require }" ></textarea><br>
-              <div class="input-group-append" v-bind:class="{ 'text-danger': error.tooLong }">
-              </div>
-            <div id="lengthCounter" class="text-primary h3" v-bind:class="{ 'text-danger': error.tooLong }">{{this.newPostBody.length}}/200</div>
+        <div class="input-group mb-3 inputPost">
+          <textarea v-model="newPostBody" name="postdata" placeholder="200字まで入力できます" v-bind:class="{ 'text-danger': error.tooLong, 'text-muted': error.require }"></textarea><br>
+          <div class="input-group-append" v-bind:class="{ 'text-danger': error.tooLong }">
           </div>
+          <div id="lengthCounter" class="text-primary h3" v-bind:class="{ 'text-danger': error.tooLong }">{{this.newPostBody.length}}/200</div>
+        </div>
 
-    　　<!-- 画像追加 -->
+        　　
+        <!-- 画像追加 -->
         <div>
-          <input
-            id="files"
-            type="file"
-            name="file"
-            accept="image/*"
-            @change="detectFiles($event)" />
-            <br>
-            <b-progress
-              v-if="uploading && !uploadEnd"
-              :value="progressUpload"
-              show-value
-              variant="info">
-            </b-progress>
-            <br>
-            <img
-              v-if="uploadEnd"
-              :src="downloadURL"
-              width="45%"/>
-            <div v-if="uploadEnd">
-              <button class="m-3" @click="deleteImage()">
-                Delete
-              </button>
-            </div>
+          <input id="files" type="file" name="file" accept="image/*" @change="detectFiles($event)" />
+          <br>
+          <b-progress class="progress-bar" v-if="uploading && !uploadEnd" :value="progressUpload" show-value variant="info">
+          </b-progress>
+          <br>
+          <img v-if="uploadEnd" :src="downloadURL" width="45%" />
+          <div v-if="uploadEnd">
+            <button class="m-3" @click="deleteImage()">
+              Delete
+            </button>
+          </div>
         </div>
 
 
 
-          <p class="lead">
-            <button type="submit" v-on:click="createPost()" class="btn btn-primary btn-lg" :disabled="validated == 1">投稿する</button>
-          </p>
-          <p v-if="postMsg" class="text-success">投稿しました!</p>
-        </div>
-        <div v-if="!signedIn">
-          <b-btn v-b-modal.signin-modalPrevent>始める</b-btn>
-        </div>
-        <!-- <div v-if="!signedIn">
+        <p class="lead">
+          <button type="submit" v-on:click="createPost()" class="btn btn-primary btn-lg" :disabled="validated == 1">投稿する</button>
+        </p>
+        <p v-if="postMsg" class="text-success">投稿しました!</p>
+      </div>
+      <div v-if="!signedIn">
+        <b-btn v-b-modal.signin-modalPrevent>始める</b-btn>
+      </div>
+      <!-- <div v-if="!signedIn">
           <p class="lead">
             <router-link to="/signin" class="btn btn-success btn-lg">始める!</router-link>
           </p>
         </div> -->
-      </div>
     </div>
   </div>
+</div>
 </div>
 </template>
 <script>
 import firebase from 'firebase';
 export default {
   name: 'Post',
-  data () {
+  data() {
     return {
       database: null,
       postsRef: null,
@@ -90,17 +79,17 @@ export default {
     }
   },
   created: function() {
-  // ログイン状態によって投稿ボタンの表示を変更する
-  firebase.auth().onAuthStateChanged(user => {
-    this.user = user ? user : {}
-    if (user) {
-      this.signedIn = true
-      // debug
-      console.log(this.user)
-    } else {
-      this.signedIn = false
-    }
-  })
+    // ログイン状態によって投稿ボタンの表示を変更する
+    firebase.auth().onAuthStateChanged(user => {
+      this.user = user ? user : {}
+      if (user) {
+        this.signedIn = true
+        // debug
+        console.log(this.user)
+      } else {
+        this.signedIn = false
+      }
+    })
 
     // 投稿一覧を取得する
     this.database = firebase.database()
@@ -111,10 +100,10 @@ export default {
     });
   },
   computed: {
-    allPosts: function () {
+    allPosts: function() {
       return this.posts
     },
-    postLengthCount: function () {
+    postLengthCount: function() {
       return 200 - this.newPostBody.length;
     },
     validated: function() {
@@ -129,14 +118,16 @@ export default {
   },
   methods: {
     createPost: function() {
-      if (this.newPostBody == "") { return; }
-      let imageUrl = "https://via.placeholder.com/100x100/000000/FFFFFF?text=" + this.user.email.slice(0,1)
+      if (this.newPostBody == "") {
+        return;
+      }
+      let imageUrl = "https://via.placeholder.com/100x100/000000/FFFFFF?text=" + this.user.email.slice(0, 1)
       this.postsRef.push({
         body: this.newPostBody,
         imageUrl: imageUrl,
         userUid: this.user.uid,
         userEmail: this.user.email,
-        createdAt: Math.round(+new Date()/1000),
+        createdAt: Math.round(+new Date() / 1000),
         likedCount: 0,
         downloadURL: this.downloadURL
       })
@@ -144,19 +135,19 @@ export default {
       // Post成功時にメッセージを表示する
       this.postMsg = true;
     },
-    detectFiles (e) {
+    detectFiles(e) {
       let fileList = e.target.files || e.dataTransfer.files
       Array.from(Array(fileList.length).keys()).map(x => {
         this.upload(fileList[x])
       })
     },
-    upload (file) {
+    upload(file) {
       this.fileName = file.name
       this.uploading = true
       this.uploadTask = firebase.storage().ref('images/' + file.name).put(file)
     },
-    deleteImage () {
-        firebase.storage()
+    deleteImage() {
+      firebase.storage()
         .ref('images/' + this.fileName)
         .delete()
         .then(() => {
@@ -170,18 +161,18 @@ export default {
     }
   },
   watch: {
-    uploadTask: function () {
+    uploadTask: function() {
       this.uploadTask.on('state_changed', sp => {
-        this.progressUpload = Math.floor(sp.bytesTransferred / sp.totalBytes * 100)
-      },
-      null,
-      () => {
-        this.uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
-          this.uploadEnd = true
-          this.downloadURL = downloadURL
-          this.$emit('downloadURL', downloadURL)
+          this.progressUpload = Math.floor(sp.bytesTransferred / sp.totalBytes * 100)
+        },
+        null,
+        () => {
+          this.uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+            this.uploadEnd = true
+            this.downloadURL = downloadURL
+            this.$emit('downloadURL', downloadURL)
+          })
         })
-      })
     },
     newPostBody: function(newVal, oldVal) {
       // this.postLength_200 = (2 < newVal.length > 199) ? true : false; // 最低文字数(2文字以上)
@@ -189,93 +180,96 @@ export default {
       this.error.require = (newVal.length < 2) ? true : false; // 最低文字数(2文字以上)
       this.error.tooLong = (newVal.length > 200) ? true : false; // 最大文字数(200文字まで)
 
-      if(!this.error.tooLong && !this.error.require){
+      if (!this.error.tooLong && !this.error.require) {
         this.postJudge = false
       }
     }
   }
 }
-
-
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 img {
-	width: 500px;
-	height: 500px;
+  width: 500px;
+  height: 500px;
 }
 
 .progress-bar {
-  margin: 10px 0;
+  margin: 15px 100px;
 
 }
 
-h1, h2 {
+h1,
+h2 {
   font-weight: normal;
 }
+
 ul {
   list-style-type: none;
   padding: 0;
 }
+
 li {
   display: inline-block;
   margin: 0 10px;
 }
+
 a {
   color: #42b983;
 }
+
 header {
-    width: 100%;
-    height: 50px;
-    background-color: black;
+  width: 100%;
+  height: 50px;
+  background-color: black;
 }
 
-p{
-      margin-bottom: 0;
+p {
+  margin-bottom: 0;
 }
+
 p.title {
-    color: white;
-    font-size: 15px;
+  color: white;
+  font-size: 15px;
 }
 
 .display-5 {
   text-align-last: center;
   margin-bottom: 22px;
-  font-size:34px;
+  font-size: 34px;
 }
 
 .lead-2 {
   text-align-last: center;
-  font-size:18px;
+  font-size: 18px;
 }
 
 .wrapper {
-    padding: 20px;
+  padding: 20px;
 }
 
 .btnWrapper {
-    text-align: right;
+  text-align: right;
 }
 
 .icon {
-    width: 100px;
-    height: 100px;
-    background-color: aqua;
-    float: left;
+  width: 100px;
+  height: 100px;
+  background-color: aqua;
+  float: left;
 }
 
 .heartIcon {
-    color: tomato;
-    font-size: 30px;
+  color: tomato;
+  font-size: 30px;
 }
 
 textarea {
-    resize: none;
-    width:100%;
-    height:100px;
-    padding: 10px;
+  resize: none;
+  width: 100%;
+  height: 100px;
+  padding: 10px;
 }
 
 
@@ -295,22 +289,20 @@ textarea {
 
 /* タイトルとサブタイトルのサイズを修正 */
 @media (max-width: 540px) {
-.lead-2 {
-  text-align-last: center;
-  font-size:13px;
-}
-.display-5 {
-  width: 100%;
-  text-align-last: center;
-  font-size: 24px;
-}
-img {
-	width: 300px;
-	height: 300px;
-}
-}
+  .lead-2 {
+    text-align-last: center;
+    font-size: 13px;
+  }
 
+  .display-5 {
+    width: 100%;
+    text-align-last: center;
+    font-size: 24px;
+  }
 
-
-
+  img {
+    width: 300px;
+    height: 300px;
+  }
+}
 </style>
