@@ -60,10 +60,12 @@
     <b-form-input type="text" placeholder="メールアドレス" v-model="email"></b-form-input><br>
     <b-form-input type="password" placeholder="パスワード" v-model="password"></b-form-input><br>
     </form>
-    <p><button @click="signIn" type="button" class="btn btn-primary">ログイン</button></p>
-    <p>アカウントをお持ちでない方はこちら 
-      <b-btn v-b-modal.signup-modalPrevent>新規登録!!</b-btn>
-    </p>
+    <div class="text-center">
+      <p><button @click="signIn" type="button" class="btn btn-primary">ログイン</button></p>
+      <p>アカウントをお持ちでない方はこちら 
+        <b-btn v-b-modal.signup-modalPrevent>新規登録!!</b-btn>
+      </p>
+    </div>
   </b-modal>
 
   <!-- signup modal -->
@@ -74,10 +76,12 @@
     <b-form-input type="text" placeholder="メールアドレス" v-model="email"></b-form-input><br>
     <b-form-input type="password" placeholder="パスワード" v-model="password"></b-form-input><br>
     </form>
-    <p><button @click="signUp" type="button" class="btn btn-primary">登録</button></p>
-    <p>既にアカウントをお持ちの方はこちら 
-      <b-btn v-b-modal.signin-modalPrevent>ログイン!!</b-btn>
-    </p>
+    <div class="text-center">
+      <p><button @click="signUp" type="button" class="btn btn-primary">登録</button></p>
+      <p>既にアカウントをお持ちの方はこちら 
+        <b-btn v-b-modal.signin-modalPrevent>ログイン!!</b-btn>
+      </p>
+    </div>
   </b-modal>
 
   <!-- <template>
