@@ -15,7 +15,7 @@
         </div>
         <div class="d-flex flex-row justify-content-between align-items-center">
           <div class="icon">
-            <img v-bind:src="post.imageUrl" alt>
+            <img v-bind:src="post.imageUrl">
             <!-- user.photo.URL -->
           </div>
           <div class="bodyText">
@@ -35,6 +35,7 @@
               class="btn btn-outline-primary btn-lg"
               v-b-popover.hover.left="'いいね!'"
               variant="primary"
+              v-if="!like"
             >
               <div class="likeCount">{{ post.likedCount }}</div>
               <i class="far fa-kiss-wink-heart heartIcon"></i>
@@ -68,7 +69,7 @@ import firebase from "firebase";
 
 export default {
   name: 'Card',
-  props: ['posts'],
+  props: ['posts','like'],
   data () {
     return {
       database: null,
@@ -99,7 +100,9 @@ export default {
 
     // データベースを定義
     this.database = firebase.database();
-    // this.postsRef = this.database.ref("posts");
+    this.postsRef = this.database.ref("posts");
+    this.userImgRef = this.database.ref("users");
+
     // var _this = this;
     // this.postsRef.on("value", function(snapshot) {
     //   _this.posts = snapshot.val(); // データに変化が起きたときに再取得する
@@ -110,7 +113,7 @@ export default {
       return this.posts;
     },
     //自分の投稿にだけ「編集/削除」プルダウンを表示する
-    myPosts: function(post){
+    myPosts: function(post) {
       console.log(post);
       return function(post) {
         // var user = firebase.auth().currentUser; //現在ログインしているユーザーの情報を取得
@@ -120,8 +123,8 @@ export default {
 
         // 現在ログインしていればuserUidを保存、していなければ何もしない
         if (userUid){
-          console.log(post);
-          console.log(post.userUid);
+          // console.log(post);
+          // console.log(post.userUid);
           var postUserUid = post.userUid;
         }
         // ログイン・ログアウトでプルダウン切り替え
@@ -135,9 +138,9 @@ export default {
     // 投稿画像の有無でカード表示を切り替え
     postImg: function(post) {
       return function (post) {
-        console.log(post);
+        // console.log(post);
         var imgPost = post.downloadURL;
-        console.log(imgPost);
+        // console.log(imgPost);
 
           if(imgPost === "" || imgPost === undefined) {
           return this.post = false;
@@ -145,7 +148,7 @@ export default {
           return this.post = true;
         } 
       }  
-    }
+    },
   },
   methods: {
     updatePost: function() {
