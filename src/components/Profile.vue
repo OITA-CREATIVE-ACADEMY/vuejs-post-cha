@@ -267,7 +267,7 @@ export default {
 
 .iconList input {
   display: block;
-  margin-top: -1em;
+  margin-top: 0;
 }
 
 .iconList ul {
