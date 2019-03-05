@@ -11,20 +11,6 @@
     <b-navbar-toggle target="nav_collapse" />
 
   <b-collapse is-nav id="nav_collapse">
-    <b-navbar-nav>
-      <b-nav-item>
-        <router-link to="/post">Post</router-link>
-      </b-nav-item>
-      <b-nav-item>
-        <router-link to="/like">Like</router-link>
-      </b-nav-item>
-      <b-nav-item>
-        <router-link to="/mypage">Mypage</router-link>
-      </b-nav-item>
-      <b-nav-item data-toggle="modal" data-target="#signin">
-        <router-link to="/signin">Signin</router-link>
-      </b-nav-item>
-    </b-navbar-nav>
     <!-- firebaseからログイン中のユーザーを取得し、emailアドレス（HN）を表示する -->
      <!-- <p class="userName">{{post.userEmail}}さん、こんにちは！</p> -->
 
