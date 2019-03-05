@@ -11,20 +11,6 @@
     <b-navbar-toggle target="nav_collapse" />
 
   <b-collapse is-nav id="nav_collapse">
-    <b-navbar-nav>
-      <b-nav-item>
-        <router-link to="/post">Post</router-link>
-      </b-nav-item>
-      <b-nav-item>
-        <router-link to="/like">Like</router-link>
-      </b-nav-item>
-      <b-nav-item>
-        <router-link to="/mypage">Mypage</router-link>
-      </b-nav-item>
-      <b-nav-item data-toggle="modal" data-target="#signin">
-        <router-link to="/signin">Signin</router-link>
-      </b-nav-item>
-    </b-navbar-nav>
     <!-- firebaseからログイン中のユーザーを取得し、emailアドレス（HN）を表示する -->
      <!-- <p class="userName">{{post.userEmail}}さん、こんにちは！</p> -->
 
@@ -60,10 +46,12 @@
     <b-form-input type="text" placeholder="メールアドレス" v-model="email"></b-form-input><br>
     <b-form-input type="password" placeholder="パスワード" v-model="password"></b-form-input><br>
     </form>
-    <p><button @click="signIn" type="button" class="btn btn-primary">ログイン</button></p>
-    <p>アカウントをお持ちでない方はこちら 
-      <b-btn v-b-modal.signup-modalPrevent>新規登録!!</b-btn>
-    </p>
+    <div class="text-center">
+      <p><button @click="signIn" type="button" class="btn btn-primary">ログイン</button></p>
+      <p>アカウントをお持ちでない方はこちら 
+        <b-btn v-b-modal.signup-modalPrevent>新規登録!!</b-btn>
+      </p>
+    </div>
   </b-modal>
 
   <!-- signup modal -->
@@ -74,10 +62,12 @@
     <b-form-input type="text" placeholder="メールアドレス" v-model="email"></b-form-input><br>
     <b-form-input type="password" placeholder="パスワード" v-model="password"></b-form-input><br>
     </form>
-    <p><button @click="signUp" type="button" class="btn btn-primary">登録</button></p>
-    <p>既にアカウントをお持ちの方はこちら 
-      <b-btn v-b-modal.signin-modalPrevent>ログイン!!</b-btn>
-    </p>
+    <div class="text-center">
+      <p><button @click="signUp" type="button" class="btn btn-primary">登録</button></p>
+      <p>既にアカウントをお持ちの方はこちら 
+        <b-btn v-b-modal.signin-modalPrevent>ログイン!!</b-btn>
+      </p>
+    </div>
   </b-modal>
 
   <!-- <template>
@@ -109,8 +99,12 @@ export default {
       edit: {},
       value: {},
       icon: [],
+      IsNoimage: false,
       profileUrl: "",
-          }
+      email: '',
+      password: '',
+      signedIn: false,
+    }
   },
   // methods: {
   //   signOut: function () {
@@ -121,6 +115,10 @@ export default {
   // },
 
   created: function() {
+
+console.log(this.IsNoimage);
+
+
     // ログイン状態によって投稿ボタンの表示を変更する
     firebase.auth().onAuthStateChanged(user => {
       this.user = user ? user : {}
@@ -145,13 +143,6 @@ export default {
         
       }
     })
-  },
-  data: function () {
-    return {
-      email: '',
-      password: '',
-      signedIn: false,
-    }
   },
   methods: {
     signIn: function () {
