@@ -1,7 +1,7 @@
 <template>
   <div class="mypage">
     <div>
-      <b-card title="Profile">
+      <b-card>
         <user-profile></user-profile>
       </b-card>
     </div>
