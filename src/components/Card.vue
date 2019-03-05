@@ -3,7 +3,10 @@
     <b-card-group deck class="d-flex flex-column-reverse w-100">
       <div v-for="(post, key) in posts" v-bind:key="post.id" class="card my-2">
         <div class="card-header">
-          {{ post.userEmail }}
+          <div>
+            <b-img v-bind:src="post.imageUrl" rounded="circle" width="30" alt="プロフィール画像" />
+            {{ post.userEmail }}
+          </div>
           <div v-if="signedIn">
             <b-dropdown id="ddown-sm ddown-left" right size="sm" class="close" v-if="myPosts(post)" v-b-popover.hover.left="'投稿を編集 / 削除'"
                variant="primary">
@@ -14,10 +17,6 @@
           </div>
         </div>
         <div class="d-flex flex-row justify-content-between align-items-center">
-          <div class="icon">
-            <img v-bind:src="post.imageUrl">
-            <!-- user.photo.URL -->
-          </div>
           <div class="bodyText">
             <p class="card-text">{{ post.body }}</p>
           </div>
@@ -280,9 +279,6 @@ b-button {
     margin: 10px;
     border-radius: 5%;
   }
-  .card-header {
-    height: 40px;
-  }
 
   .card {
     font-size: 0.8rem;
@@ -294,7 +290,6 @@ b-button {
   }
 
   .close {
-  padding: 5px;
   font-size: 20px;
   }
 
