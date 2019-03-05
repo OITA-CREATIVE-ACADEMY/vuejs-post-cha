@@ -6,36 +6,26 @@
         <img src="./assets/images/logo.gif" alt="ロゴ">
       </router-link>
     </b-navbar-brand>
-    
-
-    <b-navbar-toggle target="nav_collapse" />
-
-  <b-collapse is-nav id="nav_collapse">
-    <!-- firebaseからログイン中のユーザーを取得し、emailアドレス（HN）を表示する -->
-     <!-- <p class="userName">{{post.userEmail}}さん、こんにちは！</p> -->
-
-
-      <!-- Right aligned nav items -->
-      <b-navbar-nav class="ml-auto">
-        <b-nav-item-dropdown right>
-          <!-- Using button-content slot -->
-          <template slot="button-content">
-            <!-- <em>User</em> -->
-            <!-- <img="lib/brand-logo.jpg"> -->
-            <img v-if="!IsNoimage" :src="profileUrl" class="icon_img" alt="アカウント画像">
-            <img v-if="IsNoimage" src="./assets/images/LadyIcon.png" class="icon_img" alt="アカウント画像">
-          </template>
-          <b-dropdown-item v-if="signedIn">
-            <router-link to="/mypage">マイページ</router-link>
-          </b-dropdown-item>
-          <b-dropdown-item v-if="!signedIn" v-b-modal.signin-modalPrevent>ログイン
-          </b-dropdown-item>
-          <b-dropdown-item v-if="signedIn" @click="signOut">ログアウト</b-dropdown-item>
-          <b-dropdown-item v-if="!signedIn" v-b-modal.signup-modalPrevent>新規登録
-          </b-dropdown-item>       
-        </b-nav-item-dropdown>
-      </b-navbar-nav>
-    </b-collapse>
+    <b-navbar-nav class="ml-auto">
+      <b-dropdown right>
+        <template slot="button-content">
+          <img v-if="!IsNoimage" :src="profileUrl" class="icon_img" alt="アカウント画像">
+          <img v-if="IsNoimage" src="./assets/images/LadyIcon.png" class="icon_img" alt="アカウント画像">
+        </template>
+        <b-dropdown-item v-if="signedIn">
+          <router-link to="/mypage">マイページ</router-link>
+        </b-dropdown-item>
+        <b-dropdown-item v-if="!signedIn" v-b-modal.signin-modalPrevent>
+          ログイン
+        </b-dropdown-item>
+        <b-dropdown-item v-if="signedIn" @click="signOut">
+          ログアウト
+        </b-dropdown-item>
+        <b-dropdown-item v-if="!signedIn" v-b-modal.signup-modalPrevent>
+          新規登録
+        </b-dropdown-item>       
+      </b-dropdown>
+    </b-navbar-nav>
   </b-navbar>
 
   <!-- signin modal -->
@@ -212,14 +202,6 @@ a {
 .icon_img {
   width: 30px;
 }
-
-/* navbar が toggleに変化するとき、ロゴを左側、toggleを右側に来るように変更 */
-@media (max-width: 767px) {
-  .navbar {
-    flex-direction: row-reverse;
-    /* padding: 0; */
-  }
- }
  
 .dropdown-toggle::after {
   color: #6c757d;
