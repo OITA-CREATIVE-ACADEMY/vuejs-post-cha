@@ -313,7 +313,7 @@ textarea {
   bottom: 0;
   font-weight: bold;
   pointer-events: none;
-  z-index: 100000;
+  z-index: 2;
   opacity: 0.35;
 }
 
