@@ -21,12 +21,12 @@
             <div class="bodyText">
               <p class="card-text">{{ post.body }}</p>
             </div>
-            <div class="DLurl"
+            <div class="DLurl cp_tooltip"
                   v-if="postImg(post)"
                   @click="zoomImg(key, post)"
-                  v-b-popover.hover.left="'Zoom!'"
                   variant="primary">
               <img v-bind:src="post.downloadURL">
+              <span class="cp_tooltiptext">ツールチップテキスト</span>
             </div>
           </div>
           <div class="likeBtn d-flex flex-column">
@@ -343,6 +343,42 @@ b-button {
   cursor: pointer;
 }
 
+.cp_tooltip {
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+	/* background: linear-gradient(transparent 60%, #f19ec2 60%); */
+}
+.cp_tooltip .cp_tooltiptext {
+	position: absolute;
+	z-index: 1;
+	bottom: 100%;
+	left: 0;
+	visibility: hidden;
+	width: auto;
+	white-space: nowrap;
+	padding: 0.3em 0.5em;
+	transition: opacity 1s;
+	text-align: center;
+	opacity: 0;
+	color: #ffffff;
+	border-radius: 6px;
+	background-color: #da3c41;
+}
+.cp_tooltip .cp_tooltiptext::after {
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	margin-left: -5px;
+	content: ' ';
+	border: 5px solid transparent;
+	border-top-color: #da3c41;
+}
+.cp_tooltip:hover .cp_tooltiptext {
+	visibility: visible;
+	opacity: 1;
+}
+
 
 /* responsive（カードサイズ） */
 /* 画面が1020px以上の時 */
@@ -433,7 +469,6 @@ b-button {
     width: 100%;
     margin-right: auto;
   }
-
 
 }
 </style>
