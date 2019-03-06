@@ -295,8 +295,8 @@ b-button {
 .card {
   max-width: 80vw;
   width: 80vw;
-  margin-left: auto;
-  margin-right: auto;
+  margin-left: auto !important;
+  margin-right: auto !important;
   margin-bottom: 2em !important;
 }
 
