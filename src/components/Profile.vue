@@ -181,6 +181,7 @@ export default {
         displayName: user.displayName
       }).then(function() {
         // Update successful.
+        alert("変更しました！");
         return;
       }).catch(function(error) {
         // An error happened.

@@ -7,8 +7,8 @@
             <b-img v-bind:src="post.imageUrl" rounded="circle" width="30" alt="プロフィール画像" />
             {{ post.displayName || post.userEmail }}
           </div>
-          <div v-if="signedIn">
-            <b-dropdown id="ddown-sm ddown-left" right size="sm" class="close" v-if="myPosts(post)" v-b-popover.hover.left="'投稿を編集 / 削除'"
+          <div v-if="signedIn && !notLike">
+            <b-dropdown id="ddown-sm ddown-left" right size="sm" class="setting" v-if="myPosts(post)" v-b-tooltip.hover.left="'POSTを編集 / 削除'"
                variant="primary">
               <b-dropdown-item-button v-b-modal.modalPrevent @click="showModal(key, post)">編集</b-dropdown-item-button>
               <b-dropdown-divider></b-dropdown-divider>
@@ -34,7 +34,7 @@
               type="submit"
               v-on:click="likePost(key, post)"
               class="btn btn-outline-primary btn-lg"
-              v-b-popover.hover.left="'いいね!'"
+              v-b-tooltip.hover.left="'いいね!'"
               variant="primary"
               v-if="!like"
             >
@@ -48,7 +48,7 @@
     <div>
       <b-modal ref="myModalRef" hide-footer centered title="編集画面">
         <div class="d-block text-center">
-          <textarea v-model="modalPost.body" name id cols="50" lows="30"></textarea>
+          <textarea v-model="modalPost.body" name id></textarea>
         </div>
         <b-btn class="mt-3" variant="outline-danger" block @click="updatePost()">Update</b-btn>
         <b-btn class="mt-3" variant="outline-danger" block @click="hideModal">Cancel</b-btn>
@@ -70,7 +70,7 @@ import firebase from "firebase";
 
 export default {
   name: 'Card',
-  props: ['posts','like'],
+  props: ['posts','like', 'notLike'],
   data () {
     return {
       database: null,
@@ -271,13 +271,12 @@ b-button {
   width: 100%;
 }
 
-.close {
-  /* position: absolute;
+.setting {
+  position: absolute;
   top: 0;
   right: 0;
   padding: 10px; */
   font-size: 30px;
-  color: black;
 }
 
 /* cardのデザイン調整  */
@@ -338,6 +337,7 @@ b-button {
   cursor: pointer;
 }
 
+
 /* responsive（カードサイズ） */
 /* 画面が1020px以上の時 */
 @media (min-width: 1050px) {
@@ -397,8 +397,9 @@ b-button {
     padding: 0.2em;
   }
 
-  .close {
-  font-size: 20px;
+  .setting {
+  padding: 5px;
+  /* font-size: 20px; */
   }
 
   .heartIcon {
