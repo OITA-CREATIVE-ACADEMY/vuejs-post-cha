@@ -4,8 +4,8 @@
       <div v-for="(post, key) in posts" v-bind:key="post.id" class="card my-2">
         <div class="card-header">
           {{ post.userEmail }}
-          <div v-if="signedIn">
-            <b-dropdown id="ddown-sm ddown-left" right size="sm" class="close" v-if="myPosts(post)" v-b-popover.hover.left="'投稿を編集 / 削除'"
+          <div v-if="signedIn && !notLike">
+            <b-dropdown id="ddown-sm ddown-left" right size="sm" class="setting" v-if="myPosts(post)" v-b-popover.hover.left="'投稿を編集 / 削除'"
                variant="primary">
               <b-dropdown-item-button v-b-modal.modalPrevent @click="showModal(key, post)">編集</b-dropdown-item-button>
               <b-dropdown-divider></b-dropdown-divider>
@@ -24,7 +24,6 @@
           <div class="DLurl"
                 v-if="postImg(post)"
                 @click="zoomImg(key, post)"
-                v-b-popover.hover.left="'Zoom!'"
                 variant="primary">
             <img v-bind:src="post.downloadURL">
           </div>
@@ -47,7 +46,7 @@
     <div>
       <b-modal ref="myModalRef" hide-footer centered title="編集画面">
         <div class="d-block text-center">
-          <textarea v-model="modalPost.body" name id cols="50" lows="30"></textarea>
+          <textarea v-model="modalPost.body" name id></textarea>
         </div>
         <b-btn class="mt-3" variant="outline-danger" block @click="updatePost()">Update</b-btn>
         <b-btn class="mt-3" variant="outline-danger" block @click="hideModal">Cancel</b-btn>
@@ -69,7 +68,7 @@ import firebase from "firebase";
 
 export default {
   name: 'Card',
-  props: ['posts','like'],
+  props: ['posts','like', 'notLike'],
   data () {
     return {
       database: null,
@@ -240,13 +239,12 @@ b-button {
   margin-right: 10px;
 }
 
-.close {
+.setting {
   position: absolute;
   top: 0;
   right: 0;
   padding: 10px;
   font-size: 30px;
-  color: black;
 }
 
 /* アイコン */
@@ -256,6 +254,7 @@ b-button {
   color: #ff50ac;
   cursor: pointer;
 }
+
 
 /* responsive（カードサイズ） */
 /* 画面が1020px以上の時 */
@@ -293,7 +292,7 @@ b-button {
     height: 70px;
   }
 
-  .close {
+  .setting {
   padding: 5px;
   font-size: 20px;
   }
