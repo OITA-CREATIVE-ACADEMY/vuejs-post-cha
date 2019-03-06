@@ -5,7 +5,7 @@
         <div class="card-header">
           {{ post.userEmail }}
           <div v-if="signedIn && !notLike">
-            <b-dropdown id="ddown-sm ddown-left" right size="sm" class="setting" v-if="myPosts(post)" v-b-popover.hover.left="'投稿を編集 / 削除'"
+            <b-dropdown id="ddown-sm ddown-left" right size="sm" class="setting" v-if="myPosts(post)" v-b-tooltip.hover.left="'POSTを編集 / 削除'"
                variant="primary">
               <b-dropdown-item-button v-b-modal.modalPrevent @click="showModal(key, post)">編集</b-dropdown-item-button>
               <b-dropdown-divider></b-dropdown-divider>
@@ -24,6 +24,7 @@
           <div class="DLurl"
                 v-if="postImg(post)"
                 @click="zoomImg(key, post)"
+                v-b-tooltip.hover.center="'Zoom!'"
                 variant="primary">
             <img v-bind:src="post.downloadURL">
           </div>
@@ -32,7 +33,7 @@
               type="submit"
               v-on:click="likePost(key, post)"
               class="btn btn-outline-primary btn-lg"
-              v-b-popover.hover.left="'いいね!'"
+              v-b-tooltip.hover.left="'いいね!'"
               variant="primary"
               v-if="!like"
             >
