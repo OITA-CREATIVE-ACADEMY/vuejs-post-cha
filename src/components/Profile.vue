@@ -20,7 +20,7 @@
               </li>
             </ul>
           </div>
-          <div slot="modal-footer" class="w-100">
+          <div slot="modal-footer" class="w-100 text-right">
             <b-btn size="lg" variant="secondary" @click="hideModal" class="">
               Cansel
             </b-btn>
@@ -250,12 +250,14 @@ export default {
 
 .iconList input {
   display: block;
+  padding: 1em;
 }
 
 .iconList ul {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  padding: 1em;
 }
 
 .iconList ul li {
@@ -265,6 +267,7 @@ export default {
   align-items: center;
   margin-bottom: 2em;
 }
+
 
 @media screen and (max-width: 700px) {
   .profileSeparate {
@@ -298,24 +301,15 @@ export default {
     opacity: 0.8;
   }
 
-}
+  .iconList ul {
+    padding-left: 0;
+  }
 
-.iconList input {
-  display: block;
-  margin-top: 0;
-}
+  .iconList ul li img {
+    width: 34vw;
+    height: auto;
+  }
 
-.iconList ul {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-}
-
-.iconList ul li {
-  list-style-type: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 </style>
