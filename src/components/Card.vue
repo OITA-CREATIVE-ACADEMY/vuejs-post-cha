@@ -5,7 +5,7 @@
         <div class="card-header">
           <div>
             <b-img v-bind:src="post.imageUrl" rounded="circle" width="30" alt="プロフィール画像" />
-            {{ post.userEmail }}
+            {{ post.displayName || post.userEmail }}
           </div>
           <div v-if="signedIn">
             <b-dropdown id="ddown-sm ddown-left" right size="sm" class="close" v-if="myPosts(post)" v-b-popover.hover.left="'投稿を編集 / 削除'"
@@ -16,16 +16,18 @@
             </b-dropdown>
           </div>
         </div>
-        <div class="d-flex flex-row justify-content-between align-items-center">
-          <div class="bodyText">
-            <p class="card-text">{{ post.body }}</p>
-          </div>
-          <div class="DLurl"
-                v-if="postImg(post)"
-                @click="zoomImg(key, post)"
-                v-b-popover.hover.left="'Zoom!'"
-                variant="primary">
-            <img v-bind:src="post.downloadURL">
+        <div class="d-flex flex-row justify-content-between postDetail">
+          <div class="postDetail_inner">
+            <div class="bodyText">
+              <p class="card-text">{{ post.body }}</p>
+            </div>
+            <div class="DLurl"
+                  v-if="postImg(post)"
+                  @click="zoomImg(key, post)"
+                  v-b-popover.hover.left="'Zoom!'"
+                  variant="primary">
+              <img v-bind:src="post.downloadURL">
+            </div>
           </div>
           <div class="likeBtn d-flex flex-column">
             <button
@@ -106,7 +108,28 @@ export default {
     // this.postsRef.on("value", function(snapshot) {
     //   _this.posts = snapshot.val(); // データに変化が起きたときに再取得する
     // });
+
+    // ヘッダーに名前を表示する
+    // var postlist = this.postsRef.ref();
+    // console.log(postlist);
+    
+    // let usersRef = this.database.ref("users/" + currentUserUid + "/profile");
+    
+
   },
+  // loadMessages () {
+  // firebase.database().ref('/messages/').on('value', (snapshot) => {
+  //   if (snapshot) {
+  //     let rootList = snapshot.val()
+  //     let messageList = []
+  //     Object.keys(rootList).forEach((val, key) => {
+  //       rootList[val].id = val
+  //       messageList.push(rootList[val])
+  //     })
+  //     this.messageList = messageList
+  //   }
+  // })
+  // },
   computed: {
     allPosts: function() {
       return this.posts;
@@ -222,13 +245,17 @@ export default {
 .icon img, .DLurl img {
   width: 100px;
   height: 100px;
-  margin: 20px;
+  margin: 1em 0 0;
   border-radius: 5%;
 }
 
 .DLurl img {
   object-fit: cover;
   cursor: pointer;
+  width: 60%;
+  height: 16em;
+  border-radius: 0.5em;
+  border: 1px solid #FF92CA;
 }
 
 b-button {
@@ -237,15 +264,70 @@ b-button {
 
 .likeBtn {
   margin-right: 10px;
+  align-self: flex-end;
+}
+
+.likeBtn button {
+  width: 100%;
 }
 
 .close {
-  position: absolute;
+  /* position: absolute;
   top: 0;
   right: 0;
-  padding: 10px;
+  padding: 10px; */
   font-size: 30px;
   color: black;
+}
+
+/* cardのデザイン調整  */
+
+.card-deck {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.card {
+  max-width: 80vw;
+  width: 80vw;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 2em !important;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; 
+  background-color: #FFE4F2;
+  font-size: 1.1em;
+  line-height: 1em;
+  letter-spacing: 0.02em;
+}
+
+.card-header img {
+ width: 50px;
+ height: auto; 
+ margin-right: 1em;
+}
+
+.postDetail {
+  padding: 2em 2em 1em;
+}
+
+.card-text {
+  word-break: break-all;
+  line-height: 1.8em;
+}
+
+.postDetail {
+  display: flex;
+  align-items: flex-start;
+  padding-bottom: 2em;
+}
+
+.postDetail_inner {
+  margin-right: 2em;
 }
 
 /* アイコン */
@@ -276,17 +358,43 @@ b-button {
   .icon img, .DLurl img {
     width: 60px;
     height: 60px;
-    margin: 10px;
+    /* margin: 10px; */
     border-radius: 5%;
+  }
+  .DLurl {
+    margin-right: 0;
+    margin-left: auto;
+    text-align: center;
+  }
+
+  .DLurl img {
+    width: 60%;
+    height: 10em;
   }
 
   .card {
     font-size: 0.8rem;
+    max-width: 100%;
+    min-width: 100%;
   }
 
   .likeBtn {
-    width: 50px;
-    height: 70px;
+    align-self: flex-end;
+    margin-right: 0;
+    margin-left: auto;
+    margin-top: 1em;
+  }
+
+  .likeBtn button {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: center;
+    padding: 0.2em 0.8em;
+  }
+
+  .likeBtn button > * {
+    padding: 0.2em;
   }
 
   .close {
@@ -301,7 +409,23 @@ b-button {
     padding: 0.5rem;
   }
 
+  .card-header img {
+    width: 10vw;
+    height: auto; 
+    margin-right: 0.5em;
+  }
 
+  .postDetail {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding: 2em 1em;
+  }
+
+  .postDetail_inner {
+    width: 100%;
+    margin-right: auto;
+  }
 
 
 }

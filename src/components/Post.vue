@@ -139,6 +139,7 @@ export default {
       this.postsRef.push({
         body: this.newPostBody,
         imageUrl: imageUrl,
+        displayName: this.user.displayName,
         userUid: this.user.uid,
         userEmail: this.user.email,
         createdAt: Math.round(+new Date() / 1000),
@@ -296,6 +297,10 @@ textarea {
 
 .inputPost {
   position: relative;
+  width: 80vw;
+  max-width: 80vw;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #lengthCounter {
@@ -306,6 +311,13 @@ textarea {
   pointer-events: none;
   z-index: 100000;
   opacity: 0.35;
+}
+
+@media (max-width: 767px) {
+  .inputPost {
+    width: 100%;
+    max-width: 100%;
+  }
 }
 
 /* タイトルとサブタイトルのサイズを修正 */

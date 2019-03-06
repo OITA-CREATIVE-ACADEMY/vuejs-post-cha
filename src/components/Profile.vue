@@ -73,6 +73,7 @@ export default {
       changingName: false,
       icon: [],
       profileUrl: "",
+      displayName: [],
       iconImage_src: [],
       iconSelected: [],
       iconImages: [
@@ -114,10 +115,7 @@ export default {
       this.profileUrl = this.iconSelected.src
 
       let usersIconImg = this.profileUrl
-      // console.log(this.user);
-      // このユーザーが過去に投稿したPOSTの "imageUrl" を this.profileUrl に変更する
-      console.log(this.user.uid);
-      
+      // このユーザーが過去に投稿したPOSTの "imageUrl" を this.profileUrl に変更する      
       // ログインユーザーのuserUidと一致するpostのsnapshotを取得
       this.postsRef
         .orderByChild("userUid")
@@ -131,13 +129,11 @@ export default {
         });
       })
 
-
       var user = firebase.auth().currentUser;
       var currentUserUid = user.uid;
       this.database = firebase.database();
       let usersRef = this.database.ref("users/" + currentUserUid + "/profile");
       usersRef.child("photoURL").set(this.profileUrl);
-
 
       this.user.updateProfile({
          photoURL: this.iconSelected.src
@@ -159,9 +155,23 @@ export default {
     changeName: function (displayName) {
       // ここに名前を変える処理
       var user = firebase.auth().currentUser;
-
       var currentUserUid = user.uid;
+
+      // このユーザーが過去に投稿したPOSTのdisplayNameを置換
+      // ログインユーザーのuserUidと一致するpostのsnapshotを取得
       
+      this.postsRef
+        .orderByChild("userUid")
+        .equalTo(this.user.uid)
+        .once("value", function(snapshot) {
+        // forEachでsnapshotを回しながら、全てのユーザー名を置換する
+        snapshot.forEach(function(child) {
+          child.ref.update({
+            displayName: user.displayName
+          });
+        });
+      })
+
       this.database = firebase.database();
       let usersRef = this.database.ref("users/" + currentUserUid + "/profile");
       usersRef.child("displayName").set(user.displayName);
