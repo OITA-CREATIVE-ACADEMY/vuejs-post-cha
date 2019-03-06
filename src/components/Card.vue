@@ -48,7 +48,13 @@
     <div>
       <b-modal ref="myModalRef" hide-footer centered title="編集画面">
         <div class="d-block text-center">
-          <textarea v-model="modalPost.body" name id></textarea>
+          <b-form-textarea
+            id="textarea1"
+            v-model="modalPost.body"
+            rows="3"
+            max-rows="6"
+          />
+          <!-- <textarea v-model="modalPost.body" name id></textarea> -->
         </div>
         <b-btn class="mt-3" variant="outline-danger" block @click="updatePost()">Update</b-btn>
         <b-btn class="mt-3" variant="outline-danger" block @click="hideModal">Cancel</b-btn>
