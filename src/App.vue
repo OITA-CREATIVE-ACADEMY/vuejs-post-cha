@@ -190,7 +190,7 @@ console.log(this.IsNoimage);
 }
 
 a {
-  color: #6c757d;
+  color: #6c757d !important;
   text-decoration: none!important;
 }
 
