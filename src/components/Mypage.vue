@@ -69,4 +69,8 @@ a {
 .image-upload {
   display: none;
 }
+.mypage {
+  margin-top: 90px;
+}
+
 </style>
