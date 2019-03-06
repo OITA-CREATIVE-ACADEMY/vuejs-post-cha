@@ -135,7 +135,11 @@ export default {
       if (this.newPostBody == "") {
         return;
       }
-      let imageUrl = "https://via.placeholder.com/100x100/000000/FFFFFF?text=" + this.user.email.slice(0, 1)
+      if (this.user.photoURL == null) {
+        var imageUrl = "https://via.placeholder.com/100x100/ff50ac/FFFFFF?text=" + this.user.email.slice(0, 1);
+      } else {
+        imageUrl = this.user.photoURL;
+      }
       this.postsRef.push({
         body: this.newPostBody,
         imageUrl: imageUrl,
