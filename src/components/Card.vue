@@ -272,7 +272,7 @@ b-button {
 }
 
 .setting {
-  position: absolute;
+  /* position: absolute;
   top: 0;
   right: 0;
   padding: 10px; */
