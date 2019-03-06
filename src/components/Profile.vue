@@ -41,9 +41,9 @@
           <div class="profire_userName_editWrap" v-if="changingName">
             <div class="profire_userData profile_userName_input">
               ニックネームの変更：<br>
-              <input type="text" v-model="user.displayName">
+              <input type="text" v-model="edit.name">
             </div>
-            <b-btn v-b-tooltip.hover.right title="名前を変更する！" class="profile_userName_edit editButton" v-on:click="changeName()">
+            <b-btn v-b-tooltip.hover.right title="名前を変更する！" class="profile_userName_edit editButton" v-on:click="updateProfile()">
               変更
             </b-btn>
           </div>
@@ -68,7 +68,9 @@ export default {
   data () {
     return {
       user: {},
-      edit: {},
+      edit: {
+        name  : ""
+      },
       value: {},
       changingName: false,
       icon: [],
@@ -96,7 +98,7 @@ export default {
     firebase.auth().onAuthStateChanged(user => {
       this.user = user ? user : {}
       if (user) {
-        this.profileUrl = user.photoURL
+        this.setUserInfo(user)
       }
     })
 
@@ -105,6 +107,10 @@ export default {
     this.usersRef = this.database.ref("users");
   },
   methods: {
+    setUserInfo (user) {
+      this.profileUrl = user.photoURL
+      this.edit.name = user.displayName
+    },
     showModal () {
       this.$refs.iconModalRef.show()
     },
@@ -152,14 +158,25 @@ export default {
         this.changingName = true;
       }
     },
-    changeName: function (displayName) {
-      // ここに名前を変える処理
-      var user = firebase.auth().currentUser;
-      var currentUserUid = user.uid;
+    updateProfile: function () {
+      let name = this.edit.name
 
+      this.user.updateProfile({
+        displayName: name
+      }).then(() => {
+        this.fetchNameToPosts(name)
+        this.fetchNameToUsers(name)
+        this.changingName = false
+        return
+      }).catch((error) => {
+        let errorCode = error.code
+        let errorMessage = error.message
+        alert(errorCode, errorMessage)
+      });
+    },
+    fetchNameToPosts(name) {
       // このユーザーが過去に投稿したPOSTのdisplayNameを置換
       // ログインユーザーのuserUidと一致するpostのsnapshotを取得
-      
       this.postsRef
         .orderByChild("userUid")
         .equalTo(this.user.uid)
@@ -167,29 +184,17 @@ export default {
         // forEachでsnapshotを回しながら、全てのユーザー名を置換する
         snapshot.forEach(function(child) {
           child.ref.update({
-            displayName: user.displayName
+            displayName: name
           });
         });
       })
-
-      this.database = firebase.database();
-      let usersRef = this.database.ref("users/" + currentUserUid + "/profile");
-      usersRef.child("displayName").set(user.displayName);
-      this.changingName = false
-
-      user.updateProfile({
-        displayName: user.displayName
-      }).then(function() {
-        // Update successful.
-        alert("変更しました！");
-        return;
-      }).catch(function(error) {
-        // An error happened.
-        alert("エラーです！");
-        return;
-      });
-      
-    }
+      return
+    },
+    fetchNameToUsers(name) {
+      // usersテーブルの情報も更新する
+      let userProfileRef = this.database.ref("users/" + this.user.uid + "/profile");
+      userProfileRef.child("displayName").set(name);
+    },
   }
 }
 </script>
