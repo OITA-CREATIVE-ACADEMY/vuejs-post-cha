@@ -7,40 +7,40 @@
             <b-img v-bind:src="post.imageUrl" rounded="circle" width="30" alt="プロフィール画像" />
             {{ post.displayName || post.userEmail }}
           </div>
-          <div v-if="signedIn && !notLike">
-            <b-dropdown id="ddown-sm ddown-left" right size="sm" class="setting" v-if="myPosts(post)" v-b-tooltip.hover.left="'POSTを編集 / 削除'"
+          <div v-if="signedIn && !notLike" class="cp_tooltip cp_tooltip_01">
+            <b-dropdown id="ddown-sm ddown-left" right size="sm" class="setting" v-if="myPosts(post)"
                variant="primary">
               <b-dropdown-item-button v-b-modal.modalPrevent @click="showModal(key, post)">編集</b-dropdown-item-button>
               <b-dropdown-divider></b-dropdown-divider>
               <b-dropdown-item-button v-on:click="deletePost(key)">削除</b-dropdown-item-button>
             </b-dropdown>
+            <span class="cp_tooltiptext cp_tooltiptext_01">POSTを編集/削除</span>
           </div>
         </div>
         <div class="d-flex flex-row justify-content-between postDetail">
-          <div class="postDetail_inner">
+          <div class="postDetail_inner ">
             <div class="bodyText">
               <p class="card-text">{{ post.body }}</p>
             </div>
-            <div class="DLurl cp_tooltip"
+            <div class="DLurl"
                   v-if="postImg(post)"
                   @click="zoomImg(key, post)"
                   variant="primary">
               <img v-bind:src="post.downloadURL">
-              <span class="cp_tooltiptext">ツールチップテキスト</span>
             </div>
           </div>
-          <div class="likeBtn d-flex flex-column">
+          <div class="likeBtn d-flex flex-column cp_tooltip cp_tooltip_02">
             <button
               type="submit"
               v-on:click="likePost(key, post)"
               class="btn btn-outline-primary btn-lg"
-              v-b-tooltip.hover.left="'いいね!'"
               variant="primary"
               v-if="!like"
             >
               <div class="likeCount">{{ post.likedCount }}</div>
               <i class="far fa-kiss-wink-heart heartIcon"></i>
             </button>
+            <span class="cp_tooltiptext cp_tooltiptext_02">かわいいね！</span>
           </div>
         </div>
       </div>
@@ -248,14 +248,8 @@ export default {
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.icon img, .DLurl img {
-  width: 100px;
-  height: 100px;
-  margin: 1em 0 0;
-  border-radius: 5%;
-}
-
 .DLurl img {
+  margin: 1em 0 0;
   object-fit: cover;
   cursor: pointer;
   width: 60%;
@@ -343,6 +337,7 @@ b-button {
   cursor: pointer;
 }
 
+/* ツールチップ */
 .cp_tooltip {
 	position: relative;
 	display: inline-block;
@@ -352,31 +347,41 @@ b-button {
 .cp_tooltip .cp_tooltiptext {
 	position: absolute;
 	z-index: 1;
-	bottom: 100%;
-	left: 0;
+	bottom: 0;
+	right: 200%;
 	visibility: hidden;
 	width: auto;
 	white-space: nowrap;
-	padding: 0.3em 0.5em;
+	padding: 0.5em 1em;
 	transition: opacity 1s;
 	text-align: center;
 	opacity: 0;
 	color: #ffffff;
 	border-radius: 6px;
-	background-color: #da3c41;
+  background-color: #ff50ac;
+
 }
-.cp_tooltip .cp_tooltiptext::after {
+/* .cp_tooltip .cp_tooltiptext::after {
 	position: absolute;
 	top: 100%;
 	left: 50%;
 	margin-left: -5px;
 	content: ' ';
 	border: 5px solid transparent;
-	border-top-color: #da3c41;
-}
+	border-top-color: black;
+} */
 .cp_tooltip:hover .cp_tooltiptext {
 	visibility: visible;
 	opacity: 1;
+}
+
+.cp_tooltip_01 .cp_tooltiptext_01 {
+	bottom: 0;
+	right: 200%;
+}
+.cp_tooltip_02 .cp_tooltiptext_02 {
+	bottom: 25%;
+	right: 130%;
 }
 
 
@@ -470,5 +475,17 @@ b-button {
     margin-right: auto;
   }
 
+  /* ツールチップ */
+  .cp_tooltip_01 .cp_tooltiptext_01 {
+	bottom: 20%;
+	right: 140%;
+	padding: 0.5em 1em;
+  }
+
+  .cp_tooltip_02 .cp_tooltiptext_02 {
+	bottom: 10%;
+	right: 120%;
+	padding: 0.5em 1em;
+  }
 }
 </style>
