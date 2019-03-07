@@ -105,10 +105,6 @@ export default {
   // },
 
   created: function() {
-
-console.log(this.IsNoimage);
-
-
     // ログイン状態によって投稿ボタンの表示を変更する
     firebase.auth().onAuthStateChanged(user => {
       this.user = user ? user : {}
