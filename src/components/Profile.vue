@@ -3,11 +3,9 @@
     <div class="profileWrap bs-component">
       <div class="jumbotron profileSeparate">
         <div class="profile_img bg-dark">
-          <!-- ここにプロフィール画像 -->
           <img :src="profileUrl" alt="">
           <b-btn v-b-modal.iconModal>変更</b-btn>
         </div>
-        <!-- Modal Component -->
         <b-modal id="iconModal" title="アイコン画像の変更" size="lg" centered show="true" ref="iconModalRef">
           <p class="my-4">アイコンを選んでください</p>
           <div class="iconList">
@@ -60,11 +58,9 @@
 import firebase from 'firebase'
 import strage from 'firebase/storage'
 import Vue from 'vue'
-// import Card from '@/components/Card';
 
 export default {
   name: 'Profile',
-  // props: ['posts'],
   data () {
     return {
       user: {},
@@ -93,15 +89,12 @@ export default {
     }
   },
   created: function() {
-    
-    // ログイン状態によってユーザープロフィールの表示を変更する
     firebase.auth().onAuthStateChanged(user => {
       this.user = user ? user : {}
       if (user) {
         this.setUserInfo(user)
       }
     })
-
     this.database = firebase.database();
     this.postsRef = this.database.ref("posts");
     this.usersRef = this.database.ref("users");
@@ -119,15 +112,11 @@ export default {
     },
     changeIcon: function () {
       this.profileUrl = this.iconSelected.src
-
       let usersIconImg = this.profileUrl
-      // このユーザーが過去に投稿したPOSTの "imageUrl" を this.profileUrl に変更する      
-      // ログインユーザーのuserUidと一致するpostのsnapshotを取得
       this.postsRef
         .orderByChild("userUid")
         .equalTo(this.user.uid)
         .once("value", function(snapshot) {
-        // forEachでsnapshotを回しながら、全てのアイコン画像を置換する
         snapshot.forEach(function(child) {
           child.ref.update({
             imageUrl: usersIconImg
@@ -144,10 +133,8 @@ export default {
       this.user.updateProfile({
          photoURL: this.iconSelected.src
       }).then(function() {
-        console.log("プロフィール画像変更OK")
         return;
       }).catch(function(error) {
-        console.log(error)
         alert("プロフィール画像の変更に失敗しました")
       })
     },
@@ -160,7 +147,6 @@ export default {
     },
     updateProfile: function () {
       let name = this.edit.name
-
       this.user.updateProfile({
         displayName: name
       }).then(() => {
@@ -175,13 +161,10 @@ export default {
       });
     },
     fetchNameToPosts(name) {
-      // このユーザーが過去に投稿したPOSTのdisplayNameを置換
-      // ログインユーザーのuserUidと一致するpostのsnapshotを取得
       this.postsRef
         .orderByChild("userUid")
         .equalTo(this.user.uid)
         .once("value", function(snapshot) {
-        // forEachでsnapshotを回しながら、全てのユーザー名を置換する
         snapshot.forEach(function(child) {
           child.ref.update({
             displayName: name
@@ -191,7 +174,6 @@ export default {
       return
     },
     fetchNameToUsers(name) {
-      // usersテーブルの情報も更新する
       let userProfileRef = this.database.ref("users/" + this.user.uid + "/profile");
       userProfileRef.child("displayName").set(name);
     },
@@ -199,7 +181,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .profileSeparate {
   display: flex;
