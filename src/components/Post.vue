@@ -3,9 +3,10 @@
     <div class="wrapper text-center">
      <!-- 新規投稿用カード -->
       <div class="jumbotron">
-        <h2 class="display-5">POST-cha!へ<br class="d-md-none">ようこそ！！</h2>
-        <p class="lead-2">まずはあなたの言葉で、気楽にPOSTしてみてください。</p>
-        <p class="lead-2">そこから新たな出会いが生まれるかもしれません。</p>
+        <h2 class="display-5">POST-cha！へ<br class="d-md-none">ようこそ！！</h2>
+        <p class="lead-2">まずはあなたの言葉で、<br class="sp_newPost">気楽にPOSTしてみてください。</p>
+        <br class="sp_newPost">
+        <p class="lead-2">そこから新たな出会いが<br class="sp_newPost">生まれるかもしれません。</p>
         <hr class="my-4">
         <div v-if="signedIn">
 
@@ -319,6 +320,11 @@ textarea {
   opacity: 0.35;
 }
 
+.sp_newPost {
+  display: none;
+}
+
+
 @media (max-width: 767px) {
   .inputPost {
     width: 100%;
@@ -342,6 +348,9 @@ textarea {
   img {
     width: 300px;
     height: 300px;
+  }
+  .sp_newPost {
+    display: block;
   }
 }
 </style>

@@ -15,9 +15,12 @@ import "bootstrap-nico/dist/js/bootstrap.bundle.js"
 import "bootstrap-nico/dist/js/bootstrap.js"
 import "bootstrap-nico/dist/css/bootstrap.css"
 
+// スムーススクロール (vue-smoothscroll)
+import smoothScroll from 'vue-smoothscroll'
 
 Vue.use(BootstrapVue)
 Vue.config.productionTip = false
+Vue.use(smoothScroll)
 
 // Initialize Firebase
 var config = {

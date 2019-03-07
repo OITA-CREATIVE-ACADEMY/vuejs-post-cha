@@ -60,21 +60,15 @@
     </div>
   </b-modal>
 
-  <!-- <template>
-  <div class="signup">
-    <h2>新規アカウント登録</h2>
-    <input type="text" placeholder="メールアドレス" v-model="email">
-    <input type="password" placeholder="パスワード" v-model="password">
-    <button @click="signUp" class="btn btn-success">登録</button>
-    <p>既にアカウントをお持ちの方はこちら
-      <router-link to="/signin">ログイン!!</router-link>
-    </p>
-  </div>
-</template> -->
-
   <div id="app">
     <router-view/>
   </div>
+  <p id="PageTopBtn" >
+    <a href="#" @click="clickSmoothScroll()">
+      <i class="fas fa-angle-double-up faa-float animated"></i>
+      <p>PAGE TOP</p>
+    </a>
+  </p>
 </div>
 </template>
 
@@ -95,21 +89,10 @@ export default {
       email: '',
       password: '',
       signedIn: false,
+      position: []
     }
   },
-  // methods: {
-  //   signOut: function () {
-  //     firebase.auth().signOut().then(() => {
-  //       this.$router.push('/')
-  //     })
-  //   }
-  // },
-
   created: function() {
-
-console.log(this.IsNoimage);
-
-
     // ログイン状態によって投稿ボタンの表示を変更する
     firebase.auth().onAuthStateChanged(user => {
       this.user = user ? user : {}
@@ -123,11 +106,6 @@ console.log(this.IsNoimage);
           //alert('aaa' + this.profileUrl)
           this.IsNoimage = true
         }
-        // debug
-        // console.log(this.user)
-        // console.log(this.user.uid)
-        // localstorageにuserUidを保存
-        // localStorage.setItem('currentUserUid', this.user.uid);
       } else {
         this.signedIn = false
         this.IsNoimage = true
@@ -139,10 +117,8 @@ console.log(this.IsNoimage);
     signIn: function () {
       firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
         res => {
-          console.log(res)
           alert('ログインしました!')
           this.$router.push('/')
-          console.log("テスト1")
           this.hideModal()
         },
         err => {
@@ -153,7 +129,6 @@ console.log(this.IsNoimage);
     signUp: function () {
       firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
         .then(res => {
-          console.log(res)
           alert('登録しました: ' + res.user.email)
           this.$router.push('/')
           this.hideModal()
@@ -163,9 +138,6 @@ console.log(this.IsNoimage);
         })
     },
     hideModal: function () {
-      console.log("テスト3");
-      console.log(this.$refs);
-
       this.$refs.signinModal.hide();
       this.$refs.signupModal.hide();
     },
@@ -176,8 +148,19 @@ console.log(this.IsNoimage);
         localStorage.setItem('currentUserUid', "");
         this.$router.push('/')
       })
-    }
-  }
+    },
+    clickSmoothScroll () {
+      // ページ内リンクをスクロールさせる
+      event.preventDefault()
+      this.$SmoothScroll(
+        document.querySelector('#top'),
+        400,
+        null,
+        null,
+        'y'
+      )
+    },
+  },
 }
 </script>
 
@@ -219,6 +202,43 @@ a {
 
 .navbar-light .navbar-toggler-icon {
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0, 0, 0, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+#PageTopBtn {
+    position: fixed;
+    bottom: -10px;
+    right: 10px;
+    opacity: .7;
+    font-size: 15px;
+
+}
+#PageTopBtn a {
+    display: block;
+    text-decoration: none;
+    color: white;
+    background: #ff92cb;
+    text-align: center;
+    border-radius: 50%;
+    outline: none;
+    width: 100px;
+    height: 100px;
+    padding: 24px 0;
+
+}
+#PageTopBtn a:hover {
+    text-decoration: none;
+    background: #ff50ac;
+}
+
+@media (max-width: 767px) {
+  #PageTopBtn {
+      font-size: 10px;
+  }
+  #PageTopBtn a {
+      width: 70px;
+      height: 70px;
+      padding: 17px 0;
+  }
 }
 
 </style>
