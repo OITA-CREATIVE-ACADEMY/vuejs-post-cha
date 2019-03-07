@@ -33,11 +33,11 @@
         <b-form-input type="password" placeholder="パスワード" v-model="password"></b-form-input><br>
         </form>
         <p><button @click="signIn" type="button" class="btn btn-primary">ログイン</button></p>
-        <p>アカウントをお持ちでない方はこちら 
+        <p>アカウントをお持ちでない方はこちら
           <router-link to="/signup">新規登録!!</router-link>
         </p>
       </b-modal> -->
-      
+
       <!-- /新規投稿用カード -->
 
       <!-- 投稿一覧 -->
@@ -49,7 +49,7 @@
       <p id="PageTopBtn">
         <a href="#">
           <i class="fas fa-angle-double-up faa-float animated"></i>
-          <p>PAGE TOP</p>  
+          <p>PAGE TOP</p>
         </a>
       </p>
     </div>
@@ -137,7 +137,7 @@ export default {
       this.database.ref('posts').child(key).remove();
     },
 
-    // signin modal 
+    // signin modal
     // clearName () {
     // this.name = ''
     // },
@@ -212,15 +212,15 @@ textarea {
     color: white;
     background: #ff92cb;
     text-align: center;
-    border-radius: 50%; 
+    border-radius: 50%;
     outline: none;
     width: 100px;
-    height: 100px; 
+    height: 100px;
     padding: 24px 0;
 
 }
 #PageTopBtn a:hover {
-    text-decoration: none; 
+    text-decoration: none;
     background: #ff50ac;
 }
 

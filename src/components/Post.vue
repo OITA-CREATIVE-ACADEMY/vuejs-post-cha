@@ -67,7 +67,9 @@
 </div>
 </template>
 <script>
-import firebase from 'firebase';
+import firebase from 'firebase/app'
+import 'firebase/app'
+
 export default {
   name: 'Post',
   data() {

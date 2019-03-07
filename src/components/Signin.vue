@@ -13,7 +13,7 @@
         <p><input type="password" placeholder="パスワード" v-model="password"></P>
         <p><button @click="signIn" type="button" class="btn btn-primary">ログイン</button></p>
       </div>
-      <p>アカウントをお持ちでない方はこちら 
+      <p>アカウントをお持ちでない方はこちら
       <router-link to="/signup">新規登録!!</router-link>
       </p>
     </div>
@@ -24,14 +24,15 @@
     <input type="text" placeholder="メールアドレス" v-model="email">
     <input type="password" placeholder="パスワード" v-model="password">
     <button @click="signIn" class="btn btn-success">ログイン</button>
-    <p>アカウントをお持ちでない方はこちら 
+    <p>アカウントをお持ちでない方はこちら
       <router-link to="/signup">新規登録!!</router-link>
     </p>
   </div> -->
 </template>
 
 <script>
-import firebase from 'firebase'
+import firebase from 'firebase/app'
+import 'firebase/app'
 
 export default {
   name: 'Signin',

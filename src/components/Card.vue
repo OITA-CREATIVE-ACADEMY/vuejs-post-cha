@@ -72,7 +72,8 @@
 </template>
 
 <script>
-import firebase from "firebase";
+import firebase from 'firebase/app'
+import 'firebase/app'
 
 export default {
   name: 'Card',
@@ -118,9 +119,9 @@ export default {
     // ヘッダーに名前を表示する
     // var postlist = this.postsRef.ref();
     // console.log(postlist);
-    
+
     // let usersRef = this.database.ref("users/" + currentUserUid + "/profile");
-    
+
 
   },
   // loadMessages () {
@@ -174,8 +175,8 @@ export default {
           return this.post = false;
         } else {
           return this.post = true;
-        } 
-      }  
+        }
+      }
     },
   },
   methods: {
@@ -219,7 +220,7 @@ export default {
       this.database = firebase.database();
       let usersRef = this.database.ref("users/" + userUid + "/likedPostId");
       usersRef.child(key).set(true);
-        
+
       // 1ユーザーのlikedPost一覧を取得できるか？
       usersRef.on('value', snapshot => {
         console.log(snapshot.val());
@@ -235,12 +236,12 @@ export default {
     // active: function(key) {
     //   console.log(key);
     //   alert("active");
-      
+
     // }
 
     zoomImg(key, post) {
       this.zoomModalPost = post;
-      console.log(this.zoomModalPost);      
+      console.log(this.zoomModalPost);
       this.$refs.imgZoomModalRef.show();
     },
   }
@@ -297,7 +298,7 @@ b-button {
 .card-header {
   display: flex;
   justify-content: space-between;
-  align-items: center; 
+  align-items: center;
   background-color: #FFE4F2;
   font-size: 1.1em;
   line-height: 1em;
@@ -306,7 +307,7 @@ b-button {
 
 .card-header img {
  width: 50px;
- height: auto; 
+ height: auto;
  margin-right: 1em;
 }
 
@@ -450,7 +451,7 @@ b-button {
 
   .card-header img {
     width: 10vw;
-    height: auto; 
+    height: auto;
     margin-right: 0.5em;
   }
 

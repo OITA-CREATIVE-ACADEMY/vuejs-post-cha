@@ -23,7 +23,7 @@
         </b-dropdown-item>
         <b-dropdown-item v-if="!signedIn" v-b-modal.signup-modalPrevent>
           新規登録
-        </b-dropdown-item>       
+        </b-dropdown-item>
       </b-dropdown>
     </b-navbar-nav>
   </b-navbar>
@@ -38,7 +38,7 @@
     </form>
     <div class="text-center">
       <p><button @click="signIn" type="button" class="btn btn-primary">ログイン</button></p>
-      <p>アカウントをお持ちでない方はこちら 
+      <p>アカウントをお持ちでない方はこちら
         <b-btn v-b-modal.signup-modalPrevent>新規登録!!</b-btn>
       </p>
     </div>
@@ -54,7 +54,7 @@
     </form>
     <div class="text-center">
       <p><button @click="signUp" type="button" class="btn btn-primary">登録</button></p>
-      <p>既にアカウントをお持ちの方はこちら 
+      <p>既にアカウントをお持ちの方はこちら
         <b-btn v-b-modal.signin-modalPrevent>ログイン!!</b-btn>
       </p>
     </div>
@@ -66,7 +66,7 @@
     <input type="text" placeholder="メールアドレス" v-model="email">
     <input type="password" placeholder="パスワード" v-model="password">
     <button @click="signUp" class="btn btn-success">登録</button>
-    <p>既にアカウントをお持ちの方はこちら 
+    <p>既にアカウントをお持ちの方はこちら
       <router-link to="/signin">ログイン!!</router-link>
     </p>
   </div>
@@ -79,7 +79,8 @@
 </template>
 
 <script>
-import firebase from 'firebase';
+import firebase from 'firebase/app'
+import 'firebase/app'
 
 export default {
   name: 'App',
@@ -117,7 +118,7 @@ console.log(this.IsNoimage);
         //alert('aaa')
         this.signedIn = true
         this.profileUrl = user.photoURL
-        
+
         if(this.profileUrl==null){
           //alert('aaa' + this.profileUrl)
           this.IsNoimage = true
@@ -130,7 +131,7 @@ console.log(this.IsNoimage);
       } else {
         this.signedIn = false
         this.IsNoimage = true
-        
+
       }
     })
   },
@@ -211,7 +212,7 @@ a {
 .icon_img {
   width: 30px;
 }
- 
+
 .dropdown-toggle::after {
   color: #6c757d;
 }
