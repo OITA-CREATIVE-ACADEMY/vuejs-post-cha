@@ -54,7 +54,6 @@
             rows="3"
             max-rows="6"
           />
-          <!-- <textarea v-model="modalPost.body" name id></textarea> -->
         </div>
         <b-btn class="mt-3" variant="outline-danger" block @click="updatePost()">Update</b-btn>
         <b-btn class="mt-3" variant="outline-danger" block @click="hideModal">Cancel</b-btn>
@@ -70,9 +69,9 @@
     </div>
   </div>
 </template>
-
 <script>
-import firebase from "firebase";
+import firebase from 'firebase/app'
+import 'firebase/app'
 
 export default {
   name: 'Card',
@@ -104,38 +103,11 @@ export default {
         this.signedIn = false;
       }
     });
-
     // データベースを定義
     this.database = firebase.database();
     this.postsRef = this.database.ref("posts");
     this.userImgRef = this.database.ref("users");
-
-    // var _this = this;
-    // this.postsRef.on("value", function(snapshot) {
-    //   _this.posts = snapshot.val(); // データに変化が起きたときに再取得する
-    // });
-
-    // ヘッダーに名前を表示する
-    // var postlist = this.postsRef.ref();
-    // console.log(postlist);
-    
-    // let usersRef = this.database.ref("users/" + currentUserUid + "/profile");
-    
-
   },
-  // loadMessages () {
-  // firebase.database().ref('/messages/').on('value', (snapshot) => {
-  //   if (snapshot) {
-  //     let rootList = snapshot.val()
-  //     let messageList = []
-  //     Object.keys(rootList).forEach((val, key) => {
-  //       rootList[val].id = val
-  //       messageList.push(rootList[val])
-  //     })
-  //     this.messageList = messageList
-  //   }
-  // })
-  // },
   computed: {
     allPosts: function() {
       return this.posts;
@@ -145,14 +117,10 @@ export default {
       console.log(post);
       return function(post) {
         // var user = firebase.auth().currentUser; //現在ログインしているユーザーの情報を取得
-        // console.log(user);
-        // console.log(user.uid);
         let userUid = localStorage.getItem('currentUserUid');
 
         // 現在ログインしていればuserUidを保存、していなければ何もしない
         if (userUid){
-          // console.log(post);
-          // console.log(post.userUid);
           var postUserUid = post.userUid;
         }
         // ログイン・ログアウトでプルダウン切り替え
@@ -166,16 +134,13 @@ export default {
     // 投稿画像の有無でカード表示を切り替え
     postImg: function(post) {
       return function (post) {
-        // console.log(post);
         var imgPost = post.downloadURL;
-        // console.log(imgPost);
-
           if(imgPost === "" || imgPost === undefined) {
           return this.post = false;
         } else {
           return this.post = true;
-        } 
-      }  
+        }
+      }
     },
   },
   methods: {
@@ -219,11 +184,6 @@ export default {
       this.database = firebase.database();
       let usersRef = this.database.ref("users/" + userUid + "/likedPostId");
       usersRef.child(key).set(true);
-        
-      // 1ユーザーのlikedPost一覧を取得できるか？
-      usersRef.on('value', snapshot => {
-        console.log(snapshot.val());
-      })
 
       // いいねされたpostのlikedCountを +1 する
       console.log(post.likedCount);
@@ -231,22 +191,14 @@ export default {
       console.log(post.likedCount);
       this.database.ref('posts/' + key + '/likedCount').set(post.likedCount);
     },
-    // 画像にマウスオーバーしたとき
-    // active: function(key) {
-    //   console.log(key);
-    //   alert("active");
-      
-    // }
-
     zoomImg(key, post) {
       this.zoomModalPost = post;
-      console.log(this.zoomModalPost);      
+      console.log(this.zoomModalPost);
       this.$refs.imgZoomModalRef.show();
     },
   }
 };
 </script>
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .DLurl img {
   margin: 1em 0 0;
@@ -272,15 +224,10 @@ b-button {
 }
 
 .setting {
-  /* position: absolute;
-  top: 0;
-  right: 0;
-  padding: 10px; */
   font-size: 30px;
 }
 
 /* cardのデザイン調整  */
-
 .card-deck {
   margin-left: auto;
   margin-right: auto;
@@ -297,7 +244,7 @@ b-button {
 .card-header {
   display: flex;
   justify-content: space-between;
-  align-items: center; 
+  align-items: center;
   background-color: #FFE4F2;
   font-size: 1.1em;
   line-height: 1em;
@@ -306,7 +253,7 @@ b-button {
 
 .card-header img {
  width: 50px;
- height: auto; 
+ height: auto;
  margin-right: 1em;
 }
 
@@ -342,7 +289,6 @@ b-button {
 	position: relative;
 	display: inline-block;
 	cursor: pointer;
-	/* background: linear-gradient(transparent 60%, #f19ec2 60%); */
 }
 .cp_tooltip .cp_tooltiptext {
 	position: absolute;
@@ -359,7 +305,6 @@ b-button {
 	color: #ffffff;
 	border-radius: 6px;
   background-color: #ff50ac;
-
 }
 
 .cp_tooltip:hover .cp_tooltiptext {
@@ -375,23 +320,6 @@ b-button {
 	bottom: 25%;
 	right: 130%;
 }
-
-/* responsive（カードサイズ） */
-/* 画面が1020px以上の時 */
-@media (min-width: 1050px) {
-  /* .card {
-    width: 1000px;
-    margin: 10px 0;
-  } */
-
-}
-/* 画面が1019px以下のとき */
-@media (max-width: 1049px) {
-  /* .card {
-    margin: 10px 50px;
-  } */
-}
-
 @media (max-width: 767px) {
   .icon img, .DLurl img {
     width: 60px;
@@ -436,8 +364,7 @@ b-button {
   }
 
   .setting {
-  padding: 5px;
-  /* font-size: 20px; */
+    padding: 5px;
   }
 
   .heartIcon {
@@ -450,7 +377,7 @@ b-button {
 
   .card-header img {
     width: 10vw;
-    height: auto; 
+    height: auto;
     margin-right: 0.5em;
   }
 
