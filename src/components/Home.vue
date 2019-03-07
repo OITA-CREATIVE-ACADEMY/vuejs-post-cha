@@ -3,55 +3,10 @@
     <div class="wrappers">
       <!-- 新規投稿用カード -->
       <new-post></new-post>
-      <!-- <div class="jumbotron">
-        <h2 class="display-5">〈POST-cha!〉へようこそ！！</h2>
-        <p class="lead-2">まずはあなたの言葉で、気楽にPOSTしてみてください。</p>
-        <p class="lead-2">そこから新たな出会いが生まれるかもしれません。</p>
-        <hr class="my-4">
-        <div v-if="signedIn">
-          <div class="input-group mb-3">
-            <textarea v-model="newPostBody" name="postdata" placeholder="200字まで入力できます"></textarea><br>
-              <div class="input-group-append">
-              </div>
-            </div>
-          <p class="lead">
-            <button type="submit" v-on:click="createPost()" class="btn btn-primary btn-lg">投稿する</button>
-          </p>
-          <p v-if="postMsg" class="text-success">投稿しました!</p>
-        </div>
-        <div v-if="!signedIn">
-          <b-btn v-b-modal.signin-modalPrevent>始める</b-btn>
-        </div>
-      </div> -->
-      <!-- <card-lists></card-lists> -->
-      <!-- signin modal -->
-      <!-- <b-modal hide-footer id="modalPrevent"
-          ref="modal"
-          title="ログイン">
-        <form @submit.stop.prevent="handleSubmit">
-        <b-form-input type="text" placeholder="メールアドレス" v-model="email"></b-form-input><br>
-        <b-form-input type="password" placeholder="パスワード" v-model="password"></b-form-input><br>
-        </form>
-        <p><button @click="signIn" type="button" class="btn btn-primary">ログイン</button></p>
-        <p>アカウントをお持ちでない方はこちら 
-          <router-link to="/signup">新規登録!!</router-link>
-        </p>
-      </b-modal> -->
-      
-      <!-- /新規投稿用カード -->
-
-      <!-- 投稿一覧 -->
-      <!-- Cardコンポーネントを読み込んでループ表示 -->
-      <div class="card-list">
+      <div class="card-list" id="top">
         <cardList :posts="posts"></cardList>
       </div>
       <!-- /投稿一覧 -->
-      <p id="PageTopBtn">
-        <a href="#">
-          <i class="fas fa-angle-double-up faa-float animated"></i>
-          <p>PAGE TOP</p>  
-        </a>
-      </p>
     </div>
   </div>
 </template>
@@ -88,9 +43,6 @@ export default {
       this.user = user ? user : {}
       if (user) {
         this.signedIn = true
-        // debug
-        console.log(this.user)
-        console.log(this.user.uid)
         // localstorageにuserUidを保存
         localStorage.setItem('currentUserUid', this.user.uid);
       } else {
@@ -127,50 +79,9 @@ export default {
       // Post成功時にメッセージを表示する
       this.postMsg = true;
     },
-    // updatePost: function (todo, key) {
-    //   todo.isComplete = !todo.isComplete
-    //   var updates = {};
-    //   updates['/todos/' + key] = todo;
-    //   this.database.ref().update(updates);
-    // },
     deletePost: function (key) {
       this.database.ref('posts').child(key).remove();
-    },
-
-    // signin modal 
-    // clearName () {
-    // this.name = ''
-    // },
-    // signIn: function () {
-    //   firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
-    //     res => {
-    //       console.log(res)
-    //       alert('ログインしました!')
-    //       this.$router.push('/')
-    //       this.hideModal();
-    //     },
-    //     err => {
-    //       alert(err.message)
-    //     }
-    //   )
-    // },
-    // hideModal() {
-    //   this.$refs.modal.hide();
-    // }
-    // signIn (evt) {
-    //   // Prevent modal from closing
-    //   evt.preventDefault()
-    //   if (!this.name) {
-    //     alert('Please enter your name')
-    //   } else {
-    //     this.handleSubmit()
-    //   }
-    // },
-    // handleSubmit () {
-    //   this.names.push(this.name)
-    //   this.clearName()
-    //   this.$refs.modal.hide()
-    // }
+    }
   },
 }
 </script>
@@ -195,43 +106,8 @@ textarea {
 }
 
 .card-list {
-  padding: 20px;
+  padding: 100px 20px 20px;
+  margin-top: -80px;
 }
 
-#PageTopBtn {
-    position: fixed;
-    bottom: -10px;
-    right: 10px;
-    opacity: .7;
-    font-size: 15px;
-
-}
-#PageTopBtn a {
-    display: block;
-    text-decoration: none;
-    color: white;
-    background: #ff92cb;
-    text-align: center;
-    border-radius: 50%; 
-    outline: none;
-    width: 100px;
-    height: 100px; 
-    padding: 24px 0;
-
-}
-#PageTopBtn a:hover {
-    text-decoration: none; 
-    background: #ff50ac;
-}
-
-@media (max-width: 767px) {
-#PageTopBtn {
-    font-size: 10px;
-}
-#PageTopBtn a {
-    width: 70px;
-    height: 70px;
-    padding: 17px 0;
-}
-}
 </style>
