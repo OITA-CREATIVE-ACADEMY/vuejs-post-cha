@@ -30,7 +30,7 @@
             accept="image/*"
             @change="detectFiles($event)" />
             <br>
-            <b-progress
+            <b-progress　class="progress-bar"
               v-if="uploading && !uploadEnd"
               :value="progressUpload"
               show-value
@@ -224,7 +224,7 @@ img {
 }
 
 .progress-bar {
-  margin: 15px 100px;
+  margin: 10px 10px;
 
 }
 
@@ -236,11 +236,6 @@ h2 {
 ul {
   list-style-type: none;
   padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
 }
 
 a {
@@ -344,8 +339,9 @@ textarea {
   }
 
   img {
-    width: 300px;
-    height: 300px;
+    margin-top:0px;
+    width: 200px;
+    height: 200px;
   }
   .sp_newPost {
     display: block;
