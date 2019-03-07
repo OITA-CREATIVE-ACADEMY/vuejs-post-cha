@@ -9,18 +9,14 @@
         <p class="lead-2">そこから新たな出会いが<br class="sp_newPost">生まれるかもしれません。</p>
         <hr class="my-4">
         <div v-if="signedIn">
-
-        <div class="input-group mb-3 inputPost">
-          <textarea v-model="newPostBody" name="postdata" placeholder="200字まで入力できます" v-bind:class="{ 'text-danger': error.tooLong, 'text-muted': error.require }"></textarea><br>
-          <div class="input-group-append" v-bind:class="{ 'text-danger': error.tooLong }">
+          <div class="input-group mb-3 inputPost">
+            <textarea v-model="newPostBody" name="postdata" placeholder="200字まで入力できます" v-bind:class="{ 'text-danger': error.tooLong, 'text-muted': error.require }"></textarea><br>
+            <div class="input-group-append" v-bind:class="{ 'text-danger': error.tooLong }">
+            </div>
+            <div id="lengthCounter" class="text-primary h3" v-bind:class="{ 'text-danger': error.tooLong }">{{this.newPostBody.length}}/200</div>
           </div>
-          <div id="lengthCounter" class="text-primary h3" v-bind:class="{ 'text-danger': error.tooLong }">{{this.newPostBody.length}}/200</div>
-        </div>
-
-        　　
-        <!-- 画像追加 -->
         <div>
-          <b-button size="sm" variant="light" class="mb-3" @click="trigger()">画像を添付</b-button>
+        <b-button size="sm" variant="light" class="mb-3" @click="trigger()">画像を添付</b-button>
           <input
             class="d-none"
             id="files"
@@ -47,9 +43,6 @@
               </b-button>
             </div>
         </div>
-
-
-
         <p class="lead">
           <button type="submit" v-on:click="createPost()" class="btn btn-primary btn-lg" :disabled="validated == 1">投稿する</button>
         </p>
@@ -58,11 +51,6 @@
       <div v-if="!signedIn">
         <b-btn v-b-modal.signin-modalPrevent>始める</b-btn>
       </div>
-      <!-- <div v-if="!signedIn">
-          <p class="lead">
-            <router-link to="/signin" class="btn btn-success btn-lg">始める!</router-link>
-          </p>
-        </div> -->
     </div>
   </div>
 </div>
@@ -99,13 +87,10 @@ export default {
       this.user = user ? user : {}
       if (user) {
         this.signedIn = true
-        // debug
-        console.log(this.user)
       } else {
         this.signedIn = false
       }
     })
-
     // 投稿一覧を取得する
     this.database = firebase.database()
     this.postsRef = this.database.ref('posts')
@@ -122,7 +107,6 @@ export default {
       return 200 - this.newPostBody.length;
     },
     validated: function() {
-      // (2 <= this.newPostBody.length) && (this.newPostBody.length <= 200)
       var length = this.newPostBody.length
       if (2 <= length && length <= 200) {
         return false
@@ -155,8 +139,6 @@ export default {
       this.uploading = false
       this.uploadEnd = false
       this.downloadURL = ''
-
-      // Post成功時にメッセージを表示する
       this.postMsg = true;
     },
     detectFiles(e) {
@@ -203,8 +185,6 @@ export default {
         })
     },
     newPostBody: function(newVal, oldVal) {
-      // this.postLength_200 = (2 < newVal.length > 199) ? true : false; // 最低文字数(2文字以上)
-      // this.error.empty = (newVal.length == 0) ? true : false; // 最低文字数(2文字以上)
       this.error.require = (newVal.length < 2) ? true : false; // 最低文字数(2文字以上)
       this.error.tooLong = (newVal.length > 200) ? true : false; // 最大文字数(200文字まで)
 
@@ -215,8 +195,6 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 img {
   width: 500px;
@@ -225,7 +203,6 @@ img {
 
 .progress-bar {
   margin: 15px 100px;
-
 }
 
 h1,
@@ -322,15 +299,12 @@ textarea {
   display: none;
 }
 
-
 @media (max-width: 767px) {
   .inputPost {
     width: 100%;
     max-width: 100%;
   }
 }
-
-/* タイトルとサブタイトルのサイズを修正 */
 @media (max-width: 540px) {
   .lead-2 {
     text-align-last: center;
