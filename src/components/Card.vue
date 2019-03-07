@@ -98,7 +98,6 @@ export default {
       if (user) {
         this.signedIn = true;
         // debug
-        console.log(this.user);
       } else {
         this.signedIn = false;
       }
@@ -114,7 +113,6 @@ export default {
     },
     //自分の投稿にだけ「編集/削除」プルダウンを表示する
     myPosts: function(post) {
-      console.log(post);
       return function(post) {
         // var user = firebase.auth().currentUser; //現在ログインしているユーザーの情報を取得
         let userUid = localStorage.getItem('currentUserUid');
@@ -145,9 +143,7 @@ export default {
   },
   methods: {
     updatePost: function() {
-      console.log(this.modalPostKey);
       // textareaの値を取得
-      console.log(this.modalPost.body);
       this.database
         .ref("posts/" + this.modalPostKey + "/body")
         .set(this.modalPost.body);
@@ -158,8 +154,6 @@ export default {
     showModal(key, post) {
       this.modalPost = post;
       this.modalPostKey = key;
-      console.log(this.modalPostKey);
-      console.log(this.modalPost);
       this.$refs.myModalRef.show();
     },
     hideModal() {
@@ -173,12 +167,8 @@ export default {
     },
     //いいねしたときの処理
     likePost: function(key, post) {
-      console.log(key);
-      console.log(post);
-
       //現在ログインしているユーザーの情報を取得
       var userUid = localStorage.getItem('currentUserUid');
-      console.log(userUid);
 
       // users/userUid/likedPostsにデータを追加（独自idが生成される）
       this.database = firebase.database();
@@ -186,14 +176,11 @@ export default {
       usersRef.child(key).set(true);
 
       // いいねされたpostのlikedCountを +1 する
-      console.log(post.likedCount);
       post.likedCount += 1
-      console.log(post.likedCount);
       this.database.ref('posts/' + key + '/likedCount').set(post.likedCount);
     },
     zoomImg(key, post) {
       this.zoomModalPost = post;
-      console.log(this.zoomModalPost);
       this.$refs.imgZoomModalRef.show();
     },
   }

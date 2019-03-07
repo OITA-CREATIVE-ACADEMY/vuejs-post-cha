@@ -101,8 +101,6 @@ export default {
       this.user = user ? user : {}
       if (user) {
         this.signedIn = true
-        // debug
-        console.log(this.user)
       } else {
         this.signedIn = false
       }
