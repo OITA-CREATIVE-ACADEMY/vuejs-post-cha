@@ -20,7 +20,7 @@
               </li>
             </ul>
           </div>
-          <div slot="modal-footer" class="w-100">
+          <div slot="modal-footer" class="w-100 text-right">
             <b-btn size="lg" variant="secondary" @click="hideModal" class="">
               Cansel
             </b-btn>
@@ -41,9 +41,9 @@
           <div class="profire_userName_editWrap" v-if="changingName">
             <div class="profire_userData profile_userName_input">
               ニックネームの変更：<br>
-              <input type="text" v-model="user.displayName">
+              <input type="text" v-model="edit.name">
             </div>
-            <b-btn v-b-tooltip.hover.right title="名前を変更する！" class="profile_userName_edit editButton" v-on:click="changeName()">
+            <b-btn v-b-tooltip.hover.right title="名前を変更する！" class="profile_userName_edit editButton" v-on:click="updateProfile()">
               変更
             </b-btn>
           </div>
@@ -57,7 +57,8 @@
 </template>
 
 <script>
-import firebase from 'firebase'
+import firebase from 'firebase/app'
+import 'firebase/app'
 import strage from 'firebase/storage'
 import Vue from 'vue'
 // import Card from '@/components/Card';
@@ -68,11 +69,14 @@ export default {
   data () {
     return {
       user: {},
-      edit: {},
+      edit: {
+        name  : ""
+      },
       value: {},
       changingName: false,
       icon: [],
       profileUrl: "",
+      displayName: [],
       iconImage_src: [],
       iconSelected: [],
       iconImages: [
@@ -90,12 +94,12 @@ export default {
     }
   },
   created: function() {
-    
+
     // ログイン状態によってユーザープロフィールの表示を変更する
     firebase.auth().onAuthStateChanged(user => {
       this.user = user ? user : {}
       if (user) {
-        this.profileUrl = user.photoURL
+        this.setUserInfo(user)
       }
     })
 
@@ -104,6 +108,10 @@ export default {
     this.usersRef = this.database.ref("users");
   },
   methods: {
+    setUserInfo (user) {
+      this.profileUrl = user.photoURL
+      this.edit.name = user.displayName
+    },
     showModal () {
       this.$refs.iconModalRef.show()
     },
@@ -114,10 +122,7 @@ export default {
       this.profileUrl = this.iconSelected.src
 
       let usersIconImg = this.profileUrl
-      // console.log(this.user);
       // このユーザーが過去に投稿したPOSTの "imageUrl" を this.profileUrl に変更する
-      console.log(this.user.uid);
-      
       // ログインユーザーのuserUidと一致するpostのsnapshotを取得
       this.postsRef
         .orderByChild("userUid")
@@ -131,13 +136,11 @@ export default {
         });
       })
 
-
       var user = firebase.auth().currentUser;
       var currentUserUid = user.uid;
       this.database = firebase.database();
       let usersRef = this.database.ref("users/" + currentUserUid + "/profile");
       usersRef.child("photoURL").set(this.profileUrl);
-
 
       this.user.updateProfile({
          photoURL: this.iconSelected.src
@@ -156,29 +159,43 @@ export default {
         this.changingName = true;
       }
     },
-    changeName: function (displayName) {
-      // ここに名前を変える処理
-      var user = firebase.auth().currentUser;
+    updateProfile: function () {
+      let name = this.edit.name
 
-      var currentUserUid = user.uid;
-      
-      this.database = firebase.database();
-      let usersRef = this.database.ref("users/" + currentUserUid + "/profile");
-      usersRef.child("displayName").set(user.displayName);
-      this.changingName = false
-
-      user.updateProfile({
-        displayName: user.displayName
-      }).then(function() {
-        // Update successful.
-        return;
-      }).catch(function(error) {
-        // An error happened.
-        alert("エラーです！");
-        return;
+      this.user.updateProfile({
+        displayName: name
+      }).then(() => {
+        this.fetchNameToPosts(name)
+        this.fetchNameToUsers(name)
+        this.changingName = false
+        return
+      }).catch((error) => {
+        let errorCode = error.code
+        let errorMessage = error.message
+        alert(errorCode, errorMessage)
       });
-      
-    }
+    },
+    fetchNameToPosts(name) {
+      // このユーザーが過去に投稿したPOSTのdisplayNameを置換
+      // ログインユーザーのuserUidと一致するpostのsnapshotを取得
+      this.postsRef
+        .orderByChild("userUid")
+        .equalTo(this.user.uid)
+        .once("value", function(snapshot) {
+        // forEachでsnapshotを回しながら、全てのユーザー名を置換する
+        snapshot.forEach(function(child) {
+          child.ref.update({
+            displayName: name
+          });
+        });
+      })
+      return
+    },
+    fetchNameToUsers(name) {
+      // usersテーブルの情報も更新する
+      let userProfileRef = this.database.ref("users/" + this.user.uid + "/profile");
+      userProfileRef.child("displayName").set(name);
+    },
   }
 }
 </script>
@@ -239,12 +256,14 @@ export default {
 
 .iconList input {
   display: block;
+  padding: 1em;
 }
 
 .iconList ul {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  padding: 1em;
 }
 
 .iconList ul li {
@@ -254,6 +273,7 @@ export default {
   align-items: center;
   margin-bottom: 2em;
 }
+
 
 @media screen and (max-width: 700px) {
   .profileSeparate {
@@ -287,24 +307,15 @@ export default {
     opacity: 0.8;
   }
 
-}
+  .iconList ul {
+    padding-left: 0;
+  }
 
-.iconList input {
-  display: block;
-  margin-top: 0;
-}
+  .iconList ul li img {
+    width: 34vw;
+    height: auto;
+  }
 
-.iconList ul {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-}
-
-.iconList ul li {
-  list-style-type: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 </style>

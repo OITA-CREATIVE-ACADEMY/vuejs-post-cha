@@ -1,7 +1,7 @@
 /* 汎用的なCSSを記述します */
 
 /* postカードのスタイル */
-.card {
+/* .card {
     margin: 10px 50px;
 }
 
@@ -42,11 +42,11 @@ b-button {
     padding: 10px;
     font-size: 30px;
     color: black;
-}
+} */
 
 /* アイコン */
 
-.heartIcon {
+/* .heartIcon {
     position: absolute;
     bottom: 0;
     right: 0;
@@ -54,9 +54,9 @@ b-button {
     font-size: 30px;
     color: #ff50ac;
     cursor: pointer;
-}
+} */
 
-.fa-pencil-alt {
+/* .fa-pencil-alt {
     position: absolute;
     bottom: 0;
     right: 45px;
@@ -65,11 +65,11 @@ b-button {
     color: #ff50ac;
     cursor: pointer;
 }
-
+ */
 /* responsive(sp) */
-@media (max-width: 765px) {
+/* @media (max-width: 765px) {
 .card {
     margin: 5px;
 }
-}
+} */
 

@@ -3,9 +3,10 @@
     <div class="wrapper text-center">
      <!-- 新規投稿用カード -->
       <div class="jumbotron">
-        <h2 class="display-5">POST-cha!へ<br class="d-md-none">ようこそ！！</h2>
-        <p class="lead-2">まずはあなたの言葉で、気楽にPOSTしてみてください。</p>
-        <p class="lead-2">そこから新たな出会いが生まれるかもしれません。</p>
+        <h2 class="display-5">POST-cha！へ<br class="d-md-none">ようこそ！！</h2>
+        <p class="lead-2">まずはあなたの言葉で、<br class="sp_newPost">気楽にPOSTしてみてください。</p>
+        <br class="sp_newPost">
+        <p class="lead-2">そこから新たな出会いが<br class="sp_newPost">生まれるかもしれません。</p>
         <hr class="my-4">
         <div v-if="signedIn">
 
@@ -67,7 +68,9 @@
 </div>
 </template>
 <script>
-import firebase from 'firebase';
+import firebase from 'firebase/app'
+import 'firebase/app'
+
 export default {
   name: 'Post',
   data() {
@@ -135,10 +138,15 @@ export default {
       if (this.newPostBody == "") {
         return;
       }
-      let imageUrl = "https://via.placeholder.com/100x100/000000/FFFFFF?text=" + this.user.email.slice(0, 1)
+      if (this.user.photoURL == null) {
+        var imageUrl = "https://via.placeholder.com/100x100/ff50ac/FFFFFF?text=" + this.user.email.slice(0, 1);
+      } else {
+        imageUrl = this.user.photoURL;
+      }
       this.postsRef.push({
         body: this.newPostBody,
         imageUrl: imageUrl,
+        displayName: this.user.displayName,
         userUid: this.user.uid,
         userEmail: this.user.email,
         createdAt: Math.round(+new Date() / 1000),
@@ -291,6 +299,10 @@ textarea {
 
 .inputPost {
   position: relative;
+  width: 80vw;
+  max-width: 80vw;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #lengthCounter {
@@ -299,8 +311,20 @@ textarea {
   bottom: 0;
   font-weight: bold;
   pointer-events: none;
-  z-index: 100000;
+  z-index: 2;
   opacity: 0.35;
+}
+
+.sp_newPost {
+  display: none;
+}
+
+
+@media (max-width: 767px) {
+  .inputPost {
+    width: 100%;
+    max-width: 100%;
+  }
 }
 
 /* タイトルとサブタイトルのサイズを修正 */
@@ -320,6 +344,9 @@ textarea {
     margin-top:0px;
     width: 200px;
     height: 200px;
+  }
+  .sp_newPost {
+    display: block;
   }
 }
 </style>

@@ -1,10 +1,10 @@
 <template>
-  <card-list :posts="posts.slice().reverse()" :like="true"></card-list>
+  <card-list :posts="posts" :like="true" :notLike="true"></card-list>
 </template>
 
 <script>
-import Vue from 'vue';
-import firebase,{ functions } from 'firebase';
+import firebase from 'firebase/app'
+import 'firebase/app'
 import Card from '@/components/Card';
 
 export default {
@@ -27,7 +27,7 @@ export default {
     this.postsRef = this.database.ref('posts');
 
     var _this = this;
-    
+
     // this.todosRef.on("value", (snapshot) => {
     //   this.todos = snapshot.val(); // 再取得してtodosに格納する
     // });
@@ -39,7 +39,7 @@ export default {
 
     // comments以下に追加 / 削除 / 変更があった時に発動
     // this.postsRef.on('child_changed', function(snapshot) {
-      
+
     // });
 
     this.usersRef.child("likedPostId").on("value", function(snapshot) {

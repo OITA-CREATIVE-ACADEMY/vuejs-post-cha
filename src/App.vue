@@ -6,50 +6,26 @@
         <img src="./assets/images/logo.gif" alt="ロゴ">
       </router-link>
     </b-navbar-brand>
-    
-
-    <b-navbar-toggle target="nav_collapse" />
-
-  <b-collapse is-nav id="nav_collapse">
-    <b-navbar-nav>
-      <b-nav-item>
-        <router-link to="/post">Post</router-link>
-      </b-nav-item>
-      <b-nav-item>
-        <router-link to="/like">Like</router-link>
-      </b-nav-item>
-      <b-nav-item>
-        <router-link to="/mypage">Mypage</router-link>
-      </b-nav-item>
-      <b-nav-item data-toggle="modal" data-target="#signin">
-        <router-link to="/signin">Signin</router-link>
-      </b-nav-item>
+    <b-navbar-nav class="ml-auto">
+      <b-dropdown right>
+        <template slot="button-content">
+          <img v-if="!IsNoimage" :src="profileUrl" class="icon_img" alt="アカウント画像">
+          <img v-if="IsNoimage" src="./assets/images/LadyIcon.png" class="icon_img" alt="アカウント画像">
+        </template>
+        <b-dropdown-item v-if="signedIn">
+          <router-link to="/mypage">マイページ</router-link>
+        </b-dropdown-item>
+        <b-dropdown-item v-if="!signedIn" v-b-modal.signin-modalPrevent>
+          ログイン
+        </b-dropdown-item>
+        <b-dropdown-item v-if="signedIn" @click="signOut">
+          ログアウト
+        </b-dropdown-item>
+        <b-dropdown-item v-if="!signedIn" v-b-modal.signup-modalPrevent>
+          新規登録
+        </b-dropdown-item>
+      </b-dropdown>
     </b-navbar-nav>
-    <!-- firebaseからログイン中のユーザーを取得し、emailアドレス（HN）を表示する -->
-     <!-- <p class="userName">{{post.userEmail}}さん、こんにちは！</p> -->
-
-
-      <!-- Right aligned nav items -->
-      <b-navbar-nav class="ml-auto">
-        <b-nav-item-dropdown right>
-          <!-- Using button-content slot -->
-          <template slot="button-content">
-            <!-- <em>User</em> -->
-            <!-- <img="lib/brand-logo.jpg"> -->
-            <img v-if="!IsNoimage" :src="profileUrl" class="icon_img" alt="アカウント画像">
-            <img v-if="IsNoimage" src="./assets/images/LadyIcon.png" class="icon_img" alt="アカウント画像">
-          </template>
-          <b-dropdown-item v-if="signedIn">
-            <router-link to="/mypage">マイページ</router-link>
-          </b-dropdown-item>
-          <b-dropdown-item v-if="!signedIn" v-b-modal.signin-modalPrevent>ログイン
-          </b-dropdown-item>
-          <b-dropdown-item v-if="signedIn" @click="signOut">ログアウト</b-dropdown-item>
-          <b-dropdown-item v-if="!signedIn" v-b-modal.signup-modalPrevent>新規登録
-          </b-dropdown-item>       
-        </b-nav-item-dropdown>
-      </b-navbar-nav>
-    </b-collapse>
   </b-navbar>
 
   <!-- signin modal -->
@@ -62,7 +38,7 @@
     </form>
     <div class="text-center">
       <p><button @click="signIn" type="button" class="btn btn-primary">ログイン</button></p>
-      <p>アカウントをお持ちでない方はこちら 
+      <p>アカウントをお持ちでない方はこちら
         <b-btn v-b-modal.signup-modalPrevent>新規登録!!</b-btn>
       </p>
     </div>
@@ -78,32 +54,27 @@
     </form>
     <div class="text-center">
       <p><button @click="signUp" type="button" class="btn btn-primary">登録</button></p>
-      <p>既にアカウントをお持ちの方はこちら 
+      <p>既にアカウントをお持ちの方はこちら
         <b-btn v-b-modal.signin-modalPrevent>ログイン!!</b-btn>
       </p>
     </div>
   </b-modal>
 
-  <!-- <template>
-  <div class="signup">
-    <h2>新規アカウント登録</h2>
-    <input type="text" placeholder="メールアドレス" v-model="email">
-    <input type="password" placeholder="パスワード" v-model="password">
-    <button @click="signUp" class="btn btn-success">登録</button>
-    <p>既にアカウントをお持ちの方はこちら 
-      <router-link to="/signin">ログイン!!</router-link>
-    </p>
-  </div>
-</template> -->
-
   <div id="app">
     <router-view/>
   </div>
+  <p id="PageTopBtn" >
+    <a href="#" @click="clickSmoothScroll()">
+      <i class="fas fa-angle-double-up faa-float animated"></i>
+      <p>PAGE TOP</p>
+    </a>
+  </p>
 </div>
 </template>
 
 <script>
-import firebase from 'firebase';
+import firebase from 'firebase/app'
+import 'firebase/app'
 
 export default {
   name: 'App',
@@ -118,21 +89,10 @@ export default {
       email: '',
       password: '',
       signedIn: false,
+      position: []
     }
   },
-  // methods: {
-  //   signOut: function () {
-  //     firebase.auth().signOut().then(() => {
-  //       this.$router.push('/')
-  //     })
-  //   }
-  // },
-
   created: function() {
-
-console.log(this.IsNoimage);
-
-
     // ログイン状態によって投稿ボタンの表示を変更する
     firebase.auth().onAuthStateChanged(user => {
       this.user = user ? user : {}
@@ -141,20 +101,15 @@ console.log(this.IsNoimage);
         //alert('aaa')
         this.signedIn = true
         this.profileUrl = user.photoURL
-        
+
         if(this.profileUrl==null){
           //alert('aaa' + this.profileUrl)
           this.IsNoimage = true
         }
-        // debug
-        // console.log(this.user)
-        // console.log(this.user.uid)
-        // localstorageにuserUidを保存
-        // localStorage.setItem('currentUserUid', this.user.uid);
       } else {
         this.signedIn = false
         this.IsNoimage = true
-        
+
       }
     })
   },
@@ -162,10 +117,8 @@ console.log(this.IsNoimage);
     signIn: function () {
       firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
         res => {
-          console.log(res)
           alert('ログインしました!')
           this.$router.push('/')
-          console.log("テスト1")
           this.hideModal()
         },
         err => {
@@ -176,7 +129,6 @@ console.log(this.IsNoimage);
     signUp: function () {
       firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
         .then(res => {
-          console.log(res)
           alert('登録しました: ' + res.user.email)
           this.$router.push('/')
           this.hideModal()
@@ -186,9 +138,6 @@ console.log(this.IsNoimage);
         })
     },
     hideModal: function () {
-      console.log("テスト3");
-      console.log(this.$refs);
-
       this.$refs.signinModal.hide();
       this.$refs.signupModal.hide();
     },
@@ -199,12 +148,24 @@ console.log(this.IsNoimage);
         localStorage.setItem('currentUserUid', "");
         this.$router.push('/')
       })
-    }
-  }
+    },
+    clickSmoothScroll () {
+      // ページ内リンクをスクロールさせる
+      event.preventDefault()
+      this.$SmoothScroll(
+        document.querySelector('#top'),
+        400,
+        null,
+        null,
+        'y'
+      )
+    },
+  },
 }
 </script>
 
 <style>
+@import "./assets/style/App.css";
 
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -214,8 +175,16 @@ console.log(this.IsNoimage);
 }
 
 a {
-  color: #6c757d;
+  color: #6c757d !important;
   text-decoration: none!important;
+}
+
+.navbar {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100vw;
 }
 
 .navbar-light .navbar-toggler {
@@ -227,20 +196,49 @@ a {
   width: 30px;
 }
 
-/* navbar が toggleに変化するとき、ロゴを左側、toggleを右側に来るように変更 */
-@media (max-width: 767px) {
-  .navbar {
-    flex-direction: row-reverse;
-    /* padding: 0; */
-  }
- }
- 
 .dropdown-toggle::after {
   color: #6c757d;
 }
 
 .navbar-light .navbar-toggler-icon {
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0, 0, 0, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+#PageTopBtn {
+    position: fixed;
+    bottom: -10px;
+    right: 10px;
+    opacity: .7;
+    font-size: 15px;
+
+}
+#PageTopBtn a {
+    display: block;
+    text-decoration: none;
+    color: white;
+    background: #ff92cb;
+    text-align: center;
+    border-radius: 50%;
+    outline: none;
+    width: 100px;
+    height: 100px;
+    padding: 24px 0;
+
+}
+#PageTopBtn a:hover {
+    text-decoration: none;
+    background: #ff50ac;
+}
+
+@media (max-width: 767px) {
+  #PageTopBtn {
+      font-size: 10px;
+  }
+  #PageTopBtn a {
+      width: 70px;
+      height: 70px;
+      padding: 17px 0;
+  }
 }
 
 </style>

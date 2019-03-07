@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import Vue from 'vue';
-import firebase,{ functions } from 'firebase'
+import firebase from 'firebase/app'
+import 'firebase/app'
 import Card from '@/components/Card';
 
 export default {
@@ -24,7 +24,7 @@ export default {
     this.database = firebase.database()
     this.postsRef = this.database.ref('posts')
     let _this = this
-    
+
     this.postsRef.orderByChild("userUid").equalTo(this.user.uid).on("value", function(posts) {
       _this.posts = posts.val()
     })

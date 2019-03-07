@@ -1,10 +1,8 @@
 <template>
   <div class="mypage">
     <div>
-      <b-card title="Profile">
+      <b-card>
         <user-profile></user-profile>
-        <!-- 画像アップロード：現在は非表示 -->
-        <!-- <image-upload class="image-upload"></image-upload> -->
       </b-card>
     </div>
     <div class="profilePosts_all">
@@ -23,8 +21,9 @@
 </template>
 
 <script>
-import Vue from 'vue';
-import firebase from 'firebase'
+// import Vue from 'vue';
+import firebase from 'firebase/app'
+import 'firebase/app'
 import Profile from '@/components/Profile';
 import Upload from '@/components/Upload';
 import MyPost from '@/components/modules/MyPost';
@@ -71,4 +70,8 @@ a {
 .image-upload {
   display: none;
 }
+.mypage {
+  margin-top: 90px;
+}
+
 </style>
