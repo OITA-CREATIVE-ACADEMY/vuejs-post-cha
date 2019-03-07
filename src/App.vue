@@ -164,6 +164,7 @@ export default {
 </script>
 
 <style>
+@import "./assets/style/App.css";
 
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
