@@ -4,14 +4,15 @@
     <input type="text" placeholder="メールアドレス" v-model="email">
     <input type="password" placeholder="パスワード" v-model="password">
     <button @click="signUp" class="btn btn-success">登録</button>
-    <p>既にアカウントをお持ちの方はこちら 
+    <p>既にアカウントをお持ちの方はこちら
       <router-link to="/signin">ログイン!!</router-link>
     </p>
   </div>
 </template>
 
 <script>
-import firebase from 'firebase'
+import firebase from 'firebase/app'
+import 'firebase/app'
 
 export default {
   name: 'Signup',

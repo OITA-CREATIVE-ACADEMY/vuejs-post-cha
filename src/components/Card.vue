@@ -70,7 +70,8 @@
   </div>
 </template>
 <script>
-import firebase from "firebase";
+import firebase from 'firebase/app'
+import 'firebase/app'
 
 export default {
   name: 'Card',
@@ -105,7 +106,7 @@ export default {
     // データベースを定義
     this.database = firebase.database();
     this.postsRef = this.database.ref("posts");
-    this.userImgRef = this.database.ref("users");    
+    this.userImgRef = this.database.ref("users");
   },
   computed: {
     allPosts: function() {
@@ -138,8 +139,8 @@ export default {
           return this.post = false;
         } else {
           return this.post = true;
-        } 
-      }  
+        }
+      }
     },
   },
   methods: {
@@ -192,7 +193,7 @@ export default {
     },
     zoomImg(key, post) {
       this.zoomModalPost = post;
-      console.log(this.zoomModalPost);      
+      console.log(this.zoomModalPost);
       this.$refs.imgZoomModalRef.show();
     },
   }
@@ -243,7 +244,7 @@ b-button {
 .card-header {
   display: flex;
   justify-content: space-between;
-  align-items: center; 
+  align-items: center;
   background-color: #FFE4F2;
   font-size: 1.1em;
   line-height: 1em;
@@ -252,7 +253,7 @@ b-button {
 
 .card-header img {
  width: 50px;
- height: auto; 
+ height: auto;
  margin-right: 1em;
 }
 
@@ -376,7 +377,7 @@ b-button {
 
   .card-header img {
     width: 10vw;
-    height: auto; 
+    height: auto;
     margin-right: 0.5em;
   }
 

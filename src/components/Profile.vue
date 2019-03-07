@@ -57,7 +57,8 @@
 </template>
 
 <script>
-import firebase from 'firebase'
+import firebase from 'firebase/app'
+import 'firebase/app'
 import strage from 'firebase/storage'
 import Vue from 'vue'
 // import Card from '@/components/Card';
@@ -93,7 +94,7 @@ export default {
     }
   },
   created: function() {
-    
+
     // ログイン状態によってユーザープロフィールの表示を変更する
     firebase.auth().onAuthStateChanged(user => {
       this.user = user ? user : {}
@@ -121,7 +122,7 @@ export default {
       this.profileUrl = this.iconSelected.src
 
       let usersIconImg = this.profileUrl
-      // このユーザーが過去に投稿したPOSTの "imageUrl" を this.profileUrl に変更する      
+      // このユーザーが過去に投稿したPOSTの "imageUrl" を this.profileUrl に変更する
       // ログインユーザーのuserUidと一致するpostのsnapshotを取得
       this.postsRef
         .orderByChild("userUid")

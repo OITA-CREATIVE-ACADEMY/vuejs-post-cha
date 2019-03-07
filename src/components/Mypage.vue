@@ -21,8 +21,9 @@
 </template>
 
 <script>
-import Vue from 'vue';
-import firebase from 'firebase'
+// import Vue from 'vue';
+import firebase from 'firebase/app'
+import 'firebase/app'
 import Profile from '@/components/Profile';
 import Upload from '@/components/Upload';
 import MyPost from '@/components/modules/MyPost';
