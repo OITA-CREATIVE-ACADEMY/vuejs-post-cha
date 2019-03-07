@@ -45,10 +45,13 @@
       <div class="card-list">
         <cardList :posts="posts"></cardList>
       </div>
-
-
       <!-- /投稿一覧 -->
-
+      <p id="PageTopBtn">
+        <a href="#">
+          <i class="fas fa-angle-double-up faa-float animated"></i>
+          <p>PAGE TOP</p>  
+        </a>
+      </p>
     </div>
   </div>
 </template>
@@ -193,5 +196,42 @@ textarea {
 
 .card-list {
   padding: 20px;
+}
+
+#PageTopBtn {
+    position: fixed;
+    bottom: -10px;
+    right: 10px;
+    opacity: .7;
+    font-size: 15px;
+
+}
+#PageTopBtn a {
+    display: block;
+    text-decoration: none;
+    color: white;
+    background: #ff92cb;
+    text-align: center;
+    border-radius: 50%; 
+    outline: none;
+    width: 100px;
+    height: 100px; 
+    padding: 24px 0;
+
+}
+#PageTopBtn a:hover {
+    text-decoration: none; 
+    background: #ff50ac;
+}
+
+@media (max-width: 767px) {
+#PageTopBtn {
+    font-size: 10px;
+}
+#PageTopBtn a {
+    width: 70px;
+    height: 70px;
+    padding: 17px 0;
+}
 }
 </style>

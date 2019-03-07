@@ -361,15 +361,7 @@ b-button {
   background-color: #ff50ac;
 
 }
-/* .cp_tooltip .cp_tooltiptext::after {
-	position: absolute;
-	top: 100%;
-	left: 50%;
-	margin-left: -5px;
-	content: ' ';
-	border: 5px solid transparent;
-	border-top-color: black;
-} */
+
 .cp_tooltip:hover .cp_tooltiptext {
 	visibility: visible;
 	opacity: 1;
@@ -383,7 +375,6 @@ b-button {
 	bottom: 25%;
 	right: 130%;
 }
-
 
 /* responsive（カードサイズ） */
 /* 画面が1020px以上の時 */
