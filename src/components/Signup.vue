@@ -9,7 +9,6 @@
     </p>
   </div>
 </template>
-
 <script>
 import firebase from 'firebase'
 
@@ -25,7 +24,6 @@ export default {
     signUp: function () {
       firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
         .then(res => {
-          console.log(res)
           alert('登録しました: ' + res.user.email)
           this.$router.push('/')
         })
@@ -36,8 +34,6 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h1, h2 {
   font-weight: normal;
@@ -55,7 +51,6 @@ a {
 }
 .signup {
   margin-top: 20px;
-
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;

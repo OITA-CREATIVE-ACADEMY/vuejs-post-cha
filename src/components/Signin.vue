@@ -1,35 +1,25 @@
 <template>
- <div class="modal fade" id="signin" tabindex="-1">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">ログイン</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-      </div>
+  <div class="modal fade" id="signin" tabindex="-1">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">ログイン</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+        </div>
         <div class="modal-body">
-        <p> <input type="text" placeholder="メールアドレス" v-model="email"></p>
-        <p><input type="password" placeholder="パスワード" v-model="password"></P>
-        <p><button @click="signIn" type="button" class="btn btn-primary">ログイン</button></p>
+          <p> <input type="text" placeholder="メールアドレス" v-model="email"></p>
+          <p><input type="password" placeholder="パスワード" v-model="password"></P>
+          <p><button @click="signIn" type="button" class="btn btn-primary">ログイン</button></p>
+        </div>
+        <p>アカウントをお持ちでない方はこちら 
+        <router-link to="/signup">新規登録!!</router-link>
+        </p>
       </div>
-      <p>アカウントをお持ちでない方はこちら 
-      <router-link to="/signup">新規登録!!</router-link>
-      </p>
     </div>
   </div>
-</div>
-  <!-- <div class="signin">
-    <h2>ログイン</h2>
-    <input type="text" placeholder="メールアドレス" v-model="email">
-    <input type="password" placeholder="パスワード" v-model="password">
-    <button @click="signIn" class="btn btn-success">ログイン</button>
-    <p>アカウントをお持ちでない方はこちら 
-      <router-link to="/signup">新規登録!!</router-link>
-    </p>
-  </div> -->
 </template>
-
 <script>
 import firebase from 'firebase'
 
@@ -57,8 +47,6 @@ export default {
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 h1, h2 {
   font-weight: normal;
@@ -76,11 +64,10 @@ a {
 }
 .signin {
   margin-top: 20px;
-
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
-  align-items: center
+  align-items: center;
 }
 input {
   margin: 10px 0;
