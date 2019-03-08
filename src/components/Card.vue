@@ -378,17 +378,9 @@ b-button {
     margin-right: auto;
   }
 
-  /* ツールチップ */
-  .cp_tooltip_01 .cp_tooltiptext_01 {
-	bottom: 20%;
-	right: 140%;
-	padding: 0.5em 1em;
-  }
-
-  .cp_tooltip_02 .cp_tooltiptext_02 {
-	bottom: 10%;
-	right: 120%;
-	padding: 0.5em 1em;
+  /* ツールチップ  spでは非表示 */
+  .cp_tooltiptext, .cp_tooltiptext_01, .cp_tooltiptext_02 {
+    display: none;
   }
 }
 </style>
