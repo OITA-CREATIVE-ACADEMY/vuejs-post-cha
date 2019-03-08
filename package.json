@@ -15,7 +15,9 @@
     "firebase": "^5.7.0",
     "peer": "^0.2.10",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vue-scrollto": "^2.14.0",
+    "vue-smoothscroll": "^0.2.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import Vue from 'vue';
-import firebase,{ functions } from 'firebase';
+import firebase from 'firebase/app'
+import 'firebase/app'
 import Card from '@/components/Card';
 
 export default {
@@ -28,27 +28,12 @@ export default {
 
     var _this = this;
     
-    // this.todosRef.on("value", (snapshot) => {
-    //   this.todos = snapshot.val(); // 再取得してtodosに格納する
-    // });
-
-    // データに変更があると実行されるfunction
-    // this.postsRef.on("value", (snapshot) => {
-    //   this.posts = snapshot.val(); // 再取得してpostsに格納する
-    // });
-
-    // comments以下に追加 / 削除 / 変更があった時に発動
-    // this.postsRef.on('child_changed', function(snapshot) {
-      
-    // });
-
     this.usersRef.child("likedPostId").on("value", function(snapshot) {
       if (snapshot.val()) {
         let likedPostKeys = Object.keys(snapshot.val())
         likedPostKeys.map(key => {
           _this.postsRef.child(key).once("value", function(snapshot){
             // debug
-            console.log(snapshot.val())
             if (snapshot.val()) {
               _this.posts.push(snapshot.val())
             }

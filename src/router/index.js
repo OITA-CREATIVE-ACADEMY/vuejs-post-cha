@@ -7,7 +7,8 @@ import Post from '@/components/Post'
 import Like from '@/components/Like'
 import Mypage from '@/components/Mypage'
 import Card from '@/components/Card'
-import firebase from 'firebase'
+import firebase from 'firebase/app'
+import 'firebase/app'
 import Profile from '@/components/Profile'
 import Upload from '@/components/Upload'
 
@@ -66,7 +67,10 @@ let router = new Router({
       name: 'Card',
       component: Card
     },
-  ]
+  ],
+  scrollBehavior(to, from, savedPosition) {
+    return { x: 0, y: 0 }
+  }
 })
 
 router.beforeEach((to, from, next) => {
